@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Inventory</title>
+
+    <!-- <style>
+[data-action="slider"] .contentHolderUnit{
+    height: 400px !important;
+}
+[data-action="slider"] .container {
+           border:1px solid gray;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        [data-action="slider"] .image-container {
+            position: relative;
+            padding:0px 0px 2px 0px;
+        }
+        [data-action="slider"] .image-container img {
+            display: block;
+        }
+        [data-action="slider"]  .info {
+            background-color: white;
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            height: 50px !important;
+            overflow: hidden;
+            padding: 5px 10px !important;
+        }
+        [data-action="slider"]  .info h2 {
+            font-size: 20px;
+            color: #333;
+            text-align: left;
+        }
+        [data-action="slider"] .info p {
+            margin-top: -12px;
+            text-align: left;
+            font-size: 16px;
+            color: #666;
+    
+        }
+        [data-action="slider"] .shop-btn {
+            display: block;
+            padding: 5px 10px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            text-align: center;
+            width: 90px;
+        }
+        [data-action="slider"] .shop-btn:hover{
+            background-color: rgb(56, 55, 55);
+        }
+
+
+        [data-action="slider"] .multimedia_perspective_carousel_bottomNav {
+            display: none !important;
+        }
+
+        [data-action="slider"] .multimedia_perspective_carousel.white .leftNav {
+            left: 0px !important;
+            bottom: -50px;
+        }
+
+        [data-action="slider"] .multimedia_perspective_carousel.white .rightNav {
+            right: 0px !important;
+            bottom: -50px;
+        }
+
+.leftinfo h2{
+ margin-bottom: 15px;
+}
+ .elementTitle .newFS{
+ display: none;
+ }
+    </style> -->
+
+<link rel="stylesheet" href="https://gostarauto.com/public/assets/noloco/slider.css">
+
+</head>
+
+<body>
+    <div class="inventory-panel" data-action="slider" data-locationId="{{location.id}}">
+
+
+        <div>
+            <div id="multimedia_perspective_carousel_black">
+                <ul class="multimedia_perspective_carousel_list">
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150"><path fill="none" stroke="#FF156D" stroke-width="15" stroke-linecap="round" stroke-dasharray="300 385" stroke-dashoffset="0" d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z"><animate attributeName="stroke-dashoffset" calcMode="spline" dur="2" values="685;-685" keySplines="0 0 1 1" repeatCount="indefinite"></animate></path></svg> -->
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
