@@ -1,0 +1,214 @@
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"> 
+ <script src="https://cdn.jsdelivr.net/npm/google-libphonenumber@3.2.17/bundle/libphonenumber.js"></script>
+<!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.js"></script>
+
+<style>
+.venue_type_picker > label{
+
+    padding:10px;
+}
+
+.venue_type_picker input{
+
+    margin-right:5px!important;
+}
+.venue_type_picker {
+    padding: 10px;
+}
+        .info-container{
+    width:300px;
+    margin-top:20px;
+    padding:10px;
+    
+}
+.date_checker.hide{
+    display:none!important;
+}
+  .inline-text{
+text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;}
+div#ui-datepicker-div {
+    margin-top: -40px;
+}
+.info-container input{
+    margin:2px;
+}
+
+        .search-container {
+            width: 400px;
+            position: relative;
+        }
+ 
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+        }
+  .search-container .search-input{
+ width: 55%;
+}
+        .search-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown.visible {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .dropdown-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown-item .details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dropdown-item .details .title {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .dropdown-item .details .address {
+            font-size: 12px;
+            color: #555;
+        }
+.search-container.dropdown.popovercontainer.visible{
+    padding: 5px;
+    margin-top: 20px;
+    margin-left: -5px;
+}
+.search-container.dropdown.popovercontainer.visible .appendfield.inputfield input {
+    border: 2px solid #1160773b;
+    margin-top: 5px;
+    background: white;
+}
+
+div#ui-datepicker-div {
+    margin-top: -70px;
+}
+.ui-datepicker table{
+     border-collapse:revert-layer !important;
+}
+.ui-widget-header {
+    border: 1px solid #116077;
+    background: #116077;
+    color: #ffffff;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default{
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+[data-event="click"] > a{
+    background: #11607724 !important;
+    color: #116077 !important;
+    text-align: center
+}
+[data-event="click"]:hover a{
+    background: #116077 !important;
+    color: white !important;
+    text-align: center
+}
+div#ui-datepicker-div {
+    width: 350px;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active{
+    border: 2px solid #042d39;
+    background: #116077 !important;
+    color: white !important;
+}
+
+.appendfield input {
+    border: 2px solid #1160773b;
+    background: unset;
+    margin-top: 5px;
+}
+
+div#dropdown {
+    margin-top: 20px;
+    padding: 10px !important;
+    width: 300px !important;
+}
+
+.venue_address, .venue_date, .venue_info{
+    cursor: pointer;
+} 
+.appendfield input:focus, .search-container.dropdown.popovercontainer.visible .appendfield.inputfield input:focus {
+    border-color: #116077; 
+    background: white !important;
+}
+.swal2-styled.swal2-confirm {
+    background-color: #0a3a47;
+   font-family:sans-serif;
+}
+.swal2-styled.swal2-confirm:focus {
+    box-shadow: 0 0 0 3px rgb(10 58 71 / 35%);
+}
+.noBorder#col-J46gfigpvx, .noBorder#col-uWi1pBn1Iq {
+    border-right: 2px solid #116077 !important; 
+    margin-right: 10px;
+}
+    </style>
+
+<div class="search-container dropdown  popovercontainer ">
+    <div class="venue_type_picker">
+      <label class="search">Search By</label>
+      <label class="elem venue"><input type="radio" value="venue" name="autoAddressPicker"  checked>Venue </label>
+<label class="elem address"><input type="radio" name="autoAddressPicker"  value="address">Address </label>
+      
+  </div>
+    <div class="inputfield addressSearch">
+<input type="text" placeholder="Search Address..." name="addressAuto" class="form-control" id="addressAuto" autocomplete="off">
+    </div>
+
+<div class="inputfield venueSearch">
+<input type="text" placeholder="Search Place..." name="establishmentAuto" class="form-control" id="establishmentAuto" autocomplete="off">
+    </div>
+<!-- <div class="appendfield inputfield" data-key="city">
+    </div>
+<div class="appendfield inputfield" data-key="state">
+    </div>
+<div class="appendfield inputfield" data-key="postal_code">
+    </div> -->
+
+  </div>

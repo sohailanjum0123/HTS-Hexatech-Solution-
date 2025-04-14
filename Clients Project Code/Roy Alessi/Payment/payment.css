@@ -1,0 +1,141 @@
+
+  span.discountF {
+display:flex;
+flex-direction:column;
+}
+  span.discountType {
+    font-size: small;
+}
+  .discountsTag.hide{
+  display:none!important;
+  }
+ .Payment_left_form .form-builder--item .option-radio input[type="radio"] {
+      margin-left: 10px; 
+      padding: 5px 8px; 
+      width: 200px; 
+      opacity: 0; 
+      position: absolute; 
+    }
+    .Payment_left_form .form-builder--item .option-radio label {
+      display: inline-block;
+      border: 2px solid #60809033 !important;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      width: 200px;
+      text-align: center;
+    }
+    .Payment_left_form .form-builder--item .option-radio input[type="radio"]:checked + label {
+      border: 2px solid black !important;
+    }
+    .total_pay_now{
+      display: flex;
+      position: relative;
+      justify-content:center !important;
+      align-items: center !important;
+    }
+    .terms-and-conditions{
+      display: flex;
+      position: absolute;
+      margin-top: -80px;
+    }
+    span.discount {
+      position: absolute;
+      background: black;
+      padding: 5px 10px;
+      border-radius: 5px;
+      width: 70px;
+      color: white;
+      text-align: center;
+      line-height: 15px;
+      margin-left: -51px;
+      margin-top: -24px;
+    }
+      .payment_details{
+      height: unset !important;
+      }
+    .payment_details > .vertical.inner {
+      display: none;
+    }
+    .booking-info {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 600px;
+      width: 100%;
+      font-family: 'Poppins';
+    }
+    .booking-info  span {
+      color: #2f2f2f;
+      font-size: 18px;
+      font-weight:500;
+    }
+    .header {
+      text-align: left;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .section .left,
+    .section .right {
+      width: 48%;
+    }
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    .items-table th,
+    .items-table td {
+      padding: 8px;
+      text-align: left;
+    }
+    .items-table th {
+      background-color: #f2f2f2;
+      color:rgb(27, 27, 27);
+    }
+    .totals {
+      margin-top: 20px;
+      text-align: right;
+    }
+    .totalContainer {
+      display: flex;
+      width: 100%; 
+    }
+    .totalLeft,
+    .totals {
+      width: 50%; 
+      padding: 10px;
+      box-sizing: border-box; 
+    }
+    .totals p {
+      display: flex; 
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+    .totals .total {
+      font-weight: bold;
+    }
+    .totals .due-now {
+      color:rgb(27, 27, 27);; 
+      font-weight: bold;
+    }
+    .Payment_left_form .vertical.inner{
+      justify-content: unset !important;
+      display: flex !important;
+    }
+    .payment_details .vertical.inner .empty-slot{
+      display: none;
+    }
+    .payment_details > .vertical.inner {
+      display: flex !important;
+    }
+    .totals {
+      background-color: #ffffff; 
+    }
