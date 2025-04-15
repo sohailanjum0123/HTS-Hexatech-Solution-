@@ -1,9 +1,8 @@
-
 (() => {
   const url = "https://gostarauto.com/api/inventory/";
   let inventoryPanel = document.querySelector(".inventory-panel");
   let locationId =
-     inventoryPanel.getAttribute("data-locationId") ?? "geAOl3NEW1iIKIWheJcj";
+    inventoryPanel.getAttribute("data-locationId") ?? "geAOl3NEW1iIKIWheJcj";
   let setting = {
     inv_detail_path: "/inv_detail_path",
     inv_list_path: "/inventory-4195",
@@ -13,7 +12,7 @@
     inv_financed_path: "/financing-1280",
     inv_inquire_path: "",
   };
-  let previewLink = '/v2/preview/';
+  let previewLink = "/v2/preview/";
   let isSandbox = false;
   let redPath = {
     local: {
@@ -21,26 +20,22 @@
       listPath: "nolocoinventry.html",
     },
     funnel: {
-      detailPath: previewLink+"g6JyvYUg99NF66aaYRao",
-      listPath: previewLink+"rTa2zUCpzVEyzosWmvV1",
-      inv_financed_path : previewLink+"e9IOetvVMhU6vORvOW9X",
-      inv_inquire_path:"",
+      detailPath: previewLink + "g6JyvYUg99NF66aaYRao",
+      listPath: previewLink + "rTa2zUCpzVEyzosWmvV1",
+      inv_financed_path: previewLink + "e9IOetvVMhU6vORvOW9X",
+      inv_inquire_path: "",
     },
   };
-  let isLocal = setting.dev=='local';
-  
-  if(!isLocal){
-      isSandbox = location.href.includes(previewLink);
-  }
-  if(isSandbox){
+  let isLocal = setting.dev == "local";
 
-    setting.inv_detail_path=redPath.funnel.detailPath;
-    setting.inv_list_path=redPath.funnel.listPath;
-    setting.inv_financed_path=redPath.funnel.inv_financed_path;
-    
+  if (!isLocal) {
+    isSandbox = location.href.includes(previewLink);
   }
-
-  
+  if (isSandbox) {
+    setting.inv_detail_path = redPath.funnel.detailPath;
+    setting.inv_list_path = redPath.funnel.listPath;
+    setting.inv_financed_path = redPath.funnel.inv_financed_path;
+  }
 
   function getPath(list = false, def = "") {
     isDev = setting.dev ?? false;
@@ -84,23 +79,21 @@
         listPageInit();
       } else if (action == "slider") {
         inventorySlider();
-      }
-       else if (action == "financed") {
+      } else if (action == "financed") {
         financedIframe();
       }
     }
   );
   const params = new URLSearchParams(location.search);
-  function financedIframe(){
-      let frame =document.createElement('iframe');
-      frame.id='financedFrame';
-      frame.setAttribute('style',`width:100%;height:800px`);
-      if(document.querySelector('#'+frame.id)){
-          let inventoryId=params.get('id')??'';
-          frame.src=`https://app2.starautocrm.com/+/-Eb71UihF/wchAnCRHH?dealerIdVal=${locationId}&inventoryId=${inventoryId}`;
-          inventoryPanel.appendChild(frame);
-      }
-      
+  function financedIframe() {
+    let frame = document.createElement("iframe");
+    frame.id = "financedFrame";
+    frame.setAttribute("style", `width:100%;height:800px`);
+    if (document.querySelector("#" + frame.id)) {
+      let inventoryId = params.get("id") ?? "";
+      frame.src = `https://app2.starautocrm.com/+/-Eb71UihF/wchAnCRHH?dealerIdVal=${locationId}&inventoryId=${inventoryId}`;
+      inventoryPanel.appendChild(frame);
+    }
   }
   function waitElement(selector) {
     return new Promise((resolve, reject) => {
@@ -516,9 +509,7 @@
           }).done(function (result) {
             console.log("Glo3d Result", result);
             if (!result.short_id || result.privacy === "private") {
-              console.log(
-                `glo3d model with is private or not valid short_id`
-              );
+              console.log(`glo3d model with is private or not valid short_id`);
             }
             replaceDefaultImage(result.short_id);
           });
@@ -535,13 +526,11 @@
     function calculateData() {
       let parent = document.querySelector(".payment-calculator");
       let t = {};
-      document
-        .querySelectorAll(".payment-calculator .field")
-        .forEach((xt) => {
-          let value = xt.value == "" ? 0 : xt.value;
-          value = value.includes(".") ? parseFloat(value) : parseInt(value);
-          t[xt.id] = value;
-        });
+      document.querySelectorAll(".payment-calculator .field").forEach((xt) => {
+        let value = xt.value == "" ? 0 : xt.value;
+        value = value.includes(".") ? parseFloat(value) : parseInt(value);
+        t[xt.id] = value;
+      });
       if (t?.term == "0") {
         t.term = 66;
         parent.querySelector("#term").value = 66;
@@ -573,7 +562,6 @@
           t.monthly_payment);
     }
 
-    
     let uuid = params.get("id") ?? "";
     if (uuid == "") {
       gotoListPage();
@@ -608,7 +596,7 @@
   }
 
   function handleScripts(settings = {}, scriptData = []) {
-    setting = {  ...settings,...setting };
+    setting = { ...settings, ...setting };
     scriptData.forEach((t) => {
       try {
         let exec = t.executer.split(",");
@@ -629,10 +617,7 @@
       .then((x) => {
         localStorage.setItem(settingsKey, JSON.stringify(x.settings));
         scriptData = x.scripts ?? [];
-        localStorage.setItem(
-          settingsKey + scripts,
-          JSON.stringify(scriptData)
-        );
+        localStorage.setItem(settingsKey + scripts, JSON.stringify(scriptData));
         handleScripts(x.settings ?? {}, scriptData);
       });
   }
@@ -823,11 +808,7 @@
           const minPriceValue = parseFloat(minPrice);
           const maxPriceValue = parseFloat(maxPrice);
 
-          if (
-            maxPriceValue &&
-            minPriceValue &&
-            maxPriceValue < minPriceValue
-          ) {
+          if (maxPriceValue && minPriceValue && maxPriceValue < minPriceValue) {
             alert("Max price must be greater than or equal to Min price");
             return;
           }
@@ -949,6 +930,62 @@
       sorting = {}
     ) {
       try {
+        // dummyObject for testing
+
+        let data = {
+          data: {
+            inventoryCollection: {
+              edges: [
+                {
+                  node: {
+                    id: "item001",
+                    name: "Smartphone",
+                    price: 699,
+                    stock: 25,
+                    category: "electronics",
+                  },
+                },
+                {
+                  node: {
+                    id: "item002",
+                    name: "Laptop",
+                    price: 999,
+                    stock: 10,
+                    category: "electronics",
+                  },
+                },
+                {
+                  node: {
+                    id: "item003",
+                    name: "Headphones",
+                    price: 199,
+                    stock: 50,
+                    category: "electronics",
+                  },
+                },
+                {
+                  node: {
+                    id: "item004",
+                    name: "Smartwatch",
+                    price: 249,
+                    stock: 30,
+                    category: "electronics",
+                  },
+                },
+                {
+                  node: {
+                    id: "item005",
+                    name: "Tablet",
+                    price: 499,
+                    stock: 15,
+                    category: "electronics",
+                  },
+                },
+              ],
+            },
+          },
+        };
+
         toggleLoader(true);
 
         const localStorageKey = itemKey + afterCursor;
@@ -987,7 +1024,6 @@
             if (!isValid) {
               return;
             }
-
             handleInventoryData(
               data,
               isNewRequest,
@@ -1034,11 +1070,9 @@
         if (item.name) {
           let photo = defPhoto;
           try {
-            photo = (
-              item?.featuredPhoto?.url ??
-              item?.photosUrls ??
-              ""
-            ).split(",");
+            photo = (item?.featuredPhoto?.url ?? item?.photosUrls ?? "").split(
+              ","
+            );
             // if (Array.isArray(photo)) {
             //   photo = photo[0];
             // }
@@ -1046,9 +1080,7 @@
           let itemHTML = `
                 <div class="${inventoryItemKey}" data-id="${mainid}">
                 <div class="featuredImage">
-                <img class="lazy" ${dncSrc}="${photo}" alt="${
-            item.make ?? ""
-          }">
+                <img class="lazy" ${dncSrc}="${photo}" alt="${item.make ?? ""}">
       </div>
                 <div class="inventory-details">
                     <h3>${item.year ?? ""} ${item.make ?? ""} ${
@@ -1135,7 +1167,7 @@
         if (action == "open") {
           if (item) {
             location.href = idAppend(getPath(false), `id=${id}`);
-            console.log("OPENLocation",location.href);
+            console.log("OPENLocation", location.href);
           }
         } else if (action == "photo") {
           viewPhotos(item.photosUrls ?? "");
@@ -1183,7 +1215,7 @@
 
   function idAppend(uri, id = "", post = "") {
     uri = uri + (uri.includes("?") ? "&" : "?");
-    console.log("IDAppend",uri)
+    console.log("IDAppend", uri);
     return `${uri}${id}${post == "" ? "" : "&" + post}`;
   }
 
@@ -1393,7 +1425,7 @@
       inventorySlider();
     }
   });
-document.addEventListener("hydrationDone", function (e) {
-  setTimeout(mainScript, 1500);
-});
+  document.addEventListener("hydrationDone", function (e) {
+    setTimeout(mainScript, 1500);
+  });
 })();

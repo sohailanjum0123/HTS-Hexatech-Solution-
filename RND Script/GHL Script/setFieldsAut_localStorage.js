@@ -50,11 +50,6 @@ function setFieldValue(selector, value, event = "input", secondvalue = true) {
   }
 }
 
-
-
-
-
-
 function setFieldValue(selector, value, event = "input") {
   let field = null;
   if (typeof selector == "string") {
@@ -67,9 +62,6 @@ function setFieldValue(selector, value, event = "input") {
     field.dispatchEvent(new Event(event));
   }
 }
-
-
-// From Local Storage set the values
 
 let keysFiller = {
   startDate: "startdate",
@@ -85,7 +77,3 @@ for (let [k, v] of Object.entries(keysFiller)) {
     });
   }
 }
-
-
-
-
