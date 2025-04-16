@@ -930,62 +930,6 @@
       sorting = {}
     ) {
       try {
-        // dummyObject for testing
-
-        let data = {
-          data: {
-            inventoryCollection: {
-              edges: [
-                {
-                  node: {
-                    id: "item001",
-                    name: "Smartphone",
-                    price: 699,
-                    stock: 25,
-                    category: "electronics",
-                  },
-                },
-                {
-                  node: {
-                    id: "item002",
-                    name: "Laptop",
-                    price: 999,
-                    stock: 10,
-                    category: "electronics",
-                  },
-                },
-                {
-                  node: {
-                    id: "item003",
-                    name: "Headphones",
-                    price: 199,
-                    stock: 50,
-                    category: "electronics",
-                  },
-                },
-                {
-                  node: {
-                    id: "item004",
-                    name: "Smartwatch",
-                    price: 249,
-                    stock: 30,
-                    category: "electronics",
-                  },
-                },
-                {
-                  node: {
-                    id: "item005",
-                    name: "Tablet",
-                    price: 499,
-                    stock: 15,
-                    category: "electronics",
-                  },
-                },
-              ],
-            },
-          },
-        };
-
         toggleLoader(true);
 
         const localStorageKey = itemKey + afterCursor;
