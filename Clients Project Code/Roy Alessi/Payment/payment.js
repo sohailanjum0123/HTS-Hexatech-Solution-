@@ -952,11 +952,11 @@
         function milePriceCount() {
             const totalgrapher = countPhotoGrapher + countVideographer;
             weddingDate = formatDateToCustomFormat(weddingDate);
-            milesPrice = 0; // Reset milesPrice
+            milesPrice = 0; 
             try {
-                miles = nearestLocation.miles.toFixed(2); // Update global miles variable
+                miles = nearestLocation.miles.toFixed(2); 
                 if (miles > 30) {
-                    milesPrice = (miles - 30) * totalgrapher; // Calculate milesPrice based on distance
+                    milesPrice = (miles - 30) * totalgrapher; 
                 }
             } catch (error) {
 
