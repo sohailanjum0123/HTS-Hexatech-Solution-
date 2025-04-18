@@ -302,11 +302,11 @@ function QBgetFullUrl() {
   let rows = getRows(sheet);
   let uri = "";
   try {
-    uri = rows[5][appDatamainValueIndex];
+    uri = rows[3][appDatamainValueIndex];
   } catch (err) { }
 
 
-  return `${QBmainauthurl}?client_id=${rows[appDatamainClientIndex][appDatamainValueIndex]}&redirect_uri=${encodeURIComponent(uri)}&response_type=code&state=2&scope=${encodeURIComponent(rows[3][appDatamainValueIndex])}`;
+  return `${QBmainauthurl}?client_id=${encodeURIComponent(rows[0][appDatamainValueIndex])}&redirect_uri=${encodeURIComponent(uri)}&response_type=code&state=2&scope=${encodeURIComponent(rows[2][appDatamainValueIndex])}`;
 
 }
 
@@ -431,18 +431,18 @@ function buildQuery(data) {
     .join('&');
 }
 
-function getQuickBooksRealmId(code, type="authorization_code") {
+function getQuickBooksRealmId(code, type = "authorization_code") {
   return new Promise((resolve, reject) => {
     const fullUrl = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer';
     const sheet = getActiveSheet("QBAppData");
     if (!sheet) return reject('Sheet not found');
 
     const rows = getRows(sheet);
-    const clientId = rows[appDatamainClientIndex][appDatamainValueIndex];
-    const clientSecret = rows[2][appDatamainValueIndex];
-    const redirectUri = rows[5][appDatamainValueIndex];
+    const clientId = rows[0][appDatamainValueIndex];
+    const clientSecret = rows[1][appDatamainValueIndex];
+    const redirectUri = rows[3][appDatamainValueIndex];
 
- let keytype = type == refreshParam ? refreshParam : "code";
+    let keytype = type == refreshParam ? refreshParam : "code";
     const payload = {
       grant_type: type,
       redirect_uri: redirectUri
@@ -470,16 +470,18 @@ function getQuickBooksRealmId(code, type="authorization_code") {
     if (parsedData && parsedData.access_token) {
       const tokenSheet = getActiveSheet(QBmainTokenSheetName);
       const tokenRows = getRows(tokenSheet);
-
+      const tokenParts = parsedData.id_token.split('.');
+      const payload = JSON.parse(Utilities.newBlob(Utilities.base64Decode(tokenParts[1])).getDataAsString());
+      const realmID = payload.realmid;
       const row = [
         parsedData.expires_in,
-        parsedData.id_token || "",
+        realmID,
         parsedData.access_token,
         parsedData.refresh_token,
         new Date().toISOString()
       ];
 
-      const findIndex = -1; 
+      const findIndex = -1;
       if (findIndex > -1) {
         updateRow(tokenSheet, findIndex + 1, row);
       } else {
@@ -495,10 +497,12 @@ function getQuickBooksRealmId(code, type="authorization_code") {
 
 function refreshAccessToken() {
   const tokenSheet = getActiveSheet(QBmainTokenSheetName);
+  const QBDatasheet = getActiveSheet("QBAppData")
   if (!tokenSheet) throw new Error("Token sheet not found");
 
-  const rows = getRows(tokenSheet);
-  const refreshToken = rows[0][3]; // Assuming refresh_token is in column D
+  const tokenrows = getRows(tokenSheet);
+  const rows = getRows(QBDatasheet)
+  const refreshToken = tokenrows[0][3]; // Assuming refresh_token is in column D
   const clientId = rows[appDatamainClientIndex][appDatamainValueIndex];
   const clientSecret = rows[2][appDatamainValueIndex];
   const fullUrl = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer';
@@ -524,17 +528,17 @@ function refreshAccessToken() {
 
   const data = doApiCall(fullUrl, options);
   const parsedData = JSON.parse(data);
-
+  Logger.log(parsedData)
   if (parsedData && parsedData.access_token) {
     const row = [
       parsedData.expires_in,
       parsedData.id_token || "",
       parsedData.access_token,
       parsedData.refresh_token,
-      new Date().toISOString() // Save token refresh time
+      new Date().toISOString()
     ];
 
-    updateRow(tokenSheet, 1, row); // Update the first row with new token data
+    updateRow(tokenSheet, 1, row);
     Logger.log("Access token refreshed successfully");
     return parsedData.access_token;
   } else {
@@ -547,8 +551,8 @@ function isTokenExpired() {
   if (!tokenSheet) throw new Error("Token sheet not found");
 
   const rows = getRows(tokenSheet);
-  const tokenCreationTime = new Date(rows[0][5]); 
-  const expiresIn = parseInt(rows[0][0]); 
+  const tokenCreationTime = new Date(rows[0][5]);
+  const expiresIn = parseInt(rows[0][0]);
 
   const expirationTime = new Date(tokenCreationTime.getTime() + expiresIn * 1000);
   const now = new Date();
@@ -690,6 +694,7 @@ function apiCallSetup(method, token, payload, versionHeader = '', json = false, 
   if (json) {
     options["payload"] = JSON.stringify(payload);
     options["contentType"] = "application/json";
+    options["Accept"] = "aplication/json";
   } else {
     if (method != "get") {
       options["payload"] = payload;
@@ -697,6 +702,7 @@ function apiCallSetup(method, token, payload, versionHeader = '', json = false, 
   }
   return options;
 }
+
 function agencyApiCall(
   uri,
   token,
@@ -909,147 +915,416 @@ function keyCreate(name) {
   return name.replace(' ', '_');
 }
 
-function handleWebhook(data) {
-  if (data?.type) {
-    addLogs(['handleWebhook', JSON.stringify(data)]);
-    if (['LocationCreate'].includes(data.type)) {
-      let sheet = getActiveSheet('Locations');
-      let rows = getRows(sheet);
-      let isNotUnique = true;
-      let uniqueId = '';
-      do {
-        uniqueId = Utilities.getUuid();
-        let findIndex = rows.findIndex(t => {
-          return t[0] == uniqueId;
-        })
-        isNotUnique = findIndex > 0;
-      } while (isNotUnique);
-      appendRow(sheet, [uniqueId, data.id, data.name, data.companyId]);
-      let cvalue = {
-        name: 'Site ID',
-        value: uniqueId
-      };
+// function handleWebhook(data) {
+//   if (data?.type) {
+//     addLogs(['handleWebhook', JSON.stringify(data)]);
+//     if (['LocationCreate'].includes(data.type)) {
+//       let sheet = getActiveSheet('Locations');
+//       let rows = getRows(sheet);
+//       let isNotUnique = true;
+//       let uniqueId = '';
+//       do {
+//         uniqueId = Utilities.getUuid();
+//         let findIndex = rows.findIndex(t => {
+//           return t[0] == uniqueId;
+//         })
+//         isNotUnique = findIndex > 0;
+//       } while (isNotUnique);
+//       appendRow(sheet, [uniqueId, data.id, data.name, data.companyId]);
+//       let cvalue = {
+//         name: 'Site ID',
+//         value: uniqueId
+//       };
 
-      let companyid = data.companyId;
-      getToken(companyid, accessParam).then(token => {
-        connectLocation(data.id, companyid, token).then(token => {
-          let cvURL = `locations/${data.id}/customValues`;
-          makeApiCall(cvURL, token, data.id).then(x => {
-            let customValues = x.customValues ?? [];
-            let customFieldId = customValues.find(cv => {
-              let cvkey = keyCreate(cvalue.name);
-              return cv.fieldKey.includes(cvkey);
-            })?.id;
+//       let companyid = data.companyId;
+//       getToken(companyid, accessParam).then(token => {
+//         connectLocation(data.id, companyid, token).then(token => {
+//           let cvURL = `locations/${data.id}/customValues`;
+//           makeApiCall(cvURL, token, data.id).then(x => {
+//             let customValues = x.customValues ?? [];
+//             let customFieldId = customValues.find(cv => {
+//               let cvkey = keyCreate(cvalue.name);
+//               return cv.fieldKey.includes(cvkey);
+//             })?.id;
 
-            let method = 'post';
-            if (customFieldId) {
-              cvURL += '/' + customFieldId;
-              method = 'put';
-            }
-            makeApiCall(cvURL, token, data.id, method, cvalue, true).then(x => { });
+//             let method = 'post';
+//             if (customFieldId) {
+//               cvURL += '/' + customFieldId;
+//               method = 'put';
+//             }
+//             makeApiCall(cvURL, token, data.id, method, cvalue, true).then(x => { });
 
 
-          });
-        }).catch(p => {
+//           });
+//         }).catch(p => {
 
-        });
-      });
-    }
+//         });
+//       });
+//     }
 
-    if (['EnvelopeCreate'].includes(data.type)) {
-      let locationId = data.locationId;
-      getToken(locationId, accessParam, userTypes.location).then(token => {
-        let contactData = {
-          customFields: [
-            {
-              key: data.fieldKey,
-              value: data.envelopeId
-            }
-          ]
+//     if (['EnvelopeCreate'].includes(data.type)) {
+//       let locationId = data.locationId;
+//       getToken(locationId, accessParam, userTypes.location).then(token => {
+//         let contactData = {
+//           customFields: [
+//             {
+//               key: data.fieldKey,
+//               value: data.envelopeId
+//             }
+//           ]
+//         }
+//         makeApiCall('contacts/' + data.contactId, token, locationId, 'put', contactData, true).then(x => {
+//           Logger.log(x);
+
+
+//         });
+//       });
+//     }
+//     if (['EnvelopeTag'].includes(data.type)) {
+//       let documentName = data.documentName ?? '';
+//       let contactEmail = data.contactEmail ?? '';
+//       let currentTag = '';
+//       if (documentName != '' && contactEmail != '') {
+//         let allDocs = documentName.split('-');
+
+//         currentTag = allDocs[1] ?? '';
+//         let siteId = allDocs[0] ?? '';
+//         if (currentTag != '' && siteId != '') {
+//           let sheet = getActiveSheet('Locations');
+//           let rows = getRows(sheet);
+//           let location = rows.find(t => {
+//             return t[0] == siteId;
+//           });
+//           if (location) {
+
+//             let locationId = location[1] ?? '';
+//             if (locationId != '') {
+
+//               getToken(locationId, accessParam, userTypes.location).then(token => {
+//                 let contactData = {
+//                   "tags": [
+//                     currentTag
+//                   ]
+//                 }
+//                 let filters = {
+//                   "locationId": locationId,
+//                   "filters": [
+//                     {
+//                       "field": "email",
+//                       "operator": "eq",
+//                       "value": contactEmail
+//                     }
+//                   ],
+//                   page: 1,
+//                   pageLimit: 1
+//                 };
+//                 makeApiCall('contacts/search', token, locationId, 'post', filters, true).then(x => {
+
+//                   let contacts = x.contacts ?? [];
+//                   let contact = contacts[0] ?? null;
+//                   if (contact) {
+//                     makeApiCall('contacts/' + contact.id + '/tags', token, locationId, 'post', contactData, true).then(x1 => {
+
+//                     });
+//                   }
+
+//                 }).catch(p => {
+
+//                 })
+
+//               });
+//             }
+//           }
+
+
+//         }
+//       }
+
+
+//     }
+//     if (data?.locationId) {
+//       // getToken(locationId1).then(async (loctoken)=>{
+//       //   if(['LocationCreate'].includes(data.type)){
+//       //        let sheet  = getActiveSheet('Locations');
+//       //        let uniqueId = Utilities.getUuid();
+//       //        appendRow(sheet,[uniqueId,data.id,data.name,data.companyId]); 
+//       //   }
+//       let locationId1 = data.locationId;
+//       //   if(['ContactCreate','OutboundMessage','ContactTagUpdate'].includes(data.type)){    
+//       //   }
+//       // });
+//     }
+//   }
+// }
+
+function TestData() {
+  handleWebhook({
+    "type": "OrderStatusUpdate",
+    "locationId": "JoqQ51Bl3LEmR42l6LrG",
+    "appId": "67b37d6eadff8c15fd3a8e25",
+    "_id": "67fffb713d9b2378a728a8a2",
+    "altId": "JoqQ51Bl3LEmR42l6LrG",
+    "altType": "location",
+    "status": "completed",
+    "taxSummary": [],
+    "fulfillmentStatus": "unfulfilled",
+    "contactId": "ggcAAYlfB3euAGZ3Z0A2",
+    "currency": "PKR",
+    "amount": 1700,
+    "liveMode": false,
+    "amountSummary": {
+      "subtotal": 1700,
+      "discount": 0,
+      "tax": 0,
+      "shipping": 0
+    },
+    "source": {
+      "type": "payment_link",
+      "subType": "payments_dashboard",
+      "id": "67fff8cdfb737948f4aa6e8e",
+      "name": "New Link"
+    },
+    "createdAt": "2025-04-16T18:48:17.530Z",
+    "updatedAt": "2025-04-16T18:48:22.486Z",
+    "contactSnapshot": {
+      "id": "ggcAAYlfB3euAGZ3Z0A2",
+      "locationId": "JoqQ51Bl3LEmR42l6LrG",
+      "firstName": "test123",
+      "lastName": "user123",
+      "email": "farahanjdfunnel@gmail.com",
+      "source": "payment_link",
+      "tags": [],
+      "country": "PK",
+      "dateAdded": "2024-12-24T18:35:48.290Z",
+      "customFields": [
+        {
+          "id": "wi8wGuJiebsRwoLyq0bU",
+          "value": "<br/>04/16/202518:44 <br/><br/>04/16/202518:40 <br/><br/>04/16/202518:37 <br/><br/>04/16/202518:36 <br/><br/>04/16/202518:29 <br/>"
         }
-        makeApiCall('contacts/' + data.contactId, token, locationId, 'put', contactData, true).then(x => {
-          Logger.log(x);
-
-
-        });
-      });
-    }
-    if (['EnvelopeTag'].includes(data.type)) {
-      let documentName = data.documentName ?? '';
-      let contactEmail = data.contactEmail ?? '';
-      let currentTag = '';
-      if (documentName != '' && contactEmail != '') {
-        let allDocs = documentName.split('-');
-
-        currentTag = allDocs[1] ?? '';
-        let siteId = allDocs[0] ?? '';
-        if (currentTag != '' && siteId != '') {
-          let sheet = getActiveSheet('Locations');
-          let rows = getRows(sheet);
-          let location = rows.find(t => {
-            return t[0] == siteId;
-          });
-          if (location) {
-
-            let locationId = location[1] ?? '';
-            if (locationId != '') {
-
-              getToken(locationId, accessParam, userTypes.location).then(token => {
-                let contactData = {
-                  "tags": [
-                    currentTag
-                  ]
-                }
-                let filters = {
-                  "locationId": locationId,
-                  "filters": [
-                    {
-                      "field": "email",
-                      "operator": "eq",
-                      "value": contactEmail
-                    }
-                  ],
-                  page: 1,
-                  pageLimit: 1
-                };
-                makeApiCall('contacts/search', token, locationId, 'post', filters, true).then(x => {
-
-                  let contacts = x.contacts ?? [];
-                  let contact = contacts[0] ?? null;
-                  if (contact) {
-                    makeApiCall('contacts/' + contact.id + '/tags', token, locationId, 'post', contactData, true).then(x1 => {
-
-                    });
-                  }
-
-                }).catch(p => {
-
-                })
-
-              });
-            }
-          }
-
-
+      ]
+    },
+    "items": [
+      {
+        "name": "Farhan sdfsdfgsdfftest",
+        "qty": 1,
+        "product": {
+          "_id": "67bf0a5f9ac9966c4e77205d",
+          "name": "Videos Only",
+          "availableInStore": true,
+          "taxes": [1500],
+          "variants": []
+        },
+        "price": {
+          "_id": "67bf0a5f9ac996b1f777206f",
+          "name": "Videos Only @ 3000",
+          "type": "one_time",
+          "currency": "PKR",
+          "amount": 2700,
+          "compareAtPrice": 3500,
+          "variantOptionIds": []
+        }
+      },
+      {
+        "name": "Photo & Video Package - @ 5000",
+        "qty": 1,
+        "product": {
+          "_id": "67bf0a5f9ac9966c4e77206e",
+          "name": "Photo & Video Package",
+          "availableInStore": true,
+          "taxes": [2000],
+          "variants": []
+        },
+        "price": {
+          "_id": "67bf0a5f9ac996b1f777207a",
+          "name": "Photo & Video Package @ 5000",
+          "type": "one_time",
+          "currency": "PKR",
+          "amount": 4500,
+          "compareAtPrice": 6000,
+          "variantOptionIds": []
+        }
+      },
+      {
+        "name": "Photo Album - Album @ 1500",
+        "qty": 1,
+        "product": {
+          "_id": "67bf0a5f9ac9966c4e77207f",
+          "name": "Photo Album",
+          "availableInStore": false,
+          "taxes": [300],
+          "variants": []
+        },
+        "price": {
+          "_id": "67bf0a5f9ac996b1f777208c",
+          "name": "Album @ 1500",
+          "type": "one_time",
+          "currency": "PKR",
+          "amount": 1200,
+          "compareAtPrice": 1800,
+          "variantOptionIds": []
+        }
+      },
+      {
+        "name": "Framed Print - Print @ 1000",
+        "qty": 1,
+        "product": {
+          "_id": "67bf0a5f9ac9966c4e77208g",
+          "name": "Framed Print",
+          "availableInStore": true,
+          "taxes": [200],
+          "variants": []
+        },
+        "price": {
+          "_id": "67bf0a5f9ac996b1f777209d",
+          "name": "Print @ 1000",
+          "type": "one_time",
+          "currency": "PKR",
+          "amount": 800,
+          "compareAtPrice": 1200,
+          "variantOptionIds": []
+        }
+      },
+      {
+        "name": "Event Coverage - Coverage @ 8000",
+        "qty": 1,
+        "product": {
+          "_id": "67bf0a5f9ac9966c4e77209h",
+          "name": "Event Coverage",
+          "availableInStore": true,
+          "taxes": [2500],
+          "variants": []
+        },
+        "price": {
+          "_id": "67bf0a5f9ac996b1f77720ae",
+          "name": "Coverage @ 8000",
+          "type": "one_time",
+          "currency": "PKR",
+          "amount": 7500,
+          "compareAtPrice": 9000,
+          "variantOptionIds": []
         }
       }
+    ],
+    "timestamp": "2025-04-16T18:48:22.881Z",
+    "webhookId": "419185eb-e937-4402-b9b1-1fd4a62fda90"
+  })
+}
 
 
+
+
+function handleWebhook(data) {
+  if (data && data?.type) {
+
+    const customerProductDetails = {};
+    let productsArr = [];
+    let customerDetail = {};
+    let productDetail = {};
+     let productName;
+    //userDetails
+    let locationId = data?.locationId ?? "";
+    let fName = data?.contactSnapshot?.firstName ?? "";
+    let lName = data?.contactSnapshot?.lastName ?? "";
+    let fullName = `${fName} ${lName}`
+    let email = data?.contactSnapshot?.email ?? "";
+
+    customerDetail["fullName"] = `${fName} ${lName}`;
+    customerDetail["Email"] = email;
+    // productDetails
+    let productsAmount = data?.amount ?? ""
+    let amountSummary = data?.amountSummary ?? ""
+    //itemsDetail
+    data.items.forEach((product) => {
+      productName = product?.product?.name ?? "";
+      let productTaxes = product?.product?.taxes ?? "";
+      let productPrice = product?.price?.amount ?? ""
+      productDetail["productName"] = productName;
+      productDetail["Taxes"] = productTaxes;
+      productDetail["productPrice"] = productPrice;
+      productsArr.push(productDetail)
+    })
+    customerProductDetails["locationId"] = locationId;
+    customerProductDetails["productsAmount"] = productsAmount;
+    customerProductDetails["amountSummary"] = amountSummary;
+    customerProductDetails["cutomerDetail"] = customerDetail;
+    customerProductDetails["productDetail"] = productsArr;
+
+    let sheet = getActiveSheet("QBTokens");
+    if (!sheet) {
+      return reject('');
     }
-    if (data?.locationId) {
-      // getToken(locationId1).then(async (loctoken)=>{
-      //   if(['LocationCreate'].includes(data.type)){
-      //        let sheet  = getActiveSheet('Locations');
-      //        let uniqueId = Utilities.getUuid();
-      //        appendRow(sheet,[uniqueId,data.id,data.name,data.companyId]); 
-      //   }
-      let locationId1 = data.locationId;
-      //   if(['ContactCreate','OutboundMessage','ContactTagUpdate'].includes(data.type)){    
-      //   }
-      // });
+    let rows = getRows(sheet);
+    const realmID = rows[0][appDatamainValueIndex]
+    const accessToken = rows[0][2];
+
+    const baseURL = `https://sandbox-quickbooks.api.intuit.com/v3/company/${realmID}`;
+
+    const customer = encodeURIComponent(`select * from Customer Where DisplayName= '${fullName}'`);
+
+    const url = ``;
+
+    const options = apiCallSetup("get", accessToken, "", "", false, { Accept: 'application/json' })
+    const response = doApiCall(`${baseURL}/query?query=${customer}`, options);
+    const responseData = JSON.parse(response)
+    if (responseData) {
+      if (responseData?.QueryResponse?.Customer) {
+        responseData.QueryResponse.Customer.forEach(customer => {
+          let displayName = customer?.DisplayName;
+          let primaryEmailAddress = customer?.PrimaryEmailAddr?.Address;
+
+          if (fullName == displayName) {
+            Logger.log(`Customer Name: ${displayName}`);
+            const item = encodeURIComponent(`select * from Item  Where name= '${productName}'`);
+            const options = apiCallSetup("get",accessToken,"","",false, {Accept: 'application/json'});
+            const itemResponse = doApiCall(`${baseURL}/query?query=${item}`,options);
+            const itemResponseData = JSON.parse(itemResponse);
+            Logger.log(itemResponseData)
+            if(itemResponseData?.QueryResponse?.Item){
+              itemResponseData.QueryResponse.Item.forEach((item)=>{
+                  Logger.log("Items"+item)
+              })
+            }else{
+             
+            }
+          } else {
+
+          }
+        });
+      } else {
+        Logger.log(`No customer found with DisplayName: ${fullName}`);
+        let payload = {};
+        payload["DisplayName"] = fullName;
+        payload["GivenName"] = fName;
+        try {
+          const options = apiCallSetup("POST", accessToken, payload, "", true, { Accept: "application/json", "Content-Type": "application/json" });
+          const response = doApiCall(`${baseURL}/customer?minorversion=75`, options);
+          const responseData = JSON.parse(response);
+          Logger.log("wow" + JSON.stringify(responseData, null, 2));
+
+        } catch (err) {
+          Logger.log(err)
+        }
+      }
     }
+
   }
 }
+
+
+
+
+function getActiveSheetByName(sheetName) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+  return sheet;
+}
+
+function getRows(sheet) {
+  const range = sheet.getDataRange();
+  const values = range.getValues();
+  return values.slice(1); // Exclude header row
+}
+
+
 
 function connectLocation(locationId, companyId, token) {
   return new Promise((resolve, reject) => {
