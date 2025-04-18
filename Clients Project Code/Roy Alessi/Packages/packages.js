@@ -253,7 +253,8 @@
                 const videoPrices = videoData?.prices
                     ? transformData(videoData.prices)
                     : [];
-
+				console.log("PhotoPrices",photoPrices);
+				console.log("videPrices",videoPrices);
                 signatureBundleFound = videoPrices.find(t => (t._id || t.id) == signaturePriceId);
                 if (signatureBundleFound) {
                     signatureBundleData = signatureBundleFound;
@@ -489,6 +490,9 @@
             updateTotalPrice();
         }
 
+   let photoGpherAmount = 0;
+ let videoGrapherAmount = 0;
+      
         function updateTotalPrice() {
             const totalPriceElement = document.querySelector(totalPriceSelector);
 
@@ -496,12 +500,14 @@
             let totalPhotographer = 0;
             if (activePhotographer.count > 1) {
                 totalPhotographer = parseInt((activePhotographer.count - 1) * activePhotographer.amount);
+                photoGpherAmount = totalPhotographer;
             }
             let totalVideoGrapher = 0;
             if (activeVideographer.count > 1) {
                 totalVideoGrapher = parseInt((activeVideographer.count - 1) * activeVideographer.amount);
+      videoGrapherAmount = totalVideoGrapher
             }
-            
+           
             let allExtras = Object.values(selectedExtras);
             let extras = allExtras.reduce((sum, extra) => {
                 let price = (extra.amount || 0) * (parseInt(extra.qty || 1));
@@ -958,6 +964,77 @@
                     addSignaturePrice();
                 }
             })
+function PhotoVideoPackages() {
+    console.log(photoGpherAmount);
+    console.log(videoGrapherAmount);               
+    videoGrapherAmount
+  function setupButtonHandlers(buttons, storageKey, label, packageClass) {
+    if (buttons.length > 0) {
+      buttons.forEach((button) => {
+        button.addEventListener("click", function () {
+          const activeValue = localStorage.getItem(storageKey);
+
+          waitElement(".pv_section").then((pvSection) => {
+            if (pvSection && activeValue) {
+              const paragraphEls = pvSection.querySelectorAll(
+                `.${packageClass} > div > p`
+              );
+
+              paragraphEls.forEach((paragraph) => {
+                paragraph.textContent = `${activeValue} ${label}`;
+              });
+
+            }
+          });
+          waitElement(".v_section").then((pvSection) => {
+            if (pvSection && activeValue) {
+              const paragraphEls = pvSection.querySelectorAll(
+                `.${packageClass} > div > p`
+              );
+
+              paragraphEls.forEach((paragraph) => {
+                paragraph.textContent = `${activeValue} ${label}`;
+              });
+            }
+          });
+          waitElement(".p_section").then((pvSection) => {
+            if (pvSection && activeValue) {
+              const paragraphEls = pvSection.querySelectorAll(
+                `.${packageClass} > div > p`
+              );
+
+              paragraphEls.forEach((paragraph) => {
+                paragraph.textContent = `${activeValue} ${label}`;
+              });
+            }
+          });
+        });
+      });
+    }
+  }
+
+  // Set up both types of buttons
+  const photographerButtons = document.querySelectorAll(".photographer button");
+  const videographerButtons = document.querySelectorAll(
+    ".videographers button"
+  );
+
+  setupButtonHandlers(
+    photographerButtons,
+    "activePhotographer",
+    "Photographer",
+    "PhotographeronPackage"
+  );
+  setupButtonHandlers(
+    videographerButtons,
+    "activeVideographer",
+    "Videographer",
+    "videographeronPackage"
+  );
+}
+waitElement(".main_container_package").then((packages) => {
+  PhotoVideoPackages();
+});
 
 
 
@@ -1075,3 +1152,4 @@
         });
         mainScript();
     })();
+
