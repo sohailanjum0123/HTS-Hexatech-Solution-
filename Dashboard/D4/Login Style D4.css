@@ -1,0 +1,101 @@
+/*####################################
+############ $ VARIABLES $ ###########
+####################################*/
+:root {
+    --dark-color: #493e4b;
+	--morelight-color:#f2d2f5d6;
+    --light-color:#a45bab;
+    --background: #412344;
+	--border:#430d49;
+	--hover:#793580;
+    --text-color: #ffffff;
+    
+    --primary-color: var(--background);
+    --primary-color-2: var(--background);
+}
+
+
+
+/*####################################
+  ############## $ LOGIN $ #############
+  ####################################*/
+
+
+  #app:has(.hl_login) {
+    background: url(https://storage.googleapis.com/msgsndr/pHSfW2uwhd8HpQmFRZ5V/media/656a2b7e3dc49432dd901aa6.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.hl_login--body {
+    position: absolute;
+    right: 0%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+}
+
+.login-card-heading::before {
+    content: " ";
+    background: url(https://firebasestorage.googleapis.com/v0/b/highlevel-backend.appspot.com/o/companyPhotos%2Fj9ekJXDBenshTUqaWmw6.jpeg?alt=media&token=be0cd6cc-a8cf-4dc6-90cc-7af78bc9b7f4);
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    height: 100px;
+    width: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: translateX(-50%);
+}
+
+.login-card-heading {
+    margin-top: 60px;
+}
+
+.hl_login--header {
+    display: none;
+}
+
+.card:has(.login-card-heading) {
+    background: var(--primary-color) !important;
+    margin-right: -15px !important;
+    border-radius: 0px;
+    height: 100vh;
+}
+
+.card:has(.login-card-heading) .card-body {
+    margin-top: 40%;
+    position: relative;
+}
+
+button.hl-btn.justify-center.w-full.inline-flex.items-center.px-4.py-2.border.border-transparent.text-sm.font-medium.rounded.text-white.bg-curious-blue-500.hover\:bg-curious-blue-600.focus\:outline-none.focus\:ring-2.focus\:ring-offset-2.focus\:ring-curious-blue-600 {
+    background: var(----primary-color-2);
+}
+
+a#forgot_passowrd_btn {
+    color: var(--text-color) !important;
+}
+
+a.text-curious-blue-500.hover\:text-curious-blue-800.font-semibold {
+    color: var(--text-color) !important;
+}
+
+#app .hl_login .card-body h2.heading2 {
+    color: var(--text-color);
+}
+
+#app .hl_login .card-body span.hl-text-input-label.block.text-sm.font-medium.text-gray-700.mb-1 {
+    color: var(--text-color);
+}
+
+#app .hl_login .card-body p.foot-note {
+    color: var(--text-color);
+}
+
+#app .hl_login .card-body p.ml-2 {
+    color: var(--text-color);
+}
+
+#app .hl_login .card-body label.ml-2.mb-0.block.text-sm {
+    color: var(--text-color);
+}

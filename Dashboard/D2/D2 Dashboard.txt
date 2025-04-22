@@ -1,0 +1,1619 @@
+/*####################################
+############ $ VARIABLES $ ###########
+####################################*/
+
+:root {
+    --gray-color: #41423F !important;
+    --yellow-morelightwood-color: #f6e8c8 !important;
+    --yellow-lightwood-color: #ead299 !important;
+    --yellow-wood-color: #C3A254 !important;
+    --yellow-darkwood-color: #b59445 !important;
+    --yellow-brownwood-color: #705107 !important;
+    --white-text-color: white !important;
+    --primary-color: linear-gradient(45deg, var(--yellow-wood-color), var(--gray-color) 80%) !important;
+    --primary-color-2: linear-gradient(to right, var(--gray-color) 20%, var(--yellow-wood-color) 80%) !important;
+
+}
+
+a#sb_conversations {
+    position: relative;
+}
+
+#sidebar-v2 .unreads {
+
+    display: none;
+}
+
+#sidebar-v2 #sb_conversations .unreads {
+
+    display: flex !important;
+}
+
+
+
+
+/*####################################
+  ############# $ SIDEBAR $ ############
+  ####################################*/
+
+
+/* -------------------------sidebar,and navbar--------------- */
+div#sidebar-v2 {
+    background: var(--primary-color) !important;
+}
+
+/* ------------sidebar icon and link------------ */
+
+#app #sidebar-v2 [class*="hl_nav"] a:is(.active, :hover) {
+    background: var(--yellow-wood-color) !important;
+    border-radius: 20px 0px 0px 20px !important;
+}
+
+#app #sidebar-v2 [class*="hl_nav"] a:is(.active, :hover) span {
+    color: var(--white-text-color) !important;
+}
+
+#app #sidebar-v2 [class*="hl_nav"] a:not(.active, :hover) span:not(.unreads) {
+    color: var(--white-text-color) !important;
+}
+
+#app #sidebar-v2 [class*="hl_nav"] a:not(.active, :hover) img {
+    filter: invert(0) !important;
+}
+
+#app #sidebar-v2 [class*="hl_nav"] a:is(.active, :hover) img {
+    filter: invert(0) !important;
+}
+
+#app #sidebar-v2 [class*="hl_nav"] a:not(.active, :hover) span i {
+    color: var(--white-text-color) !important;
+}
+
+#app #sidebar-v2 [class*="hl_nav"] a:is(.active, :hover) span i {
+    color: var(--white-text-color) !important;
+}
+
+.hl_nav-header nav a {
+    width: 95%;
+    margin-left: auto;
+}
+
+#app #sidebar-v2 [class*="hl_nav"] a.divider {
+    background: none !important;
+    border-radius: none !important;
+    box-shadow: none !important;
+}
+
+#app #sidebar-v2 a#sb_launchpad img {
+    filter: invert(1) !important;
+}
+
+#app #sidebar-v2 a#sb_launchpad:hover img {
+    filter: invert(0) !important;
+}
+
+/* ----------switcher-start-and search--- */
+div#location-switcher-sidbar-v2 {
+    background-color: var(--yellow-wood-color) !important;
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+#location-switcher-sidbar-v2 .items-center .hl_location_icon {
+    filter: invert(0) !important;
+}
+
+#sidebar-v2 div#location-switcher-sidbar-v2 .hl_location-text span {
+    color: var(--white) !important;
+}
+
+#sidebar-v2 div#location-switcher-sidbar-v2 .switcher-caret-holder i {
+    color: var(--white) !important;
+}
+
+div#globalSearchOpener {
+    background-color: var(--yellow-wood-color) !important;
+}
+
+div#globalSearchOpener svg path {
+    fill: var(--white-text-color) !important;
+}
+
+div#globalSearchOpener span.search-placeholder {
+    color: var(--white-text-color) !important;
+}
+
+#app #sidebar-v2 span.text-xs.px-1.mx-1.rounded-sm.search-shortcut {
+    background-color: var(--white) !important;
+}
+
+#app #sidebar-v2 div#quickActions {
+    background-color: var(--yellow-wood-color) !important;
+    margin-left: 1px;
+}
+
+div#sidebar-v2 .flex div#quickActions img {
+    filter: contrast(1) brightness(90%) !important;
+
+}
+
+
+/*####################################
+  ############## $ TOPBAR $ ############
+  ####################################*/
+.hl_header .container-fluid {
+    background: var(--primary-color-2) !important;
+}
+
+
+/* -------------switcher--end------------- */
+
+/* setting--------------- */
+
+div#backButtonv2 {
+    background-color: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+nav.flex-1.w-full a p span {
+    color: var(--black) !important;
+    background-color: var(--white) !important;
+}
+
+div#quickActions {
+    background-color: var(--dark) !important;
+}
+
+#app .sidebar-v2-location #sidebar-v2 .hl_collapse-button {
+    background: var(--white-text-color) !important;
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.flex.flex-col.overflow-y-auto.overflow-x-hidden.w-full.hl_nav-header::-webkit-scrollbar {
+    display: none;
+}
+
+/* -------------------------------------end------------------------------ */
+/* -------right icon three colors------ */
+.hl_header--controls>a {
+    background: var(--yellow-darkwood-color) !important;
+
+}
+
+.hl_header--controls>a i {
+    filter: invert(0) !important;
+}
+
+.hl_header--controls span.btn.btn-circle.d-flex.justify-content-center.align-items-center.btn-green-dark {
+    background: var(--yellow-darkwood-color) !important;
+}
+
+#mobileresphambeg img {
+    display: none !important;
+}
+
+/* -------end right icon three colors------ */
+
+/* -------------------card-header-drop-down----- */
+#location-dashboard .hl-card {
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 0 1px 9px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+#location-dashboard .hl-card .hl-card-header {
+    background: var(--primary-color) !important;
+    border-radius: 20px 20px 0px 0px;
+}
+
+#location-dashboard .hl-card .hl-card-header .hl-text-md-medium {
+    color: var(--white-text-color) !important;
+}
+
+#location-dashboard .hl-card .hl-card-header .cursor-pointer {
+    color: var(--white-text-color) !important;
+}
+
+/* -------card-dropdown---end------------- */
+
+/* --------------------charts--------------------- */
+.crm-opportunities-status .echarts path:is(:nth-child(1), :nth-child(4), :nth-child(6)) {
+    fill: var(--secondry-color) !important;
+}
+
+.crm-opportunities-value .echarts path:nth-child(21) {
+    fill: var(--secondry-color) !important;
+}
+
+.crm-opportunities-conversion-rate .echarts path:nth-child(4) {
+    fill: var(--yellow-brownwood-color) !important;
+}
+
+.crm-opportunities-stages-distribution .echarts path:nth-child(1) {
+    fill: var(--secondry-color) !important;
+}
+
+/* -------dashboard-word-text-color-------- */
+.hl-header-content .hl-title-container .title.hl-display-sm-medium {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+/* ----------------dash-word--end---------- */
+
+.flex.flex-col.text-left.text-lg.menu-title.px-2.py-2.md\:px-3.md\:py-2.mt-2.font-medium {
+    color: var(--white-text-color) !important;
+}
+
+/*----------additional----------*/
+.n-base-select-option--pending:hover {
+    color: var(--white-text-color) !important;
+}
+
+.n-base-select-option--pending:hover:before {
+    background: var(--yellow-wood-color) !important;
+}
+
+.n-base-select-option--selected .n-base-select-option__content {
+    background: !important;
+    color: white !important;
+}
+
+.n-base-select-option--selected {
+    --n-option-color-active-pending: var(--yellow-wood-color) !important;
+    --n-option-color-active: var(--yellow-wood-color) !important;
+    --n-option-color-pending: var(--yellow-wood-color) !important;
+}
+
+/*------------aditional--end---------*/
+
+/* -----all primery--button---- */
+#app button .n-button,
+#app .n-button--primary-type,
+button.n-button--tiny-type {
+    --n-color: var(--yellow-brownwood-color) !important;
+    --n-color-hover: var(--yellow-brownwood-color) !important;
+    --n-color-pressed: var(--yellow-brownwood-color) !important;
+    --n-color-focus: var(--yellow-darkwood-color) !important;
+    --n-color-disabled: var(--yellow-wood-color) !important;
+    --n-ripple-color: var(--yellow-darkwood-color) !important;
+    --n-border: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-hover: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-pressed: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-focus: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-disabled: 1px solid var(--yellow-wood-color) !important;
+    background-color: var(--yellow-wood-color) !important;
+}
+
+/* ---------end-all- primery--button----- */
+
+/* ---------------------date-dashboard---------- */
+.n-input.n-input--resizable.n-input--pair.n-input--stateful {
+    --n-border-hover: white !important;
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-pressed: white !important;
+    --n-border-focus: var(--yellow-darkwood-color) !important;
+    --n-box-shadow-focus: none !important;
+}
+
+.n-date-panel .n-date-panel-dates .n-date-panel-date.n-date-panel-date--selected::after {
+    background: var(--yellow-wood-color) !important;
+
+}
+
+.n-date-panel-month {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.n-date-panel-month__text {
+    color: var(--white-text-color) !important;
+}
+
+/* ---------------------end---date-dashboard-------- */
+/* ----------top-menue---start------------ */
+.hl_header .topmenu-nav .topmenu-navtitle {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.hl_header .topmenu-nav a {
+    color: var(--yellow-darkwood-color) !important;
+    padding-top: 6px !important;
+}
+
+.hl_header .topmenu-nav a:is(.active, :hover) {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.hl_header .topmenu-nav a span img {
+    filter: invert(1) !important;
+}
+
+.hl_header .topmenu-nav a:hover span img {
+    filter: invert(0) !important;
+}
+
+/* ------------end-----top-----menu----- */
+/* -------contact ------ */
+.pagination a.active[data-v-05a07f3d] {
+    background: var(--yellow-wood-color) !important;
+}
+
+button#hl_smartlists--filter-btn i {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.hl_controls--right>div {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    border-radius: none !important;
+    box-shadow: none !important;
+}
+
+section.w-full .hl_controls--left span .btn-sm {
+    background: var(--yellow-wood-color) !important;
+}
+
+section.w-full .hl_controls--left span .btn-sm svg {
+    fill: var(--white-text-color) !important;
+}
+
+section.w-full .hl_controls--left .btn-sm i,
+[id*="wavv-"] img {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%) !important;
+
+}
+
+/*-------------contact-table-head--------  */
+section#hl_smartlists-main table thead tr {
+    background: var(--yellow-wood-color) !important;
+}
+
+section#hl_smartlists-main table thead tr th span,
+.mr-1.wide-header {
+    color: var(--white-text-color) !important;
+}
+
+/*-------------contact-table-head-end-------  */
+[type=checkbox]:checked,
+[type=radio]:checked {
+    background-color: var(--yellow-wood-color) !important;
+}
+
+.hl_controls .hl_controls--right .bootstrap-select>.btn.dropdown-toggle:after {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+/* ------end---contact---------  */
+/* ---------site----funnle---search------ */
+
+div#hl-table-funnel-list-filter-text-search {
+    border: 1px solid var(--yellow-darkwood-color);
+    border-radius: none !important;
+    box-shadow: none !important;
+    --n-color-hover: none !important;
+}
+
+.n-pagination .n-pagination-item:not(.n-pagination-item--disabled).n-pagination-item--active {
+    border: 1px solid var(--yellow-darkwood-color);
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/*end---------funnel---shearch  */
+/* -------loader----start---- *
+  .hl-loader-container div {
+      display: none !important;
+  }
+  
+  .hl-loader-container::after {
+      content: '';
+      background: url(https://storage.googleapis.com/msgsndr/MpzTIc9oNstT7C0r3OzQ/media/65f887da4d7869e69ebe7863.gif);
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      background-size: contain;
+  }
+  
+  .app-loader {
+      
+  background: var(--white-text-color) !important;
+  }
+  .lds-ring {
+      display: none !important;
+  }
+  
+  .hl-loader-info {
+      display: none !important;
+  }
+  /* -------loader----start--end-- */
+
+/* --------------conversation---manual action------ */
+.dropdown-menu.show ul li a:hover {
+    background: var(--yellow-wood-color) !important;
+}
+
+.dropdown-menu.show ul li:hover span {
+    color: var(--white-text-color) !important;
+}
+
+.bootstrap-select>.dropdown-menu .inner .dropdown-menu li.active a.active {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* --------------conversation---manual action---end--- */
+#app #sidebar-v2 a {
+    opacity: 1 !important;
+}
+
+:root {
+    --primary-300: var(--yellow-darkwood-color) !important;
+    --primary-400: var(--yellow-darkwood-color) !important;
+    --primary-500: var(--yellow-darkwood-color) !important;
+    --primary-600: var(--yellow-darkwood-color) !important;
+    --primary-700: var(--yellow-darkwood-color) !important;
+    --primary-800: var(--yellow-darkwood-color) !important;
+    --primary-900: var(--yellow-darkwood-color) !important;
+    --primary-400: var(--yellow-darkwood-color) !important;
+    --primary-500: var(--yellow-darkwood-color) !important;
+    --primary-600: var(--yellow-darkwood-color) !important;
+    --primary-700: var(--yellow-darkwood-color) !important;
+    --primary-800: var(--yellow-darkwood-color) !important;
+    --primary-900: var(--yellow-darkwood-color) !important;
+    --gray-300: var(--yellow-darkwood-color) !important;
+    --primary-50: var(--yellow-morelightwood-color) !important;
+    --primary-100: var(--yellow-lightwood-color) !important;
+    --primary-600: var(--yellow-darkwood-color) !important;
+}
+
+a#hl_header--help-icon {
+    display: block !important;
+}
+
+.agency a#hl_header--help-icon {
+    display: block !important;
+}
+
+/* --------------logo------------- */
+img.object-contain.agency-logo {
+    height: 100px !important;
+}
+
+.sidebar-v2-location #sidebar-v2 .hl_nav-header,
+.sidebar-v2-location #sidebar-v2 .hl_nav-settings {
+    overflow-y: overlay;
+    max-height: calc(100vh - 18.3rem) !important;
+}
+
+/* ---------end------log0--------- */
+/* --------dashboard--edit---button---- */
+.n-button--default-type {
+    --n-border: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-focus: 1px var(--yellow-darkwood-color) !important;
+    --n-border-pressed: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-hover: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+/* --------dashboard--edit---button--end-- */
+/* -------calanders-day,W,Month-------- */
+.w-52.toolbar_tab .n-tabs.n-tabs--segment-type.n-tabs--medium-size {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    border-radius: 4px !important;
+}
+
+.w-52.toolbar_tab .n-tabs-tab.n-tabs-tab--active {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.hl-wrapper-container .rounded-md {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+.hl-wrapper-container .rounded-md button {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+/* -------------calnders--day-months-end----- */
+/* -----header---status---change------ */
+#location-dashboard .hl-card .hl-card-header .p-2.rounded.transition-all.cursor-pointer:hover {
+    background: var(--yellow-wood-color) !important;
+}
+
+/* --------status---change-end----- */
+/* -----all--primery---button--- */
+body #app button[class*='n-button--primary-type'] {
+    background: var(--yellow-wood-color) !important;
+    border: var(--yellow-darkwood-color) !important;
+    --n-color-focus: var(--yellow-darkwood-color) !important;
+    --n-color-hover: var(--yellow-darkwood-color) !important;
+    --n-border: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-hover: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-focus: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-pressed: 1px solid var(--yellow-darkwood-color) !important;
+    --n-color-disabled: var(--yellow-wood-color) !important;
+    --n-color: var(--yellow-darkwood-color) !important;
+    --n-border-disabled: 1px solid var(--yellow-wood-color) !important;
+    --n-color-pressed: var(--yellow-darkwood-color) !important;
+    --n-ripple-color: var(--yellow-darkwood-color) !important;
+}
+
+/* -----all--primery---button-end-- */
+#app .hl-header .hl-header-content button#ProspectAccount-btn-primary {
+    background: var(--yellow-wood-color) !important;
+    border: var(--yellow-darkwood-color) !important;
+    --n-color-focus: var(--yellow-darkwood-color) !important;
+    --n-color-hover: var(--yellow-darkwood-color) !important;
+    --n-border: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-hover: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-focus: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-pressed: 1px solid var(--yellow-darkwood-color) !important;
+    --n-color-disabled: var(--yellow-wood-color) !important;
+    --n-color: var(--yellow-darkwood-color) !important;
+    --n-border-disabled: 1px solid var(--yellow-darkwood-color) !important;
+    --n-color-pressed: var(--yellow-darkwood-color) !important;
+    --n-ripple-color: (--yellow-darkwood-color) !important;
+}
+
+#app button.hl-btn {
+    background: var(--yellow-darkwood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* -----------setting--phone-number------ */
+.hl_affiliate--header ul.hl_affiliate--nav li.--active a,
+li.active a {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    padding: 7px !important;
+}
+
+.hl_affiliate--header ul.hl_affiliate--nav li:hover a {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color);
+    padding: 7px !important
+}
+
+.hl_allphonenumber--container .table-wrap.bg-white .table.bg-white .table-row.--header.bg-white {
+    background: var(--yellow-wood-color) !important;
+}
+
+.hl_allphonenumber--container .table-wrap.bg-white .table.bg-white .table-row.--header.bg-white .table-cell {
+    color: var(--white-text-color) !important;
+}
+
+/* ---------end---phone---number------ */
+/* --------------custom-field---add-folder------ */
+.flex.justify-end button.hl-btn.add-folder-button {
+    color: var(--white-text-color) !important;
+    background: var(--yellow-wood-color) !important;
+}
+
+/* ------------end--custom-field---add-folder------ */
+/* ----------saas-config---button-size-- */
+.hl-header-content>.flex>.flex button:last-child {
+    /*width:100% !important;*/
+}
+
+.n-tabs-nav-scroll-wrapper .v-x-scroll .n-tabs-nav-scroll-content .n-tabs-wrapper .n-tabs-tab-wrapper .n-tabs-tab:hover {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    padding: 7px !important
+}
+
+.n-tabs-nav-scroll-wrapper .v-x-scroll .n-tabs-nav-scroll-content .n-tabs-wrapper .n-tabs-tab-wrapper .n-tabs-tab--active {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    padding: 7px !important
+}
+
+/* --------end--saas-config---button-size-- */
+/* -----------opertunity------ */
+div#data-search-opportunities,
+.n-base-selection.n-base-selection--selected {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+.n-base-loading.n-base-suffix .n-base-clear i.n-base-icon.n-base-suffix__arrow {
+    color: var(--yellow-brownwood-color) !important;
+}
+
+.card.hl_customers--table .table-wrap table thead tr {
+    background: var(--yellow-wood-color) !important;
+}
+
+.card.hl_customers--table .table-wrap table thead tr th {
+    color: var(--white-text-color) !important;
+}
+
+/* -------------oppertunity--end----------- */
+/* --------markiting---table------- */
+.container-fluid table thead tr {
+    background: var(--yellow-wood-color) !important;
+}
+
+.container-fluid table thead tr th {
+    color: var(--white-text-color) !important;
+}
+
+/* --------markiting---table--end----- */
+/* -------------agency--dashboard-------------- */
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .hl_controls--left h1 {
+    color: var(--yellow-darkwood-color) !important;
+    font-size: 25px !important;
+    font-weight: 500 !important;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .hl_controls--left .processing-stats {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .hl_controls--left .processing-stats i {
+    color: var(--yellow-brownwood-color) !important;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .row .col-md-3.col-sm-6 .card.--short {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12) !important;
+    border-radius: 20px 20px 0px 0px !important;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .row .col-md-3.col-sm-6 .card.--short .card-body .card-title {
+    background: var(--primary-color) !important;
+    color: #fff !important;
+    padding: 20px 6px;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .row .col-md-3.col-sm-6 .card.--short .card-body {
+    padding: 0 !important;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .row .col-md-6 .card {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .row .col-md-6 .card .card-body .card-title {
+    background: var(--primary-color) !important;
+    color: var(--white-text-color) !important;
+    border-radius: 20px 20px 0px 0px;
+    padding: 25px !important;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .row .col-md-6 .card .card-body .card-graph {
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .row .col-md-6 .card .card-body {
+    padding: 0 !important;
+    justify-content: center !important;
+    height: 36vh
+}
+
+.card-value {
+    margin: 24px 6px;
+}
+
+.sidebar-v2-agency section.hl_wrapper--inner.agency-dash .container-fluid .saas-banner {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2) !important;
+    background: var(--primary-color) !important;
+}
+
+/* -----------end--agency--dashboard-------------- */
+/* -----------dash--saas-configure------------ */
+.n-config-provider .hl-header-content .hl-title-container .hl-text-lg-medium {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .hl-header-content .hl-title-container .description.max-w-3xl.hl-text-sm-normal {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .mt-2 .flex.flex-wrap .border-gray-300.border.rounded-full.h-9.w-9.p-2 {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .mt-2 .flex.flex-wrap .border-gray-300.border.rounded-full.h-9.w-9.p-2 svg path {
+    stroke: var(--yellow-darkwood-color) !important;
+}
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .mt-2 .flex.flex-wrap .border-gray-300.border.rounded-full.h-9.w-9.p-2 svg {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .flex span.mr-1.font-semibold.text-3xl {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .flex .n-tag.n-tag--round.hl-default.ml-1 {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .flex .n-tag__content {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .flex.flex-row.mt-4 .text-gray-900.font-semibold {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mx-auto.mb-2.text-gray-900.hl-text-lg-medium {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .flex.flex-row.justify-between .mt-2 .font-semibold.text-blue-700.hl-text-sm-medium {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.n-config-provider .mb-4.hl-card .hl-card-content .flex .text-gray-500.mr-2.text-sm.font-medium.hl-text-xs-regular,
+.font-semibold.hl-text-md-medium {
+    color: var(--yellow-brownwood-color) !important;
+}
+
+/* ----------------end---------saas---config---------- */
+/* -------------dash--snapshot-table---------- */
+.hl-wrapper-container .n-config-provider .table-container .n-data-table-thead .n-data-table-tr .n-data-table-th {
+    background-color: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ------------end----------snapshot------- */
+/* ------------conversation--------------- */
+section#conversations .hl_conversations--wrap .relative.hl_conversations--message .hl_conversations--message-body .dropdown button#activityDropdownMenuButton {
+    border-radius: unset !important;
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+section#conversations .hl_conversations--wrap .relative.hl_conversations--message .hl_conversations--message-body .message-bubble {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+section#conversations .hl_conversations--wrap .relative.hl_conversations--message .hl_conversations--message-body .messages-single.\--own-message .message-bubble:before {
+    border-color: var(--yellow-darkwood-color) transparent transparent transparent !important;
+}
+
+section#conversations .hl_conversations--wrap .relative.hl_conversations--message .hl_conversations--message-body .messages-single .message-bubble:before {
+    border-color: transparent var(--yellow-darkwood-color) transparent transparent;
+}
+
+section#conversations .hl_conversations--wrap .hl_conversations--messages-list-v2 .flex.items-center.h-5 .dropright.--no-caret a.flex.cursor-pointer.sort-option.inline-flex.items-center {
+    background: var(--yellow-wood-color) !important;
+}
+
+section#conversations .hl_conversations--wrap ul#conversation-list .conversation-selected-v2 {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+/* ----------end--conversation--------------- */
+/* ----------------reporting------------ */
+.ad-reporting-container .card.hl_dashboard--pipeline-value .flex-row div#title-row-left h4 {
+    color: var(--yellow-wood-color) !important;
+}
+
+.ad-reporting-container .card.hl_dashboard--pipeline-value .flex-row button.btn.btn-outline-primary.btn-sm {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.ad-reporting-container .card.hl_dashboard--pipeline-value .flex-row div#ads-date-picker-wrapper {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+/* ----------------end------------reporting---------- */
+/* --------------affiliates--------- */
+section#settings .hl_settings--body .container-fluid .row .card .card-header {
+    background: var(--primary-color) !important;
+}
+
+section#settings .hl_settings--body .container-fluid .row .card .card-header h3 {
+    color: var(--white-text-color) !important;
+}
+
+/* -----------end-affiliates----------- */
+/* ------------launch-pad-button----------- */
+.sidebar-v2-location section#launchpad div#launchpadHome .launchpad-item-container button {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.sidebar-v2-location section#launchpad div#launchpadHome .launchpad-center-containter .launchpad-title.text-center p {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+/* -----------------end--lunchpad--------------- */
+/* -----date--ficker---- */
+div#location-dashboard .location-dashboard_header .n-input.n-input--resizable.n-input--pair.n-input--stateful {
+    background: var(--primary-color) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+div#location-dashboard .location-dashboard_header .n-input.n-input--resizable.n-input--pair.n-input--stateful input {
+    color: var(--white-text-color) !important;
+}
+
+.n-input.n-input--resizable.n-input--pair.n-input--stateful .n-base-icon {
+    color: var(--white-text-color) !important;
+}
+
+/* ----edit----- */
+div#location-dashboard .location-dashboard_header #location-dashboard_btn--edit-dashboard {
+    background: var(--primary-color) !important;
+}
+
+div#location-dashboard .location-dashboard_header #location-dashboard_btn--edit-dashboard path {
+    filter: invert(0)
+}
+
+/* ----edit-end---- */
+/* -----------------end---date-picker---- */
+/* -----------conversation---trigger-link--------- */
+.v2-open.sidebar-v2-location section#trigger-links .hl_marketing--header button.btn.btn-sm.btn-primary.p-8 {
+    background: var(--yellow-wood-color) !important;
+}
+
+.v2-open.sidebar-v2-location section#trigger-links .hl_marketing--header button.btn.btn-sm.btn-primary.p-8 i {
+    color: white !important;
+}
+
+/* ----------------trigger--link--end-------- */
+/* ----------conversation-manual-action-button------------ */
+.v2-open.sidebar-v2-location section#customers ul.pagination.hl_controls.justify-content-end li.page-item.mr-0.disabled a,
+li.page-item.disabled a {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ----------conversation-manual-action-end------------ */
+/* --------------conversation----conversation----- */
+.v2-open.sidebar-v2-location section#conversations .relative.hl_conversations--message .relative.h-full.transition-all div#new-crp--contacts .avatar-container.cursor-pointer .rounded-full.n-avatar {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ------------end-----conversation-------------- */
+/* --------------contact--bulk---action----------  */
+section#dashboard .card.hl_dashboard--latest-review-requests .card-header .d-flex.justify-content-end .hl_tasks-list.bulk-actions-header .dropdown.b-dropdown button {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    margin-right: 2px !important;
+}
+
+section#dashboard .card.hl_dashboard--latest-review-requests .card-header .d-flex.justify-content-end .d-inline-flex .d-flex div#undefined-wrapper {
+    background: var(--yellow-wood-color) !important;
+}
+
+section#dashboard .card.hl_dashboard--latest-review-requests .card-header .d-flex.justify-content-end .d-inline-flex .d-flex div#undefined-wrapper .field .field-input {
+    color: var(--white-text-color) !important;
+}
+
+/* -------------end-contact--bulk---action----------  */
+/* ----------------oppertunities---------------- */
+#OpportunitiesList .max-h-2xl.borderColor.mb-4.max-h-28.\!rounded.\!border-0.\!border-t-2.\!border-solid.hl-card .hl-card-content {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+#OpportunitiesList .max-h-2xl.borderColor.mb-4.max-h-28.\!rounded.\!border-0.\!border-t-2.\!border-solid.hl-card .hl-card-content .whitespace-nowrap.text-ellipsis.text-black {
+    color: var(--white-text-color) !important;
+}
+
+#OpportunitiesList .max-h-2xl.borderColor.mb-4.max-h-28.\!rounded.\!border-0.\!border-t-2.\!border-solid.hl-card .hl-card-content .text-xs {
+    color: var(--white-text-color) !important;
+}
+
+/* ---------oppertunities----end--------------- */
+/* -------------funnel-----folder--button----- */
+.sidebar-v2-location section#funnels #funnel-website-btn-secondary,
+#forms-btn-secondary,
+#surveys-btn-secondary {
+    background: var(--yellow-wood-color) !important;
+    --n-border: var(--yellow-darkwood-color) !important;
+    --n-border-hover: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border-focus: 1px var(--yellow-darkwood-color) !important;
+    --n-border-pressed: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+.sidebar-v2-location section#funnels #funnel-website-btn-secondary,
+#forms-btn-secondary,
+#surveys-btn-secondary span.n-button__content {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ------------end-funnel-----folder--button----- */
+/* ----------manage-scoring--button---- */
+div#scoring .main-container section.top #add-new-rule-btn {
+    background: var(--yellow-wood-color) !important;
+}
+
+div#scoring .main-container section.top #add-new-rule-btn .n-button__content {
+    color: var(--white-text-color) !important;
+}
+
+/* ---------end-manage-scoring--button---- */
+/* ---------integration--------- */
+.hl_settings--body.hl_v2_stettings--body.hl_without-topbar .row .col-sm-6.col-md-3 .card-integration .card-integration--inner .btn-google-signin,
+#pg-intSettings__btn--connect-shopify {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.hl_settings--body.hl_v2_stettings--body.hl_without-topbar .row .col-sm-6.col-md-3 .card-integration .card-integration--inner .btn-google-signin .btn-google-signin-text {
+    color: var(--white-text-color) !important;
+}
+
+/* ------------------end-----integration--------- */
+/* ---------reselling--------- */
+div#agency-reselling div#products .card .card-body :is(.footer-controls, .footer-with-confirmation) button {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* -------------end---reselling----------- */
+/* --------------app-marketplace-button---------- */
+div#marketplace-app .mt-3.grid.grid-cols-5.gap-5 .col-start-2.col-end-6.row-start-2.row-end-3 .flex.flex-wrap.justify-between .cursor-pointer .hl-card-content .n-tag.n-tag--round.justify-center {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ----------app-marketplace--end------------ */
+/* ----------------whatsapp----button---------- */
+div#whatsapp-settings .whatsapp-payment .card .cc_card_info.part-common .cc_card_container button.btn.btn-success.hl_calltoaction-btn.whatsapp_payment_confirm_btn {
+    background: var(--yellow-wood-color) !important;
+}
+
+/* ----------------end-----whatsappp------ */
+/* ---------------custom------field--pagination-- */
+.hl_settings--body.hl_without-topbar .mx-auto.px-6 .w-full .px-4.py-3.w-full.border-t.border-gray-200 .w-full.flex.items-center.justify-between nav.relative.z-0.inline-flex.rounded-md.shadow-sm.-space-x-px button {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.hl_settings--body.hl_without-topbar .mx-auto.px-6 .w-full .px-4.py-3.w-full.border-t.border-gray-200 .w-full.flex.items-center.justify-between nav.relative.z-0.inline-flex.rounded-md.shadow-sm.-space-x-px span.relative.inline-flex.items-center.px-3.py-2.border.text-sm.font-medium.z-10.bg-indigo-50.border-blue-500.text-blue-500.cursor-pointer {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+/* --------------end--custom--field--pagination----- */
+/* ------------------reputation--management-------- */
+.hl_reputation .hl_reputation--body.hl_reputation--scroll-self label.n-radio-button--checked {
+    color: var(--yellow-darkwood-color) !important;
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    border-color: var(--yellow-darkwood-color) !important;
+}
+
+.hl_reputation .hl_reputation--body.hl_reputation--scroll-self #review-request-link-platform .n-space .n-radio-button--checked .hl-radio-group-item-action .n-radio.n-radio--checked .n-radio__dot-wrapper .n-radio__dot--checked {
+    filter: invert(1) !important;
+}
+
+/* ----------------reputation--managem------end-- */
+/* -----------------dash-card-header-small-text--color---- */
+#app div#location-dashboard .hl-card .hl-card-header .text-gray-500.mt-0\.5.hl-text-xs-regular {
+    color: var(--white-text-color) !important;
+}
+
+/* ----------------end-dash-card-header-small-text--color---- */
+/* ----------------next-and-previous-button------------- */
+
+button#funnel-list-next,
+button#forms-list-next,
+button#surveys-list-next,
+#funnel-step-products-next {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+button#funnel-list-previous,
+button#forms-list-previous,
+button#surveys-list-previous,
+#funnel-step-products-previous {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ---------------end-next-and-previous-button------------- */
+/* -------sidebar-site-funnel-inner-site-button-color-green------------ */
+button#edit-page,
+button#preview-page,
+button#clone-funnel-step,
+button#funnel-url-info,
+button#preview-link {
+    background: var(--yellow-wood-color) !important;
+    --n-border: var(--yellow-darkwood-color) !important;
+    color: var(--white-text-color) !important;
+    --n-border-hover: 1px solid var(--yellow-darkwood-color) !important;
+    --n-border: var(--yellow-darkwood-color) !important;
+    --n-border-focus: 1px var(--yellow-darkwood-color) !important;
+    --n-border-pressed: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+/* ------end-sidebar-site-funnel-inner-site-button-color-green------------ */
+/* -------funnel--stats--buttton----- */
+button#funnels-sales-table-previous,
+button#funnels-sales-table-next {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ----------funnel-stats--button--end----- */
+/* -------------reporting-google-ads---- */
+.page-item.active .page-link {
+    background: var(--yellow-wood-color) !important;
+    border-color: 1px solid var(--yellow-darkwood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* end----google--ads--- */
+/* ---------contact--smart-list--icon---------- */
+button[data-original-title="Bulk Email Verification Modal"] path {
+    fill: white !important;
+
+}
+
+button.hl-btn.ml-2.inline-flex.items-center.px-4.py-2.border.border-transparent.text-sm.font-medium.rounded.text-white.bg-curious-blue-500.hover\:bg-curious-blue-600.focus\:outline-none.focus\:ring-2.focus\:ring-offset-2.focus\:ring-curious-blue-600 {
+    background: var(--yellow-wood-color) !important;
+}
+
+/* ---------contact--smart-list--icon--end-------- */
+/* ---------------------reporting google--ads-- header---start--------- */
+.flex-child {
+    padding: 0px !important;
+    border-radius: 10px 10px 0px 0px !important;
+}
+
+.flex-child .top-row-box__top {
+    padding: 5px !important;
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    border-radius: 10px 10px 0px 0px !important;
+}
+
+.flex-child .top-row-box__mid {
+    padding: 10px !important;
+}
+
+.flex-child .top-row-box__bottom {
+    padding: 10px !important;
+}
+
+.flex-child .top-row-box__top .box-title span {
+    color: white !important;
+}
+
+.flex-container.middle-row .flex-child .mid-row-box__top {
+    padding: 5px;
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    border-radius: 10px 10px 0px 0px !important;
+}
+
+.flex-container.middle-row .flex-child .middle-row.mid-row-box__bottom {
+    padding-left: 5px !important;
+}
+
+.bottom-row .hl_controls--left.col .search {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+/* ---------------------reporting google--ads-- header---end--------- */
+/* ----------Reporting------------- */
+div#attribution-dashboard .n-tabs.n-tabs--line-type.n-tabs--medium-size.n-tabs--top .hl-card .hl-card-header {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+div#attribution-dashboard .n-tabs.n-tabs--line-type.n-tabs--medium-size.n-tabs--top .hl-card .hl-card-header .text-gray-900.hl-text-lg-medium {
+    color: var(--white-text-color) !important;
+}
+
+div#attribution-dashboard .flex.mt-3 .w\=3\/12.card.hl-card {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+div#attribution-dashboard button#attribution-reporting-refresh-btn {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    --n-border: var(--yellow-darkwood-color) !important;
+    --n-border-pressed: var(--yellow-darkwood-color) !important;
+    --n-border-disabled: var(--yellow-wood-color) !important;
+    --n-border-hover: var(--yellow-darkwood-color) !important;
+    --n-border-focus: var(--yellow-darkwood-color) !important;
+}
+
+div#attribution-dashboard .n-radio-group.radio-group {
+    --n-border: var(--yellow-darkwood-color) !important;
+    --n-border-pressed: var(--yellow-darkwood-color) !important;
+    --n-border-disabled: var(--yellow-wood-color) !important;
+    --n-border-hover: var(--yellow-darkwood-color) !important;
+    --n-border-focus: var(--yellow-darkwood-color) !important;
+    --n-button-border-color-active: var(--yellow-darkwood-color) !important;
+    --n-button-box-shadow-focus: inset 0 0 0 1px var(--yellow-darkwood-color), 0 0 0 2px rgba(21, 94, 239, 0.3);
+    --n-button-box-shadow-focus: inset 0 0 0 1px var(--yellow-darkwood-color), 0 0 0 2px rgba(21, 94, 239, 0.3) !important;
+}
+
+label.n-radio-button.n-radio-button--checked.radio-group-button.hl-radio-group-item.compact-radio-item {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+
+}
+
+button#breakdown-of-leads-previous,
+button#breakdown-of-leads-next {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+section#reporting-attribution-dashboard .card.hl_dashboard--pipeline-value.rounded,
+.card.hl_dashboard--pipeline-value .container-fluid {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+section#reporting-attribution-dashboard .card.hl_dashboard--pipeline-value {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+div#call-reporting-dashboard .n-tabs.n-tabs--line-type.n-tabs--medium-size.n-tabs--top .hl-card {
+    border-radius: 15px 15px 0px 0px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+div#call-reporting-dashboard .n-tabs.n-tabs--line-type.n-tabs--medium-size.n-tabs--top .hl-card .hl-card-header {
+    background: var(--yellow-wood-color) !important;
+    border-radius: 15px 15px 0px 0px !important;
+}
+
+div#call-reporting-dashboard .n-tabs.n-tabs--line-type.n-tabs--medium-size.n-tabs--top .hl-card .hl-card-header .hl-text-lg-medium {
+    color: var(--white-text-color) !important;
+}
+
+section#reporting-agent-dashboard button.btn.btn-blue {
+    background: var(--yellow-wood-color) !important;
+}
+
+div#call-reporting-dashboard button#call-reporting-dashboard_btn--refresh {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    --n-border-hover: var(--yellow-darkwood-color) !important;
+    --n-border-focus: var(--yellow-darkwood-color) !important;
+    --n-border: var(--yellow-darkwood-color) !important;
+}
+
+section#reporting-agent-dashboard .agent_reporting .row .card .card-header {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+section#reporting-agent-dashboard .agent_reporting .row .card .card-header .d-flex {
+    position: relative;
+    top: -11px !important;
+}
+
+section#reporting-agent-dashboard .agent_reporting .row .card .card-header .d-flex h2 {
+    color: white !important;
+}
+
+/* ------------end----Reporting------ */
+/* -------------reporting--appointment-report----start---- */
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value.rounded,
+.card.hl_dashboard--pipeline-value .container-fluid {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    border-radius: 8px 8px 0px 0px !important;
+
+}
+
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 0px !important;
+}
+
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value.rounded .px-3.pt-3 {
+    padding: unset !important;
+}
+
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value.rounded .px-3.pt-3 h4 {
+    background: var(--yellow-wood-color) !important;
+    width: 100%;
+    padding: 4px !important;
+    color: var(--white-text-color) !important;
+    border-radius: 8px 8px 0px 0px !important;
+}
+
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value.rounded .px-3.pt-3 .d-flex.justify-content-between {
+    background: var(--yellow-wood-color) !important;
+    width: 100%;
+    padding: 4px !important;
+    color: var(--white-text-color) !important;
+    border-radius: 8px 8px 0px 0px !important;
+}
+
+
+
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value .flex.justify-between {
+    background: var(--yellow-wood-color) !important;
+    padding: 2px !important;
+    border-radius: 8px 8px 0px 0px !important;
+}
+
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value .flex.justify-between h4 {
+    padding: 17px !important;
+    color: white !important;
+
+}
+
+section#reporting-appointments-dashboard .card.hl_dashboard--pipeline-value :not(.flex.justify-between) h4 {
+    background: var(--yellow-wood-color) !important;
+    width: 100% !important;
+    padding: 15px !important;
+    color: var(--white-text-color) !important;
+    border-radius: 8px 8px 0px 0px !important;
+}
+
+section#reporting-appointments-dashboard .card-group.--wide-gutter.card-bottom-margin {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+}
+
+section#reporting-appointments-dashboard .card-group.--wide-gutter.card-bottom-margin .card .hl-table .p-2.pb-0.m-0.hl_controls.row .hl_controls--left.col .select-control-wrap.max-w-min {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+    border-radius: 5px !important;
+}
+
+/* -------------reporting--appointment-report-----end--- */
+/* ----------Reputation----overview------start--------- */
+div#reputation-dashboard-container .n-space .hl-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    border-radius: 10px 10px 0px 0px !important;
+
+}
+
+div#reputation-dashboard-container .n-space .hl-card .hl-card-content {
+    padding: 0px !important;
+}
+
+div#reputation-dashboard-container .n-space .hl-card .hl-card-content .mb-6.text-gray-900.hl-text-lg-medium {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    padding: 8px !important;
+    border-radius: 10px 10px 0px 0px !important;
+}
+
+/* ----------Reputation----overview------end--------- */
+/* ------start-reputation---widgets---saved-widgets-button------ */
+.hl_reputation .n-tabs.n-tabs--segment-type.n-tabs--medium-size.n-tabs--top .n-tabs-nav--segment-type.n-tabs-nav--top.n-tabs-nav .n-tabs-tab.n-tabs-tab--active {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ----end--start-reputation---widgets---saved-widgets-button------ */
+/* -----------automation-campaigns---table-header----start-- */
+section#marketing .container-fluid .hl_customer-acquisition .card.hl_customer-acquisition--table .table-wrap>.w-100>.w-100.d-flex.py-2 {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* -----------automation-campaigns---table-header----end-- */
+/* --------------payment--previous-and--next--button-----start---- */
+div#ProposalEstimatesListApp button#proposals-previous,
+button#proposals-next {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* --------------payment--previous-and--next--button-----end---- */
+/* ------------contact---smart-list--add-to-compaign-pop-up----------- */
+.modal-buttons.justify-content-between.px-2 button {
+    background-color: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+    border-color: var(--yellow-darkwood-color) !important;
+}
+
+.custom-radio .custom-control-input:checked~.custom-control-label:before {
+    background-color: var(--yellow-wood-color) !important;
+}
+
+section#dashboard .card.hl_dashboard--latest-review-requests .card-body .container-fluid button.btn.override-to-btn-class-override.btn-outline-primary.mx-2 {
+    color: var(--white-text-color) !important;
+    background: var(--yellow-wood-color) !important;
+    border: unset !important;
+}
+
+.dropdown ul.dropdown-menu.show li a.dropdown-item:hover {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+/* ------------contact---smart-list--add-to-compaign-pop-up----end------- */
+/* --------sites--funnel---step-- aboutus--button--text-color--start----- */
+section#funnels-steps div#FunnelDetailPage div#steps-tab div#funnel-page div#funnel-page-card button#pg-funnel-pages__btn-funnel-control-page-import span.n-button__content {
+    color: white !important;
+}
+
+/* --------sites--funnel---step-- aboutus--button--text-color--end----- */
+
+
+
+
+/*   ADDING MORE STYLE */
+
+
+
+
+button#location-dashboard_modal-footer--delete-widget-btn-positive-action {
+    background: var(--yellow-wood-color) !important;
+
+}
+
+.n-button__border {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+.hl-icon-container .icon-primary svg {
+    color: var(--yellow-brownwood-color) !important;
+
+}
+
+.hl-icon-container .icon-primary {
+    background: var(--yellow-lightwood-color);
+    border: 8px solid var(--yellow-morelightwood-color);
+}
+
+
+#marketplace-app span.n-button__content {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.sidebar-v2-agency #sidebar-v2 .hl_collapse-button {
+    background: var(--white-text-color);
+    color: var(--yellow-darkwood-color);
+}
+
+.sidebar-v2-agency #sidebar-v2 #backButtonv2 {
+    background: var(--yellow-wood-color) !important;
+}
+
+.n-input:not(.n-input--disabled):hover .n-input__state-border {
+    border: var(--yellow-darkwood-color) !important;
+}
+
+.description.max-w-3xl.hl-text-md-normal {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.description.max-w-md.lg\:max-w-5xl.hl-text-md-normal {
+    color: var(--yellow-darkwood-color) !important;
+}
+
+.hl-empty .hl-empty-icon-container .hl-empty-icon svg {
+    color: var(--yellow-brownwood-color);
+}
+
+.hl-empty .hl-empty-icon-container .hl-empty-icon {
+
+    background: var(--yellow-lightwood-color);
+    border: 8px solid var(--yellow-morelightwood-color);
+}
+
+
+span.n-button__content {}
+
+button#location-dashboard_modal-footer--upgrade-plan-btn-positive-action {
+    background: var(--yellow-wood-color) !important;
+}
+
+.n-button__border {
+    border: 1px solid var(--yellow-darkwood-color) !important;
+}
+
+.n-date-panel-month :is(.n-date-panel-month__fast-prev, .n-date-panel-month__fast-next, .n-date-panel-month__prev, .n-date-panel-month__next) {
+    color: var(--white-text-color) !important;
+}
+
+
+
+a.fc-col-header-cell-cushion {}
+
+.flex.flex-row.gap-2.bg-primary-600.text-white.px-2.rounded-2xl.py-\[2px\].items-center.text-\[12px\].font-semibold {
+    background: var(--yellow-wood-color)
+}
+
+.text-primary-700.font-semibold.text-\[12px\] {
+    color: var(--yellow-darkwood-color)
+}
+
+
+button#CreateUpdateOpportunity {
+    background: var(--yellow-wood-color) !important;
+}
+
+button#report-dropdown-filters__BV_toggle_ {
+    color: var(--yellow-darkwood-color);
+    background: var(--white-text-color);
+}
+
+#location-dashboard svg.w-4.h-4.stroke-gray-800 {
+    stroke: var(--white-text-color) !important;
+}
+
+.sidebar-v2-location #sidebar-v2 .hl_nav-header-without-footer nav a.divider p {
+    --tw-border-opacity: 1;
+    border-color: var(--yellow-wood-color) !important;
+}
+
+#sidebar-v2 span.uppercase.pr-3.default-bg-color {
+    background: var(--yellow-wood-color) !important;
+}
+
+.n-dropdown-menu .n-dropdown-option :is(.n-dropdown-option-body__label, .n-dropdown-option-body, .n-dropdown-option-body__prefix):hover {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color);
+}
+
+.n-popover__content .flex.justify-between.items-center.py-1.px-2.rounded-sm.transition-all.cursor-pointer.hover\:bg-gray-100.text-primary-600 {
+    background-color: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.n-popover__content svg.text-primary-600.h-4.w-5.ml-1 {
+    color: var(--white-text-color) !important;
+}
+
+.n-popover__content .flex.justify-between.items-center.py-1.px-2.rounded-sm.transition-all.cursor-pointer.hover\:bg-gray-100.text-primary-600:hover {
+    background: var(--yellow-wood-color);
+    color: var(--white-text-color);
+}
+
+.n-popover__content svg.text-primary-600.h-4.w-5.ml-1:hover {
+    color: var(--white-text-color);
+}
+
+.n-popover__content .hover\:bg-gray-100:hover {
+    --tw-bg-opacity: 1;
+    background-color: var(--yellow-wood-color);
+    color: var(--white-text-color);
+}
+
+#location-dashboard #widget_6537f29a9c19f88a66278930 .echarts path:nth-child(1) {
+    fill: var(--yellow-wood-color)
+}
+
+.n-dropdown-menu.n-popover-shared.n-dropdown .n-dropdown-option-body:hover::before {
+    background-color: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+body[data-theme=default] .sidebar-v2-location #sidebar-v2 .hl_nav-header nav a.divider p {
+    border-color: var(--yellow-wood-color) !important;
+}
+
+#campaign-picker .vs__dropdown-option--highlight {
+    background: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+.n-base-select-menu .n-base-select-option .n-base-select-option__check {
+    color: var(--white-text-color) !important;
+}
+
+.hl_controls--right>div {
+    border-radius: 5px !important;
+}
+
+/*  Clendar Appointment */
+
+.appointmentWizardBody .n-input__input .n-input__state-border {
+    border: 2px solid var(--yellow-wood-color) !important;
+}
+
+
+.appointmentWizardBody .n-input__border {
+    border: 2px solid var(--yellow-wood-color) !important;
+}
+
+div#add-description-text {
+    color: var(--gray-colo) !important;
+}
+
+/*  DASHBOARD */
+button#dashboard-lead-source-report-pagination-previous {
+    background-color: #c3a254 !important;
+    color: white !important;
+}
+
+button#dashboard-lead-source-report-pagination-next {
+    background-color: #c3a254 !important;
+    color: white !important;
+}
+
+/*    Contacts Tasks */
+.fa-sync:before {
+    color: var(--yellow-wood-color) !important
+}
+
+button.rounded.font-bold.text-white.border.px-4.py-2.bg-curious-blue-500 {
+    background: var(--yellow-wood-color) !important;
+    border: 1px solid var(--yellow-wood-color)
+}
+
+.text-curious-blue-500 {
+    color: var(--yellow-wood-color) !important;
+}
+
+#filters .border-curious-blue-500 {
+    border: 1px solid var(--yellow-wood-color) !important;
+}
+
+/* Payment Documents & Contract */
+#ProposalEstimatesListApp .n-date-picker .n-input .n-input__input-el {
+    color: var(--yellow-wood-color) !important;
+}
+
+
+
+/*  Agency Dashboard Scrolling controll */
+.hl_wrapper--inner.agency-dash .card.--short {
+    overflow: hidden !important;
+}
+
+/* Labs */
+#Labs .n-button--default-type:not(.icon-only):not(.hl-active-btn) {
+    background-color: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+
+/* Reporting Atrribute Reports  */
+#attribution-dashboard .w-1\/3.hl-card {
+    background: var(--yellow-wood-color);
+}
+
+#attribution-dashboard .stat-number.hl-display-sm-medium {
+    color: var(--white-text-color) !important;
+}
+
+#attribution-dashboard .stat-text.hl-text-md-medium {
+    color: var(--white-text-color) !important;
+}
+
+#attribution-dashboard .icon[data-v-71c20fd0] {
+    background: var(--yellow-darkwood-color) !important;
+    border: 10px solid var(--yellow-darkwood-color) !important;
+    color: var(--white-text-color) !important;
+    stroke: var(--white-text-color) !important;
+}
+
+
+/* Agency Locatio Dropdown */
+#agency_location .dropdown.pl-3 {
+    border: none !important;
+}
+
+/*   MEMBERSHIP COMMUNITIES */
+#clientportal-builder button#brand-domain-button {
+    background-color: var(--yellow-wood-color) !important;
+    color: var(--white-text-color) !important;
+}
+
+a.border-transparent.hover\:border-gray-300.hover\:text-gray-700.whitespace-nowrap.py-2.border-b-2.font-medium.text-sm {
+    color: #c3a254 !important;
+}
+.sidebar-v2-location .hl_header .topmenu-nav .topmenu-navitem.active{
+    border-bottom: 3px solid gray !important;
+}
+
+/*  SITES FUNNEL STATS */
+#funnel-stats .n-date-picker .n-input .n-input__input-el{
+    color: #c3a254 !important;
+}
+#funnel-stats .n-input.n-input--resizable.n-input--pair.n-input--stateful .n-base-icon {
+    color: #c3a254 !important;
+}
+
+#funnel-stats button#reset-stats {
+    background: #c3a254 !important;
+}

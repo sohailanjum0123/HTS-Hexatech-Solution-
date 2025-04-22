@@ -1,0 +1,70 @@
+/* Dashboard Login */
+
+:root{
+    --black-color:#000;
+    --primary-color: #040a8e;
+    --white-color:#fff;
+}
+div#app .hl_login .hl_login--header{
+    display:none;
+}
+
+div#app .hl_login{
+    background-image:url(https://storage.googleapis.com/msgsndr/1X9AaHS8HsMd504XC6nU/media/6585900108d72707d7df117e.png);
+    background-repeat:no-repeat !important;
+    background-size: cover !important;
+}
+.hl_login--body .container-fluid{
+    padding:0 !important;
+}
+
+.card{
+    top:0 !important;
+}
+
+.card:has(.login-card-heading) {
+    background: var(--primary-color) !important;
+    border-radius: 0px;
+    height: 100vh;
+    margin: 0 !important;
+}
+
+.card:has(.login-card-heading) .card-body {
+    margin-top: 50%;
+    position: relative;
+}
+.login-card-heading .heading2{
+     color: var(--white-color) !important;
+}
+.login-card-heading::before {
+    content: " ";
+    background: url(https://storage.googleapis.com/msgsndr/1X9AaHS8HsMd504XC6nU/media/6491dc2adbd89a61b3511f5e.png);
+    position: absolute;
+    top: 0;
+    top: -56px;
+    left: 50%;
+    transform: translateX(-50px);
+    width: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100px;
+}
+div#app .hl_login .card .card-body .hl-btn.justify-center{
+    background:#0b46ef !important;
+}
+a.text-curious-blue-500.hover\:text-curious-blue-800.font-semibold {
+    color: var(--white-color) !important;
+}
+
+#app .hl_login .card-body h2.heading2 {
+   font-weight:500;
+}
+#app .hl_login .card-body p.foot-note {
+    color: var(--white-color);
+}
+div#app .hl_login .card .card-body #otp-for-email{
+    color:var(--white-color) !important;
+}
+div.hl-text-input-container .hl-text-input-label{
+    color:var(--white-color) !important;
+}
