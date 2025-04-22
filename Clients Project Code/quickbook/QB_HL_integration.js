@@ -447,13 +447,13 @@ function getQuickBooksRealmId(code, type = "authorization_code") {
       grant_type: type,
       redirect_uri: redirectUri
     };
-    payload[keytype] = code;
+
     const headers = {
       'Authorization': 'Basic ' + Utilities.base64Encode(clientId + ':' + clientSecret),
       'Accept': 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded'
     };
-
+    payload[keytype] = code;
     const options = {
       method: 'post',
       payload: buildQuery(payload),
@@ -465,7 +465,7 @@ function getQuickBooksRealmId(code, type = "authorization_code") {
     const data = doApiCall(fullUrl, options);
     const parsedData = JSON.parse(data);
 
-    addLogs(["QBData", data])
+    addLogs(["QBData", parsedData])
 
     if (parsedData && parsedData.access_token) {
       const tokenSheet = getActiveSheet(QBmainTokenSheetName);
@@ -480,13 +480,7 @@ function getQuickBooksRealmId(code, type = "authorization_code") {
         parsedData.refresh_token,
         new Date().toISOString()
       ];
-
-      const findIndex = -1;
-      if (findIndex > -1) {
-        updateRow(tokenSheet, findIndex + 1, row);
-      } else {
-        appendRow(tokenSheet, row);
-      }
+      updateRow(tokenSheet, 2, row);
 
       resolve(parsedData.access_token);
     } else {
@@ -495,16 +489,36 @@ function getQuickBooksRealmId(code, type = "authorization_code") {
   });
 }
 
-function refreshAccessToken() {
-  const tokenSheet = getActiveSheet(QBmainTokenSheetName);
-  const QBDatasheet = getActiveSheet("QBAppData")
+function extractRealmID(idToken) {
+  try {
+    const tokenParts = idToken.split('.');
+    if (tokenParts.length === 3) {
+      const payload = JSON.parse(
+        Utilities.newBlob(Utilities.base64Decode(tokenParts[1])).getDataAsString()
+      );
+      return payload.realmid || "9341454530721975";
+    } else {
+      Logger.log("Invalid id_token format");
+      return "9341454530721975";
+    }
+  } catch (error) {
+    Logger.log("Error extracting realmID: " + error);
+    return "9341454530721975";
+  }
+}
+function quickbooksrefreshAccessToken() {
+  const tokenSheet = getActiveSheet("QBTokens");
+  const appDataSheet = getActiveSheet("QBAppData");
   if (!tokenSheet) throw new Error("Token sheet not found");
 
   const tokenrows = getRows(tokenSheet);
-  const rows = getRows(QBDatasheet)
-  const refreshToken = tokenrows[0][3]; // Assuming refresh_token is in column D
-  const clientId = rows[appDatamainClientIndex][appDatamainValueIndex];
-  const clientSecret = rows[2][appDatamainValueIndex];
+  const rows = getRows(appDataSheet);
+  const refreshToken = tokenrows[0][3];
+  const tokenGeneratingTime = tokenrows[0][5]
+
+  const clientId = rows[0][appDatamainValueIndex];
+  const clientSecret = rows[1][appDatamainValueIndex];
+  Logger.log(clientId + "," + clientSecret)
   const fullUrl = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer';
 
   const payload = {
@@ -526,19 +540,21 @@ function refreshAccessToken() {
     muteHttpExceptions: true
   };
 
+
   const data = doApiCall(fullUrl, options);
   const parsedData = JSON.parse(data);
   Logger.log(parsedData)
   if (parsedData && parsedData.access_token) {
+    const realmID = parsedData.id_token ? extractRealmID(parsedData.id_token) : "9341454530721975";
     const row = [
       parsedData.expires_in,
-      parsedData.id_token || "",
+      realmID,
       parsedData.access_token,
       parsedData.refresh_token,
       new Date().toISOString()
     ];
 
-    updateRow(tokenSheet, 1, row);
+    updateRow(tokenSheet, 2, row);
     Logger.log("Access token refreshed successfully");
     return parsedData.access_token;
   } else {
@@ -546,30 +562,7 @@ function refreshAccessToken() {
   }
 }
 
-function isTokenExpired() {
-  const tokenSheet = getActiveSheet(QBmainTokenSheetName);
-  if (!tokenSheet) throw new Error("Token sheet not found");
 
-  const rows = getRows(tokenSheet);
-  const tokenCreationTime = new Date(rows[0][5]);
-  const expiresIn = parseInt(rows[0][0]);
-
-  const expirationTime = new Date(tokenCreationTime.getTime() + expiresIn * 1000);
-  const now = new Date();
-
-  return now >= expirationTime;
-}
-
-function handleQuickBooksApiCall() {
-  if (isTokenExpired()) {
-    Logger.log("Access token expired. Refreshing...");
-    const newAccessToken = refreshAccessToken();
-    Logger.log("New Access Token: " + newAccessToken);
-  } else {
-    Logger.log("Access token is valid. Proceeding with API call...");
-    // Use the existing token for API calls
-  }
-}
 
 function checkTokenExp(text) {
   if (typeof text !== "string") {
@@ -1058,7 +1051,7 @@ function keyCreate(name) {
 // }
 
 function TestData() {
-  handleWebhook({
+  QBhandleWebhook({
     "type": "OrderStatusUpdate",
     "locationId": "JoqQ51Bl3LEmR42l6LrG",
     "appId": "67b37d6eadff8c15fd3a8e25",
@@ -1089,9 +1082,9 @@ function TestData() {
     "contactSnapshot": {
       "id": "ggcAAYlfB3euAGZ3Z0A2",
       "locationId": "JoqQ51Bl3LEmR42l6LrG",
-      "firstName": "test123",
-      "lastName": "user123",
-      "email": "farahanjdfunnel@gmail.com",
+      "firstName": "Bilafdsfalff",
+      "lastName": "sahu",
+      "email": "farahan@gamil.com",
       "source": "payment_link",
       "tags": [],
       "country": "PK",
@@ -1105,11 +1098,11 @@ function TestData() {
     },
     "items": [
       {
-        "name": "Farhan sdfsdfgsdfftest",
+        "name": "One time Fff",
         "qty": 1,
         "product": {
           "_id": "67bf0a5f9ac9966c4e77205d",
-          "name": "Videos Only",
+          "name": "One time fff",
           "availableInStore": true,
           "taxes": [1500],
           "variants": []
@@ -1124,86 +1117,7 @@ function TestData() {
           "variantOptionIds": []
         }
       },
-      {
-        "name": "Photo & Video Package - @ 5000",
-        "qty": 1,
-        "product": {
-          "_id": "67bf0a5f9ac9966c4e77206e",
-          "name": "Photo & Video Package",
-          "availableInStore": true,
-          "taxes": [2000],
-          "variants": []
-        },
-        "price": {
-          "_id": "67bf0a5f9ac996b1f777207a",
-          "name": "Photo & Video Package @ 5000",
-          "type": "one_time",
-          "currency": "PKR",
-          "amount": 4500,
-          "compareAtPrice": 6000,
-          "variantOptionIds": []
-        }
-      },
-      {
-        "name": "Photo Album - Album @ 1500",
-        "qty": 1,
-        "product": {
-          "_id": "67bf0a5f9ac9966c4e77207f",
-          "name": "Photo Album",
-          "availableInStore": false,
-          "taxes": [300],
-          "variants": []
-        },
-        "price": {
-          "_id": "67bf0a5f9ac996b1f777208c",
-          "name": "Album @ 1500",
-          "type": "one_time",
-          "currency": "PKR",
-          "amount": 1200,
-          "compareAtPrice": 1800,
-          "variantOptionIds": []
-        }
-      },
-      {
-        "name": "Framed Print - Print @ 1000",
-        "qty": 1,
-        "product": {
-          "_id": "67bf0a5f9ac9966c4e77208g",
-          "name": "Framed Print",
-          "availableInStore": true,
-          "taxes": [200],
-          "variants": []
-        },
-        "price": {
-          "_id": "67bf0a5f9ac996b1f777209d",
-          "name": "Print @ 1000",
-          "type": "one_time",
-          "currency": "PKR",
-          "amount": 800,
-          "compareAtPrice": 1200,
-          "variantOptionIds": []
-        }
-      },
-      {
-        "name": "Event Coverage - Coverage @ 8000",
-        "qty": 1,
-        "product": {
-          "_id": "67bf0a5f9ac9966c4e77209h",
-          "name": "Event Coverage",
-          "availableInStore": true,
-          "taxes": [2500],
-          "variants": []
-        },
-        "price": {
-          "_id": "67bf0a5f9ac996b1f77720ae",
-          "name": "Coverage @ 8000",
-          "type": "one_time",
-          "currency": "PKR",
-          "amount": 7500,
-          "compareAtPrice": 9000,
-          "variantOptionIds": []
-        }
-      }
+
     ],
     "timestamp": "2025-04-16T18:48:22.881Z",
     "webhookId": "419185eb-e937-4402-b9b1-1fd4a62fda90"
@@ -1213,14 +1127,14 @@ function TestData() {
 
 
 
-function handleWebhook(data) {
+function QBhandleWebhook(data) {
   if (data && data?.type) {
 
     const customerProductDetails = {};
     let productsArr = [];
     let customerDetail = {};
     let productDetail = {};
-     let productName;
+    let productName;
     //userDetails
     let locationId = data?.locationId ?? "";
     let fName = data?.contactSnapshot?.firstName ?? "";
@@ -1254,6 +1168,8 @@ function handleWebhook(data) {
       return reject('');
     }
     let rows = getRows(sheet);
+    let qbCustomers = [];
+    let qbItems = [];
     const realmID = rows[0][appDatamainValueIndex]
     const accessToken = rows[0][2];
 
@@ -1261,52 +1177,124 @@ function handleWebhook(data) {
 
     const customer = encodeURIComponent(`select * from Customer Where DisplayName= '${fullName}'`);
 
-    const url = ``;
 
     const options = apiCallSetup("get", accessToken, "", "", false, { Accept: 'application/json' })
     const response = doApiCall(`${baseURL}/query?query=${customer}`, options);
     const responseData = JSON.parse(response)
     if (responseData) {
       if (responseData?.QueryResponse?.Customer) {
-        responseData.QueryResponse.Customer.forEach(customer => {
-          let displayName = customer?.DisplayName;
-          let primaryEmailAddress = customer?.PrimaryEmailAddr?.Address;
+        qbCustomers = responseData?.QueryResponse?.Customer;
 
-          if (fullName == displayName) {
-            Logger.log(`Customer Name: ${displayName}`);
-            const item = encodeURIComponent(`select * from Item  Where name= '${productName}'`);
-            const options = apiCallSetup("get",accessToken,"","",false, {Accept: 'application/json'});
-            const itemResponse = doApiCall(`${baseURL}/query?query=${item}`,options);
-            const itemResponseData = JSON.parse(itemResponse);
-            Logger.log(itemResponseData)
-            if(itemResponseData?.QueryResponse?.Item){
-              itemResponseData.QueryResponse.Item.forEach((item)=>{
-                  Logger.log("Items"+item)
-              })
-            }else{
-             
-            }
-          } else {
-
-          }
-        });
       } else {
-        Logger.log(`No customer found with DisplayName: ${fullName}`);
         let payload = {};
         payload["DisplayName"] = fullName;
         payload["GivenName"] = fName;
         try {
           const options = apiCallSetup("POST", accessToken, payload, "", true, { Accept: "application/json", "Content-Type": "application/json" });
           const response = doApiCall(`${baseURL}/customer?minorversion=75`, options);
-          const responseData = JSON.parse(response);
-          Logger.log("wow" + JSON.stringify(responseData, null, 2));
+          const customerResponse = JSON.parse(response);
+          if (customerResponse?.Customer) {
+            qbCustomers = [customerResponse?.Customer];
+          }
+          Logger.log("wow" + JSON.stringify(customerResponse, null, 2));
 
         } catch (err) {
           Logger.log(err)
         }
       }
-    }
+      Logger.log("Customer data" + JSON.stringify(qbCustomers[0]));
+      if (qbCustomers) {
+        Logger.log(`Product Name: ${productName}`);
+        const item = encodeURIComponent(`select * from Item Where name= '${productName}'`);
+        const options = apiCallSetup("get", accessToken, "", "", false, { Accept: 'application/json' });
+        const itemResponse = doApiCall(`${baseURL}/query?query=${item}`, options);
+        Logger.log("itemResponse" + itemResponse)
+        const itemResponseData = JSON.parse(itemResponse);
+        if (itemResponseData?.QueryResponse?.Item) {
+          qbItems = itemResponseData?.QueryResponse?.Item;
+        }
+        else {
 
+          let item_payload = {};
+          item_payload["TrackQtyOnHand"] = true;
+          item_payload["Type"] = 'Inventory';
+          item_payload["Name"] = productName;
+          item_payload["QtyOnHand"] = '1';
+
+          // Initialize nested objects before assigning properties
+          item_payload['IncomeAccountRef'] = {
+            name: 'Sales of Product Income',
+            value: 79
+          };
+          item_payload['InvStartDate'] = new Date();
+          item_payload['ExpenseAccountRef'] = {
+            name: 'Cost of Goods Sold',
+            value: 80
+          };
+
+          item_payload['AssetAccountRef'] = {
+            name: 'Inventory Asset',
+            value: 81
+          };
+
+
+          Logger.log('Item Payload' + JSON.stringify(item_payload));
+
+          try {
+            const options = apiCallSetup("POST", accessToken, item_payload, "", true, { Accept: "application/json", "Content-Type": "application/json" });
+            const response = doApiCall(`${baseURL}/item?minorversion=75`, options);
+            const responseData = JSON.parse(response);
+            Logger.log("Item" + JSON.stringify(responseData, null, 2));
+            if (responseData?.Item) {
+              qbItems = [responseData?.Item];
+            }
+
+          } catch (err) {
+            Logger.log(err)
+          }
+        }
+        Logger.log("Item data" + JSON.stringify(qbItems[0]));
+        if (qbItems) {
+          Logger.log(JSON.stringify(qbItems));
+          Logger.log("customerID: " + JSON.stringify(qbCustomers[0]?.Id));
+          Logger.log("DisplayName: " + JSON.stringify(qbCustomers[0]?.DisplayName));
+
+          try {
+            const payload = {
+              Line: qbItems.map(item => ({
+                DetailType: "SalesItemLineDetail",
+                Amount: 100.0,
+                SalesItemLineDetail: {
+                  ItemRef: {
+                    name: "Services",
+                    value: "1"
+                  }
+                }
+              })),
+              CustomerRef: {
+                value: qbCustomers[0]?.Id || "1",
+                name: qbCustomers[0]?.DisplayName || ""
+              }
+            };
+
+            Logger.log("Payload: " + JSON.stringify(payload, null, 2));
+            const options = apiCallSetup("POST", accessToken, payload, "", true, {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            });
+
+            const response = doApiCall(`${baseURL}/invoice?minorversion=75`, options);
+
+            const responseData = JSON.parse(response);
+            Logger.log("Response Invoice: " + JSON.stringify(responseData, null, 2));
+
+          } catch (err) {
+            Logger.log("Error: " + err);
+          }
+        }
+
+      }
+    }
   }
 }
 
@@ -1399,37 +1387,6 @@ function connectLocation(locationId, companyId, token) {
 
 function getLocations() {
 
-  // handleWebhook({
-  //   "type": "LocationCreate",
-  //   "id": "JoqQ51Bl3LEmR42l6LrG",
-  //   "companyId": "oEEb4PRxpIyxEV1LxLea",
-  //   "name": "Sohail  1223 44444 222  34343434",
-  // });
-
-  // handleWebhook({
-  //   "type": "EnvelopeCreate",
-  //   "locationId": "Q6sATpsoSLCPFf5ErtoF",
-  //   "contactId": '9x77lQKwW9nDArrtslRI',
-  //   "fieldKey": "vehicle",
-  //   "envelopeId": "SohailDekhRaha Hai",
-  // });
-
-  // handleWebhook({
-  //   "type": "EnvelopeTag",
-  //   "contactEmail": "admin+sa@crmsupportteam.com",
-  //   "documentName": '512-PSDR-2024',
-  // });
-
-
-  // locationIdcon = 'JoqQ51Bl3LEmR42l6LrG';
-  // getToken(locationIdcon, accessParam, userTypes.location).then(token => {
-
-  //   makeApiCall('locations/' + locationIdcon, token, locationIdcon).then(t => {
-
-  //     Logger.log(t);
-  //   })
-  // })
-  // return;
   let companyid = 'woMsQK4yjLjGCHfTvHLX';
   getToken(companyid, accessParam).then(token => {
 
