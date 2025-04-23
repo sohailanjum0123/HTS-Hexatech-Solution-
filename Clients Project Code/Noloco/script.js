@@ -52,7 +52,6 @@
       : isDev
       ? setting.detailPath
       : setting.inv_detail_path;
-    localStorage.setItem("Path", path);
     return path ?? def;
   }
 
@@ -1193,7 +1192,6 @@ function financedIframe() {
 
   function idAppend(uri, id = "", post = "") {
     uri = uri + (uri.includes("?") ? "&" : "?");
-    console.log("IDAppend",uri)
     return `${uri}${id}${post == "" ? "" : "&" + post}`;
   }
 
