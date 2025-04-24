@@ -1,8 +1,6 @@
 
   document.addEventListener("hydrationDone", () => {
     setTimeout(() => {
-      console.log("Hydration complete, initializing plans...");
-
       function waitElement(selector) {
         return new Promise((resolve, reject) => {
           const elm = document.querySelector(selector);
@@ -220,10 +218,12 @@
           }
 .lightPlans{
   margin: 40px auto 0px !important;
+} 
+.premiumPlans > .inner, .lightPlans > .inner{
+    height: 900px !important;
 }
- .lightAnnualyPlan.active, .lightMonthlyPlan.active {
-    height: 780px !important;
-}
+
+
 
 
         `;
@@ -232,6 +232,10 @@
 
       annualPremiumPlan.classList.add("active");
       lightAnnualyPlan.classList.add("active");
-    }, 300);
+	
+
+
+
+    }, 50);
   });
 
