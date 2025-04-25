@@ -1,4 +1,4 @@
-(() => {
+
   async function checkforformula404(callback) {
     var formula404 = document.createElement("script");
     formula404.id = "formulaloadedf404";
@@ -78,7 +78,6 @@
       !location.href.includes("location") ||
       !location.href.includes("contacts/import")
     ) {
-      //close observer here
       if (importObserver) {
         importObserver.disconnect();
       }
@@ -95,31 +94,37 @@
         }
         t.removedNodes.forEach((x) => {
           if (x.innerText == "2") {
+            console.log("2");
             createPresetUI();
           }
         });
         if (t.target && t.target.innerText == "3") {
+          console.log("3")
           createPresetUI();
         }
       });
     });
-    importObserver.observe(document.querySelector(".n-steps"), {
-      childList: true,
-      subtree: true,
-    });
+    waitElement('#bulkImport .n-steps').then(t=>{
+      console.log(t)
+      importObserver.observe(t, {
+        childList: true,
+        subtree: true,
+      });
+    })
   }
 
-  let parentPresetSelector = "div#bulkImport ";
+  let parentPresetSelector = "#bulkImport ";
   function createPresetUI() {
     isFoundTrigger = true;
     setTimeout(function () {
       isFoundTrigger = false;
     }, 300);
-    waitElement(parentPresetSelector).then((t) => {
-      console.log("do-not-import-data", t);
+    waitElement(parentPresetSelector + "#do-not-import-data").then((t) => {
       initPresetValues();
-
-      let crdoper = document.querySelector(parentPresetSelector + " .hl-card");
+  
+      let crdoper = document.querySelector(
+        parentPresetSelector + " .hl-card"
+      );
       if (crdoper) {
         crdoper.classList.add("crudContacts");
         crdoper.insertAdjacentHTML(
@@ -660,5 +665,5 @@
 
   window.addEventListener("routeChangeEvent", importSaver);
   checkforformula404(importSaver);
-  importSaver();
-})();
+
+
