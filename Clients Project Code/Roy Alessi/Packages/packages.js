@@ -1,4 +1,5 @@
-(() => {
+
+  (() => {
   let locationId = "{{location.id}}";
   let extraTotals = {};
   let productIdPhoto = "67c8cf9f42a34d03470b08d7";

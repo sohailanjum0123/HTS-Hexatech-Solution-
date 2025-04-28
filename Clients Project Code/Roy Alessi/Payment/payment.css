@@ -1,5 +1,6 @@
 
   span.discountF {
+
 display:flex;
 flex-direction:column;
 }
@@ -139,3 +140,28 @@ flex-direction:column;
     .totals {
       background-color: #ffffff; 
     }
+  @media only screen and (max-width:767px){
+.total_pay_now {
+    display: flex;
+    flex-direction: column;
+}
+      #section-qP-ABmehI3>.inner {
+    margin-left: -2% !important;
+}
+div#el_WqmIIwJ8oCgy2cIkqj7f_button_21 {
+    margin-bottom: 16px;
+    width: 100%;
+}
+    div#el_WqmIIwJ8oCgy2cIkqj7f_button_21 div.form-builder--btn-submit {
+    margin-top: -25px !important;
+}
+}
+  .total_pay_now div#col-BR0yqCpNnbW {
+    display: none;
+}
+  #section-qP-ABmehI3>.inner {
+    margin-left: 13%;
+}
+  div#el_WqmIIwJ8oCgy2cIkqj7f_button_21 div.form-builder--btn-submit {
+    text-align: center !important;
+}

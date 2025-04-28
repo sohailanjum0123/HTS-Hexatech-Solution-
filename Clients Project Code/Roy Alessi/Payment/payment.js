@@ -1,5 +1,7 @@
+
     (() => {
         let jqueryLoaded = false;
+
         let privateToken = '{{ custom_values.product_read_private_token }}';
         let discountsvalue = 2; /*Pay in full discount*/
         let weekdaysDiscount = 20; /* Weekdays discount if date not available */
@@ -90,6 +92,7 @@
           // Calculate the difference in days between selected date and event date
           const timeDiff = eventDateObj - selectedDateObj;
           const daysDiff = timeDiff / (1000 * 3600 * 24);  // Convert milliseconds to days
+  
   
           if (daysDiff < 30 || weddingDate == '') {
               console.log('The selected date must be at least 30 days from today.');
@@ -583,7 +586,7 @@
                 const parentElement2 = paymentButton.closest(
                     ".col-12.menu-field-wrap.form-field-wrapper"
                 );
-                parentElement2.style.width = "42%";
+                //parentElement2.style.width = "100%";
 
                 if (!parentElement1 && parentElement2) {
                     console.error(
@@ -952,11 +955,11 @@
         function milePriceCount() {
             const totalgrapher = countPhotoGrapher + countVideographer;
             weddingDate = formatDateToCustomFormat(weddingDate);
-            milesPrice = 0; 
+            milesPrice = 0; // Reset milesPrice
             try {
-                miles = nearestLocation.miles.toFixed(2); 
+                miles = nearestLocation.miles.toFixed(2); // Update global miles variable
                 if (miles > 30) {
-                    milesPrice = (miles - 30) * totalgrapher; 
+                    milesPrice = (miles - 30) * totalgrapher; // Calculate milesPrice based on distance
                 }
             } catch (error) {
 
@@ -976,4 +979,11 @@
                 }
             );
         }
+      waitElement(`#error-container`).then(x=>{
+
+     if(x){
+         x.style.marginTop="-30px";
+         x.style.position = "absolute"
+     } 
+    }); 
     })();

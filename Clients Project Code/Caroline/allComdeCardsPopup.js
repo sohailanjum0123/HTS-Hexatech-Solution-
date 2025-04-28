@@ -1,131 +1,136 @@
 
-  
-  document.addEventListener("hydrationDone", () => {
+document.addEventListener("hydrationDone", () => {
   setTimeout(() => {
-    function waitElement(selector) {
-      return new Promise((resolve, reject) => {
-        const elm = document.querySelector(selector);
-        if (elm) {
-          resolve(elm);
-          return;
-        }
-        const observer = new MutationObserver(() => {
-          const elm = document.querySelector(selector);
-          if (elm) {
-            observer.disconnect();
-            resolve(elm);
-          }
-        });
-        observer.observe(document, { subtree: true, childList: true });
-      });
+function waitElement(selector) {
+  return new Promise((resolve, reject) => {
+    const elm = document.querySelector(selector);
+    if (elm) {
+      resolve(elm);
+      return;
     }
-
-    const lightAnnualyPlan = document.querySelector(".lightAnnualyPlan");
-    const lightMonthlyPlan = document.querySelector(".lightMonthlyPlan");
-
-    const annualPremiumPlan = document.querySelector(".annualPremiumPlan");
-    const monthlyPremiumPlan = document.querySelector(".monthlyPremiumPlan");
-
-    const annualyPremiume = document.querySelector(".annualyPremiume");
-    const monthlyPremiume = document.querySelector(".monthlyPremiume");
-
-    const annualLight = document.querySelector(".annualLight");
-    const monthlyLight = document.querySelector(".monthlyLight");
-
-    const createToggleContainer = (toggleCallback) => {
-      const toggleContainer = document.createElement("div");
-      toggleContainer.className = "toggle-container";
-
-      const yearlyLabel = document.createElement("span");
-      yearlyLabel.className = "toggle-label yearly";
-      yearlyLabel.textContent = "Yearly";
-      toggleContainer.appendChild(yearlyLabel);
-
-      const monthlyLabel = document.createElement("span");
-      monthlyLabel.className = "toggle-label monthly";
-      monthlyLabel.textContent = "Monthly";
-      toggleContainer.appendChild(monthlyLabel);
-
-      const toggleCircle = document.createElement("div");
-      toggleCircle.className = "toggle-circle";
-      toggleContainer.appendChild(toggleCircle);
-
-      toggleContainer.addEventListener("click", toggleCallback);
-
-      return toggleContainer;
-    };
-
-    let isPremiumAnnually = true;
-    const togglePremiumPlans = () => {
-      isPremiumAnnually = !isPremiumAnnually;
-
-      if (isPremiumAnnually) {
-        annualPremiumPlan.classList.add("active");
-        monthlyPremiumPlan.classList.remove("active");
-      } else {
-        annualPremiumPlan.classList.remove("active");
-        monthlyPremiumPlan.classList.add("active");
-      }
-
-      const premiumToggleContainers = document.querySelectorAll(
-        ".annualyPremiume .toggle-container, .monthlyPremiume .toggle-container"
-      );
-      premiumToggleContainers.forEach((container) => {
-        const circle = container.querySelector(".toggle-circle");
-        const yearly = container.querySelector(".toggle-label.yearly");
-        const monthly = container.querySelector(".toggle-label.monthly");
-
-        circle.style.transform = isPremiumAnnually
-          ? "translateX(5px)"
-          : "translateX(95px)";
-        yearly.style.color = isPremiumAnnually ? "black" : "white";
-        monthly.style.color = isPremiumAnnually ? "white" : "black";
-      });
-    };
-
-    let isLightAnnually = true;
-    const toggleLightPlans = () => {
-      isLightAnnually = !isLightAnnually;
-
-      if (isLightAnnually) {
-        lightAnnualyPlan.classList.add("active");
-        lightMonthlyPlan.classList.remove("active");
-      } else {
-        lightAnnualyPlan.classList.remove("active");
-        lightMonthlyPlan.classList.add("active");
-      }
-
-      const lightToggleContainers = document.querySelectorAll(
-        ".annualLight .toggle-container, .monthlyLight .toggle-container"
-      );
-      lightToggleContainers.forEach((container) => {
-        const circle = container.querySelector(".toggle-circle");
-        const yearly = container.querySelector(".toggle-label.yearly");
-        const monthly = container.querySelector(".toggle-label.monthly");
-
-        circle.style.transform = isLightAnnually
-          ? "translateX(5px)"
-          : "translateX(95px)";
-        yearly.style.color = isLightAnnually ? "black" : "white";
-        monthly.style.color = isLightAnnually ? "white" : "black";
-      });
-    };
-
-    waitElement(".lightPlans").then((lightPlans) => {
-      console.log("lightPlans", lightPlans);
-      if (lightPlans) {
-        annualLight.appendChild(createToggleContainer(toggleLightPlans));
-        monthlyLight.appendChild(createToggleContainer(toggleLightPlans));
+    const observer = new MutationObserver(() => {
+      const elm = document.querySelector(selector);
+      if (elm) {
+        observer.disconnect();
+        resolve(elm);
       }
     });
+    observer.observe(document, { subtree: true, childList: true });
+  });
+}
 
-    waitElement(".premiumPlans").then((premiumPlans) => {
-      console.log("premiumPlans", premiumPlans);
-      if (premiumPlans) {
-        annualyPremiume.appendChild(createToggleContainer(togglePremiumPlans));
-        monthlyPremiume.appendChild(createToggleContainer(togglePremiumPlans));
-      }
-    });
+const lightAnnualyPlan = document.querySelector(".lightAnnualyPlan");
+const lightMonthlyPlan = document.querySelector(".lightMonthlyPlan");
+
+const annualPremiumPlan = document.querySelector(".annualPremiumPlan");
+const monthlyPremiumPlan = document.querySelector(".monthlyPremiumPlan");
+
+const annualyPremiume = document.querySelector(".annualyPremiume");
+const monthlyPremiume = document.querySelector(".monthlyPremiume");
+
+const annualLight = document.querySelector(".annualLight");
+const monthlyLight = document.querySelector(".monthlyLight");
+
+const createToggleContainer = (toggleCallback) => {
+  const toggleContainer = document.createElement("div");
+  toggleContainer.className = "toggle-container";
+
+  const yearlyLabel = document.createElement("span");
+  yearlyLabel.className = "toggle-label yearly";
+  yearlyLabel.textContent = "Yearly";
+  toggleContainer.appendChild(yearlyLabel);
+
+  const monthlyLabel = document.createElement("span");
+  monthlyLabel.className = "toggle-label monthly";
+  monthlyLabel.textContent = "Monthly";
+  toggleContainer.appendChild(monthlyLabel);
+
+  const toggleCircle = document.createElement("div");
+  toggleCircle.className = "toggle-circle";
+  toggleContainer.appendChild(toggleCircle);
+
+  yearlyLabel.addEventListener("click", () => {
+    toggleCallback(true); 
+  });
+
+  monthlyLabel.addEventListener("click", () => {
+    toggleCallback(false); 
+  });
+
+  return toggleContainer;
+};
+
+let isPremiumAnnually = true;
+const togglePremiumPlans = (isAnnually) => {
+  isPremiumAnnually = isAnnually;
+
+  if (isPremiumAnnually) {
+    annualPremiumPlan.classList.add("active");
+    monthlyPremiumPlan.classList.remove("active");
+  } else {
+    annualPremiumPlan.classList.remove("active");
+    monthlyPremiumPlan.classList.add("active");
+  }
+
+  const premiumToggleContainers = document.querySelectorAll(
+    ".annualyPremiume .toggle-container, .monthlyPremiume .toggle-container"
+  );
+  premiumToggleContainers.forEach((container) => {
+    const circle = container.querySelector(".toggle-circle");
+    const yearly = container.querySelector(".toggle-label.yearly");
+    const monthly = container.querySelector(".toggle-label.monthly");
+
+    circle.style.transform = isPremiumAnnually
+      ? "translateX(5px)"
+      : "translateX(95px)";
+    yearly.style.color = isPremiumAnnually ? "black" : "white";
+    monthly.style.color = isPremiumAnnually ? "white" : "black";
+  });
+};
+
+let isLightAnnually = true;
+const toggleLightPlans = (isAnnually) => {
+  isLightAnnually = isAnnually;
+
+  if (isLightAnnually) {
+    lightAnnualyPlan.classList.add("active");
+    lightMonthlyPlan.classList.remove("active");
+  } else {
+    lightAnnualyPlan.classList.remove("active");
+    lightMonthlyPlan.classList.add("active");
+  }
+
+  const lightToggleContainers = document.querySelectorAll(
+    ".annualLight .toggle-container, .monthlyLight .toggle-container"
+  );
+  lightToggleContainers.forEach((container) => {
+    const circle = container.querySelector(".toggle-circle");
+    const yearly = container.querySelector(".toggle-label.yearly");
+    const monthly = container.querySelector(".toggle-label.monthly");
+
+    circle.style.transform = isLightAnnually
+      ? "translateX(5px)"
+      : "translateX(95px)";
+    yearly.style.color = isLightAnnually ? "black" : "white";
+    monthly.style.color = isLightAnnually ? "white" : "black";
+  });
+};
+
+waitElement(".lightPlans").then((lightPlans) => {
+  console.log("lightPlans", lightPlans);
+  if (lightPlans) {
+    annualLight.appendChild(createToggleContainer(toggleLightPlans));
+    monthlyLight.appendChild(createToggleContainer(toggleLightPlans));
+  }
+});
+
+ waitElement(".premiumPlans").then((premiumPlans) => {
+  console.log("premiumPlans", premiumPlans);
+  if (premiumPlans) {
+    annualyPremiume.appendChild(createToggleContainer(togglePremiumPlans));
+    monthlyPremiume.appendChild(createToggleContainer(togglePremiumPlans));
+  }
+});
 
     (() => {
       const style = document.createElement("style");
@@ -291,7 +296,7 @@
   function productsPlans() {
 
 
-waitElement(".product-description").then(() => {
+waitElement(".product-description").then((desc) => {
   const element = document.getElementById(
     "checkbox-cone-step-order-9SD3rAvBMk-6806866a2f19705746bd0f10"
   );
@@ -311,7 +316,7 @@ waitElement(".product-description").then(() => {
 });
 
 waitElement(".product-description")
-  .then(() => {
+  .then((desc) => {
     const planMap = {
       lightAnnualyPlan: "6807f1150eb216011128be67",
       lightMonthlyPlan: "6806865643f6b80d3b3103d6",
@@ -362,6 +367,82 @@ waitElement(".product-description")
   .catch((error) => {
     console.error("Error waiting for product descriptions:", error);
   });
+
+
+waitElement(".--mobile-product-description").then((desc) => {
+ console.log("DESC1",desc)
+  const element = document.getElementById(
+    "checkbox-cone-step-order-9SD3rAvBMk-6806866a2f19705746bd0f10"
+  );
+
+  if (element) {
+    if (element.type === "checkbox" || element.type === "radio") {
+      element.checked = false;
+      element.dispatchEvent(new Event("change"));
+    } else {
+      console.warn(
+        "Element found, but it is neither a checkbox nor a radio button."
+      );
+    }
+  } else {
+    console.warn("Element not found with the given ID.");
+  }
+});
+
+waitElement(".--mobile-product-description")
+  .then((desc) => {
+  console.log("DESC1",desc)
+    const planMap = {
+      lightAnnualyPlan: "6807f1150eb216011128be67",
+      lightMonthlyPlan: "6806865643f6b80d3b3103d6",
+      monthlyPremiumPlan: "6806866a2f19705746bd0f10",
+      annualPremiumPlan: "6807f12d0eb21666ec28be68",
+    };
+
+    const chosenPlan = localStorage.getItem("selectedPlan");
+    if (!chosenPlan) {
+      console.warn("No chosen plan found in localStorage.");
+      return;
+    }
+
+    const allDescriptions = document.querySelectorAll(".--mobile-product-description");
+    const displayStyles = ["grid", "flex", "block"]; // Styles to attempt
+
+    allDescriptions.forEach((description) => {
+      const checkbox = description.querySelector("input[type='checkbox']");
+      const radio = description.querySelector("input[type='radio']");
+
+      if (checkbox) {
+        if (checkbox.id.includes(planMap[chosenPlan])) {
+          applyDisplayStyles(description, displayStyles); // Show matching description
+          checkbox.checked = true;
+          console.log(`Showing and checking plan: ${chosenPlan}`);
+        } else {
+          description.style.display = "none";
+          checkbox.checked = false;
+        }
+        checkbox.dispatchEvent(new Event("change"));
+      }
+
+      if (radio) {
+        if (radio.id.includes(planMap[chosenPlan])) {
+          console.log("RadioCheck", radio);
+          applyDisplayStyles(description, displayStyles); // Show matching description
+          radio.checked = true; // Check the matching radio button
+          console.log(`Showing and selecting plan: ${chosenPlan}`);
+          radio.dispatchEvent(new Event("change"));
+        } else {
+          console.log("RadioNone", radio);
+          description.style.display = "none"; // Hide non-matching descriptions
+          radio.checked = false;
+        }
+      }
+    });
+  })
+  .catch((error) => {
+    console.error("Error waiting for product descriptions:", error);
+  });
+
   }
   
 
@@ -412,8 +493,9 @@ waitElement(".product-description")
     buttonclick.addEventListener("click", (e) => {
       waitElement(".show div#hl_main_popup")
         .then((popup) => {
-          console.log("Popup element found:", popup);
-          productsPlans();
+
+      productsPlans(); // Pass the found description to the function
+  
         })
         .catch((error) => {
           console.error("Error waiting for Popup:", error);

@@ -1,0 +1,71 @@
+.annualPremiumPlan,
+          .lightAnnualyPlan,
+          .monthlyPremiumPlan,
+          .lightMonthlyPlan {
+    display: none;
+}
+
+@media only screen and (max-width:767px) {
+
+    div#row-XEpZUJAvYI > div.inner {
+        display: grid !important;
+        grid-template-rows: auto;
+ /* One row for the heading */
+        grid-template-columns: repeat(2, 1fr);
+ /* Two columns for login and signup */
+        gap: 10px;
+ /* Add some space between the grid items */
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    div#col-BcOclBTM-Y {
+        grid-column: span 7;
+        text-align: center;
+    }
+
+    div#col-NqUyjiuyTmU {
+  /* text-align: center !important; */
+    }
+
+    div#col-7PF7OFBoky {
+  /* text-align: center !important; */
+    }
+
+    div#row-1b-r3LIwide .inner {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .annualPremiumPlan,
+          .lightAnnualyPlan,
+          .monthlyPremiumPlan,
+          .lightMonthlyPlan {
+        display: none;
+    }
+
+    .hl_page-preview--content .col-XPJxMstUXv {
+        margin-bottom: 0px;
+    }
+
+    .hl_page-preview--content .image-G6ZF-hxF5I .image-container img, .hl_page-preview--content .image-IOivnKc6Dk .image-container img {
+        box-shadow: none;
+        width: 110px;
+        height: 110px;
+        margin-top: -130px;
+    }
+
+    .toggle-container {
+        margin-left: 20% !important;
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 480px) {
+    .hl_page-preview--content .col-XPJxMstUXv {
+        margin-bottom: 0px;
+    }
+
+    .toggle-container {
+        margin-left: 20% !important;
+    }
+}
