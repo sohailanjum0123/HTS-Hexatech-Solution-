@@ -945,7 +945,7 @@
     });
 
     let totalGrapherPrice = photoGpherAmount + videoGrapherAmount;
-    console.log("GrapherAmount", totalGrapherPrice);
+   
 
     function PhotoVideoPackages() {
       function setupButtonHandlers(
@@ -960,7 +960,10 @@
           function videosectionsHanlde(section, grapher, activeValue) {
             let photographer = grapher.closest(".photographer");
             let videographer = grapher.closest(".videographers");
-
+			let activeValuePhoto = localStorage.getItem("activePhotographer");
+			let activeValueVideo = localStorage.getItem("activeVideographer");
+let label2ToUsePhoto = activeValuePhoto === "1" ? "photographer" : "photographers";
+let label2ToUseVideo = activeValueVideo === "1" ? "videographer" : "videographers";
             const editedHiglightVideos = {
               1: [4, 6, 8],
               2: [8, 12, 16],
@@ -972,12 +975,18 @@
               3: [900, 1350, 1800],
             };
             if (section && activeValue) {
-              const paragraphEls = section.querySelectorAll(
-                `.${packageClass} > div > p`
+              const paragraphElsPhoto = section.querySelectorAll(
+                `.PhotographeronPackage > div > p`
+              );
+   const paragraphElsvideo = section.querySelectorAll(
+                `.videographeronPackage > div > p`
               );
 
-              paragraphEls.forEach((paragraph) => {
-                paragraph.textContent = `${activeValue} ${label}`;
+              paragraphElsPhoto.forEach((paragraph) => {
+                paragraph.textContent = `${activeValue} ${label2ToUsePhoto}`;
+              });
+   paragraphElsvideo.forEach((paragraph) => {
+                paragraph.textContent = `${activeValueVideo} ${label2ToUseVideo}`;
               });
 
               const higllightVideos = section.querySelectorAll(
@@ -1083,7 +1092,7 @@
       setupButtonHandlers(
         videographerButtons,
         "activeVideographer",
-        "Videographers",
+        "Videographer",
         "videographeronPackage",
         "minute highlight video",
         "highlightVideo"
@@ -1259,3 +1268,5 @@
   });
   mainScript();
 })();
+
+  
