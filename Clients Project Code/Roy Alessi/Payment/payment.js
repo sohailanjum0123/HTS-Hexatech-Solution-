@@ -1,4 +1,5 @@
 
+
     (() => {
         let jqueryLoaded = false;
 
@@ -726,7 +727,7 @@
 
                     let milesPriceTag = '';
                     if (miles > 0) {
-                        milesPriceTag = ` <p><span>Miles:${miles}</span> <span class="miles">${milesPrice}</span></p>s`
+                        milesPriceTag = ` <p><span>Travel Fee</span> <span class="miles">$${milesPrice}</span></p>`
 
                     }
 
@@ -735,7 +736,7 @@
         <div class="booking-info">
             <h1 class="header">Booking Info</h1>
           <div class="section">
-            <div class="left">
+            <div class="left weddingDate">
               <p><span>Wedding Date</span><br>${formattedWeddingDate}</p>
             </div>
             <div class="right">
@@ -957,12 +958,12 @@
             weddingDate = formatDateToCustomFormat(weddingDate);
             milesPrice = 0; // Reset milesPrice
             try {
-                miles = nearestLocation.miles.toFixed(2); // Update global miles variable
+                miles = nearestLocation.miles; // Update global miles variable
                 if (miles > 30) {
-                    milesPrice = (miles - 30) * totalgrapher; // Calculate milesPrice based on distance
+                    milesPrice = (miles - 30) * totalgrapher * 0.5; // Calculate milesPrice based on distance
                 }
             } catch (error) {
-
+                    console.log("Miles Error",error)
             }
             setFieldValue("total_distance_miles", `Miles (${miles}): ${formatNumberWithCommas(milesPrice)}`);
         }

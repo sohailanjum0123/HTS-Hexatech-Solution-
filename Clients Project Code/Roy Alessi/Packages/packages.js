@@ -1,4 +1,4 @@
-
+  
   (() => {
   let locationId = "{{location.id}}";
   let extraTotals = {};
@@ -536,8 +536,15 @@
       parseInt(totalVideoGrapher) +
       parseInt(totalPhotographer);
 
+      let totalAmount =
+      parseInt(subtotalNumber) +
+      parseInt(signatureNumber) +
+      parseInt(extras) 
+      // parseInt(totalVideoGrapher) +
+      // parseInt(totalPhotographer);
+
     if (totalPriceElement) {
-      totalPriceElement.textContent = `$${totalNumber.toLocaleString()}`;
+      totalPriceElement.textContent = `$${totalAmount.toLocaleString()}`;
     }
 
     // window.localStorage.setItem(
@@ -641,7 +648,7 @@
       const photoVideoPearl = document.querySelector(".pv_pearl");
       const photoPearl = document.querySelector(".p_pearl");
       const VideoPearl = document.querySelector(".v_pearl");
-      let serviceTitle = document.querySelector(".service_title h1") ?? "";
+     // let serviceTitle = document.querySelector(".service_title h1") ?? "";
 
       activeService =
         button.querySelector(".main-heading-group .main-heading-button")
@@ -798,8 +805,13 @@
         ? pricepackagetextElement.textContent
         : "";
 
-      const subtotal = pricepackagetext.split(" ")[0].trim();
-      const subtotalNumber = parseFloat(subtotal.replace(/[^0-9.]/g, ""));
+
+       
+        const subtotal = (pricepackagetext.match(/\b\d+(?:\.\d+)?\b/) || [])[0] || "0";
+        console.log("subtotal",subtotal)
+
+       subtotalNumber = parseFloat(subtotal);
+
 
       if (headingPackage) {
         headingPackage.textContent = textActiveChosePackage;
@@ -983,7 +995,7 @@ let label2ToUseVideo = activeValueVideo === "1" ? "videographer" : "videographer
               );
 
               paragraphElsPhoto.forEach((paragraph) => {
-                paragraph.textContent = `${activeValue} ${label2ToUsePhoto}`;
+                paragraph.textContent = `${activeValuePhoto} ${label2ToUsePhoto}`;
               });
    paragraphElsvideo.forEach((paragraph) => {
                 paragraph.textContent = `${activeValueVideo} ${label2ToUseVideo}`;
@@ -1047,27 +1059,27 @@ let label2ToUseVideo = activeValueVideo === "1" ? "videographer" : "videographer
               });
               waitElement(".v_section").then((vSection) => {
                 videosectionsHanlde(vSection, targetElement, activeValue);
-                if (vSection && activeValue) {
-                  const paragraphEls = vSection.querySelectorAll(
-                    `.${packageClass} > div > p`
-                  );
+                //if (vSection && activeValue) {
+                 // const paragraphEls = vSection.querySelectorAll(
+                 //   `.${packageClass} > div > p`
+                //  );
 
-                  paragraphEls.forEach((paragraph) => {
-                    paragraph.textContent = `${activeValue} ${label}`;
-                  });
-                }
+               //   paragraphEls.forEach((paragraph) => {
+                //    paragraph.textContent = `${activeValue} ${label}`;
+                 // });
+               // }
               });
               waitElement(".p_section").then((pSection) => {
                 videosectionsHanlde(pSection, targetElement, activeValue);
-                if (pSection && activeValue) {
-                  const paragraphEls = pSection.querySelectorAll(
-                    `.${packageClass} > div > p`
-                  );
+                //if (pSection && activeValue) {
+                 // const paragraphEls = pSection.querySelectorAll(
+                //    `.${packageClass} > div > p`
+               //   );
 
-                  paragraphEls.forEach((paragraph) => {
-                    paragraph.textContent = `${activeValue} ${label}`;
-                  });
-                }
+                //  paragraphEls.forEach((paragraph) => {
+                  //  paragraph.textContent = `${activeValue} ${label}`;
+                 // });
+               // }
               });
             });
           });
@@ -1129,7 +1141,11 @@ let label2ToUseVideo = activeValueVideo === "1" ? "videographer" : "videographer
           packagePriceElements.forEach((pkPrices, index) => {
             const pkPriceElement = pkPrices.querySelector("div > h2");
             if (pkPriceElement && updatedPrices[index] !== undefined) {
-              pkPriceElement.firstChild.textContent = `$${updatedPrices[index]}`;
+              const rawText = pkPriceElement.childNodes[0]?.nodeValue.trim();
+        if (rawText) {
+
+          pkPriceElement.childNodes[0].textContent = `$${updatedPrices[index]}`;
+        }
             }
           });
         }
@@ -1189,8 +1205,8 @@ let label2ToUseVideo = activeValueVideo === "1" ? "videographer" : "videographer
             const pricePackageText = pricePackageTextElement
               ? pricePackageTextElement.textContent
               : "";
-            const subtotal = pricePackageText.split(" ")[0].trim();
-            subtotalNumber = parseFloat(subtotal.replace(/[^0-9.]/g, "")) || 0;
+              const subtotal = (pricePackageText.match(/\b\d+(?:\.\d+)?\b/) || [])[0] || "0";
+            subtotalNumber = parseFloat(subtotal)
 
             window.localStorage.setItem(
               localStorageKeys.activePackage,
@@ -1269,4 +1285,3 @@ let label2ToUseVideo = activeValueVideo === "1" ? "videographer" : "videographer
   mainScript();
 })();
 
-  
