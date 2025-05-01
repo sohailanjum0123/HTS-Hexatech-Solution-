@@ -958,7 +958,7 @@
             weddingDate = formatDateToCustomFormat(weddingDate);
             milesPrice = 0; // Reset milesPrice
             try {
-                miles = nearestLocation.miles; // Update global miles variable
+                miles = nearestLocation.miles; // Update global miles variable    
                 if (miles > 30) {
                     milesPrice = (miles - 30) * totalgrapher * 0.5; // Calculate milesPrice based on distance
                 }
