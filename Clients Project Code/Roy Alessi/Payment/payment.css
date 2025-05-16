@@ -1,4 +1,7 @@
 
+  .payment_details > .inner{
+    height: unset !important;
+}
   span.discountF {
 
 display:flex;

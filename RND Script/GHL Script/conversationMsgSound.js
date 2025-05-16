@@ -109,7 +109,13 @@
       observer.observe(document, { subtree: true, childList: true });
     });
   }
-  function requestAndShowNotification(fullName, silent = false) {
+
+  let globalUnreadCount =
+    parseInt(localStorage.getItem("globalUnreadCount"), 10) || 0;
+    const NOTIFICATION_COOLDOWN = 2000; // Cooldown period in milliseconds (2 seconds)
+  let lastNotificationTime =
+    parseInt(localStorage.getItem("lastNotificationTime"), 10) || 0;
+  function requestAndShowNotification(fullName, silent = true) {
     if ("Notification" in window) {
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
@@ -126,11 +132,8 @@
       console.log("This browser does not support notifications.");
     }
   }
-  function playNotificationSound() {
-    if (isDND || (snoozeEndTime && new Date() < snoozeEndTime)) {
-      return;
-    }
 
+  function playNotificationSound() {
     const audio = new Audio(
       "https://storage.googleapis.com/msgsndr/6Bp6xq8xMkkdrYKY8HSl/media/6815c3bbdb0184bc8687fde4.mpeg"
     );
@@ -139,34 +142,73 @@
       console.error("Error playing notification sound:", err);
     });
   }
-  function unreadConversation() {
-    makeAPICall("conversations/search?locationId=" + getLocationId(), "get")
-      .then((response) => {
-        const conversations = response?.conversations ?? [];
-        if (conversations.length > 0) {
-          conversations.forEach((conversation) => {
-            const { id, unreadCount, fullName } = conversation;
+function handleNotification(fullName) {
+  const now = Date.now();
+  const lastNotificationTime = parseInt(localStorage.getItem("lastNotificationTime"), 10) || 0;
 
-            if (!conversationState[id]) {
-              conversationState[id] = { lastUnreadCount: 0 };
-            }
+  if (now - lastNotificationTime > NOTIFICATION_COOLDOWN) {
+    localStorage.setItem("lastNotificationTime", now);
 
-            if (unreadCount > conversationState[id].lastUnreadCount) {
-              conversationState[id].lastUnreadCount = unreadCount;
-
-              if (isDND || (snoozeEndTime && new Date() < snoozeEndTime)) {
-                return;
-              }
-              playNotificationSound();
-              requestAndShowNotification(fullName);
-            }
-          });
-        }
-      })
-      .catch((err) => {
-        console.error("Error in unreadConversation:", err);
-      });
+    playNotificationSound();
+    requestAndShowNotification(fullName);
   }
+}
+
+function unreadConversation() {
+  makeAPICall("conversations/search?locationId=" + getLocationId(), "get")
+    .then((response) => {
+      console.log("Response:", response);
+      const conversations = response?.conversations ?? [];
+      let currentTotalUnreadCount = 0;
+
+      if (conversations.length > 0) {
+        conversations.forEach((conversation) => {
+          const { id, unreadCount, fullName, lastMessageDirection, lastMessageType } = conversation;
+
+          console.log("Conversation", conversation);
+
+          if (!conversationState[id]) {
+            conversationState[id] = { lastUnreadCount: 0 };
+          }
+
+          currentTotalUnreadCount += unreadCount;
+
+          if (
+            currentTotalUnreadCount > globalUnreadCount &&
+            lastMessageDirection === "inbound" &&
+            lastMessageType === "TYPE_LIVE_CHAT"
+          ) {
+            if (isDND || (snoozeEndTime && new Date() < snoozeEndTime)) {
+              return;
+            }
+
+            handleNotification(fullName);
+          }
+        });
+
+        globalUnreadCount = currentTotalUnreadCount;
+        localStorage.setItem("globalUnreadCount", globalUnreadCount);
+        console.log("Updated globalUnreadCount:", globalUnreadCount);
+      } else {
+        // If no conversations, reset globalUnreadCount to 0
+        globalUnreadCount = 0;
+        localStorage.setItem("globalUnreadCount", globalUnreadCount);
+        console.log("No conversations. Reset globalUnreadCount to 0.");
+      }
+    })
+    .catch((err) => {
+      console.error("Error in unreadConversation:", err);
+    });
+}
+
+window.addEventListener("storage", (event) => {
+  if (event.key === "lastNotificationTime") {
+    console.log("Synchronized lastNotificationTime across tabs:", event.newValue);
+  }
+});
+
+
+
   function makeAPICall(url, method = "POST", body = null) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -242,7 +284,7 @@
       container.className = "notification-controller";
       const cnButton = document.querySelector(".cn-button");
       cnButton.addEventListener("click", (e) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         container.style.display =
           container.style.display === "none" ? "block" : "none";
       });
@@ -352,5 +394,5 @@
       : "none";
   }
   initializeCNButton();
-  setInterval(unreadConversation, 5000);
+  setInterval(unreadConversation, 10000);
 })();

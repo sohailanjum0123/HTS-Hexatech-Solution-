@@ -37,19 +37,23 @@
 
         waitElement(searchcontainer).then((x) => { });
         waitElement(venuePicker).then((x) => {
-            document.querySelectorAll(".appendfield").forEach((t) => {
-                let key = t.getAttribute("data-key");
-                let field = document.querySelector(`[data-q="${key}"]`);
-                if (field) {
-                    t.appendChild(field);
-                }
-            });
+
 
             setTimeout(function () {
-                document.querySelectorAll(infocontainer + " input").forEach((x) => {
-                    x.classList.add("infofield");
+                document.querySelectorAll(".appendfield").forEach((t) => {
+                    let key = t.getAttribute("data-key");
+                    let field = document.querySelector(`[data-q="${key}"]`);
+                    if (field) {
+                        t.appendChild(field);
+                    }
                 });
-            }, 500);
+
+                setTimeout(function () {
+                    document.querySelectorAll(infocontainer + " input").forEach((x) => {
+                        x.classList.add("infofield");
+                    });
+                }, 500);
+            }, 1500);
 
             x.onclick = function () {
                 hideDropdowns();
@@ -66,28 +70,33 @@
                 $(dateContainer + " input").datepicker("show");
             };
         });
+
+
+
         waitElement(".date_checker").then((x) => {
             document.querySelectorAll(".date_checker").forEach((p) => {
                 p.onclick = function () {
                     let form = document.querySelector(".wedding_init_form  button");
                     if (form) {
                         form.click();
+                        let parent = form.closest('.ghl-form-wrap');
+                        setTimeout((parent) => {
+                            let errors = [...parent.querySelectorAll("#error-container")].map(
+                                (t) => t.innerText
+                            );
+                            if (errors.length > 0) {
+                                errors = errors.join("<br/>");
+                                Swal.fire({
+                                    title: "Oops!",
+                                    html:
+                                        '<strong>Error:</strong> Something went wrong. <br> Please check the fields and try again. <br><br> <span style="color:red;">Note: Following fields are required!</span><br/>' +
+                                        errors,
+                                    confirmButtonText: "Try Again",
+                                });
+                            }
+                        }, 500, parent);
                     }
-                    setTimeout(() => {
-                        let errors = [...document.querySelectorAll("#error-container")].map(
-                            (t) => t.innerText
-                        );
-                        if (errors.length > 0) {
-                            errors = errors.join("<br/>");
-                            Swal.fire({
-                                title: "Oops!",
-                                html:
-                                    '<strong>Error:</strong> Something went wrong. <br> Please check the fields and try again. <br><br> <span style="color:red;">Note: Following fields are required!</span><br/>' +
-                                    errors,
-                                confirmButtonText: "Try Again",
-                            });
-                        }
-                    }, 500);
+
                 };
             });
         });
@@ -140,11 +149,20 @@
                 }
             });
 
+            $('body').off('change', '[name=autoAddressPicker]');
+            $('body').on('change', '[name=autoAddressPicker]', function (e) {
+                $('.addressSearch').hide();
+                $('.venueSearch').hide();
+                $(`.${this.value}Search`).show();
+            });
+            $('[name=autoAddressPicker]:checked').trigger('change');
+
             $("body").on("blur", ".infofield1", function () {
                 let key = $(this).attr("name");
+                let dataKey = $(this).attr("data-q");
                 let value = $(this).val().trim();
 
-                let field = document.querySelector(`[data-q="${key}"]`);
+                let field = document.querySelectorAll(`[data-q="${dataKey}"]:not(.infofield)`);
                 if (field) {
                     field.value = value;
                     field.dispatchEvent(new Event("input"));
@@ -165,7 +183,11 @@
                     maxDate: "+3Y",
                     onSelect: function (dateText) {
                         $(`.${venue_date}`).text(formatDate(dateText));
-                        setValue('[data-q="wedding_date"]', dateText);
+
+                        document.querySelectorAll('[data-q="wedding_date"]').forEach(x => {
+                            setValue(x, dateText);
+                        })
+
                         localStorage.setItem('initial_venue_date', formatDateYYY(dateText));
                         $('[data-q="wedding_date"]').trigger("input");
                         setFormData("wedding_date", dateText);
@@ -294,6 +316,11 @@
                 sel.dispatchEvent(e);
             }
         }
+        function setAllValue(key,value){
+            document.querySelectorAll(key).forEach(x=>{
+                setValue(x,value);
+            })
+        }
         mapscript.onload = function () {
             function handlePlace(place, addressField) {
                 var street = "";
@@ -302,8 +329,10 @@
                 var state = document.querySelector('input[data-q="state"]');
                 var country = document.querySelector('input[data-q="country"]');
                 var postalCode = document.querySelector('input[data-q="postal_code"]');
+                var weddingVenue = `input[data-q="wedding_venue"]`;
 
                 setValue(address, "");
+                setAllValue(weddingVenue, "");
                 setValue(city, "");
                 setValue(state, "");
                 setValue(postalCode, "");
@@ -350,6 +379,7 @@
                     setValue(city, "");
                     setValue(state, "");
                     setValue(postalCode, "");
+                    setAllValue(weddingVenue, "");
                     addressField.value = '';
                     Swal.fire({
 
@@ -367,6 +397,7 @@
                 setFormData("street", street);
 
                 setValue(address, street);
+                setAllValue(weddingVenue, adr);
 
                 document.querySelector(venuePicker).innerHTML =
                     adr;
@@ -408,13 +439,7 @@
             initmapField('addressAuto');
             initmapField('establishmentAuto', 'establishment');
 
-            $('body').off('change', '[name=autoAddressPicker]');
-            $('body').on('change', '[name=autoAddressPicker]', function (e) {
-                $('.addressSearch').hide();
-                $('.venueSearch').hide();
-                $(`.${this.value}Search`).show();
-            });
-            $('[name=autoAddressPicker]:checked').trigger('change');
+
         };
 
 

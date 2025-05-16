@@ -4,8 +4,8 @@
         let jqueryLoaded = false;
 
         let privateToken = '{{ custom_values.product_read_private_token }}';
-        let discountsvalue = 2; /*Pay in full discount*/
-        let weekdaysDiscount = 20; /* Weekdays discount if date not available */
+        let discountsvalue = getFinateValue(parseFloat('{{ custom_values.normal_day_discount }}'), 2); /*Pay in full discount*/
+        let weekdaysDiscount = getFinateValue(parseFloat('{{ custom_values.week_day_discount }}'), 20); /* Weekdays discount if date not available */
         let invoiceItems = [];
         let locationId = '{{location.id}}';
         let invObject = {};
@@ -27,6 +27,14 @@
                     "Bearer " + privateToken,
             }
         };
+
+        function pluralize(count, singular, plural = singular + 's') {
+            return count === 1 ? `${count} ${singular}` : `${count} ${plural}`;
+        }
+
+        function getFinateValue(value, def = 0) {
+            return isFinite(value) ? value : def;
+        }
         let invoiceSelectedItems = {};
         let SubtotalPricePackage = 0;
         let signatureExtras = getLocalStorageValue("SignatureExtra") ?? '{}';
@@ -44,7 +52,7 @@
         let selectedPackage =
             ucFirst(getLocalStorageValue("activeChosePackage")) +
             " Package | " +
-            getLocalStorageValue("activeService");
+            activeService;
 
         let packageId =
             JSON.parse(getLocalStorageValue("packageId") ?? "{}");
@@ -105,20 +113,9 @@
             defSelected.trigger("click");
         }
 
-        let paymentDays = 7;
-        let totalAllowedPayments = 4;/* getPaymentSchedule(weddingDate, 4);
-        function getPaymentSchedule(eventDate, numberOfPayments) {
-            // Convert event date to a Date object
-            const eventDateObj = new Date(eventDate);
-            const lastPaymentDate = new Date(eventDateObj);
-            lastPaymentDate.setDate(eventDateObj.getDate() - paymentDays);
-            const timeDiff = lastPaymentDate - new Date();
-            const maxPaymentsPossible = Math.floor(timeDiff / (7 * 24 * 60 * 60 * 1000));
-            return maxPaymentsPossible;
 
+        let totalAllowedPayments = 4;
 
-
-        }*/
 
 
 
@@ -171,15 +168,37 @@
             };
         })();
 
-        function updateInvoiceAmount(amount) {
-            waitElement(
-                "#payment-donation .suggestion-off.payment-input-container input"
-            ).then((x) => {
-                x.value = amount;
-                x.dispatchEvent(new Event("change"));
-                x.dispatchEvent(new Event("input"));
-            });
+
+        let paymentInputSelector = null;
+
+        function updateInvoiceAmount(amount = -1) {
+
+            amount = amount > 0 ? amount : dueAmount;
+            function setInvoiceAmount(x, amount) {
+                x.setAttribute('readonly', 'readonly');
+                if (amount > 0 && x.value != amount) {
+
+                    x.value = amount;
+                    console.log(amount, x.value);
+                    x.dispatchEvent(new Event("change"));
+                    x.dispatchEvent(new Event("input"));
+                }
+            }
+
+            if (!paymentInputSelector) {
+                waitElement(
+                    "#payment-donation .suggestion-off.payment-input-container input"
+                ).then((x) => {
+                    paymentInputSelector = x;
+                    setInvoiceAmount(x, amount);
+                });
+            } else {
+                setInvoiceAmount(paymentInputSelector, amount);
+            }
         }
+
+        let checkForLatestAmount = setInterval(updateInvoiceAmount, 300);
+
 
         function getCurrentValue(selector) {
             return $(selector + ":checked").val();
@@ -281,6 +300,37 @@
             return isFinite(number) ? number : 0;
         }
 
+
+        function getInstallmentDates(userSelectedEndDateStr, numberOfInstallments) {
+
+            function dateOnly(dt) {
+                return dt.toISOString().split("T")[0];
+            }
+            const startDate = new Date(); // Today's date
+            const userSelectedEndDate = new Date(userSelectedEndDateStr);
+
+            if (numberOfInstallments === 1) {
+                // Return an array with today's date formatted as YYYY-MM-DD
+                return [dateOnly(startDate)];
+            }
+
+            // Adjust end date to be 7 days before user-selected date
+            const adjustedEndDate = new Date(userSelectedEndDate);
+            adjustedEndDate.setDate(adjustedEndDate.getDate() - 7);
+
+            const result = [];
+            const totalTime = adjustedEndDate.getTime() - startDate.getTime();
+            const interval = totalTime / (numberOfInstallments - 1);
+
+            for (let i = 0; i < numberOfInstallments; i++) {
+                const installmentDate = new Date(startDate.getTime() + i * interval);
+                // Format as YYYY-MM-DD
+                result.push(dateOnly(installmentDate));
+            }
+
+            return result;
+        }
+
         function calculateInvoice() {
 
             waitElement(".totalContainer .totals .subtotal").then(subTotalDiv => {
@@ -295,7 +345,7 @@
                     getCurrentValue(howtoPayKey) === payinFull
                         ? 1
                         : getCurrentValue(howtoInstallPayKey);
-                let allExtras = Object.values(invoiceSelectedItems);
+                let allExtras = [...Object.values(invoiceSelectedItems)];
 
                 let totalAddToTotal = allExtras.reduce((sum, extra) => {
                     const price = extra.dup ? 0 : extra.totalPrice || (extra.price || 0) * (extra.qty || 1);
@@ -365,8 +415,8 @@
                     <p><span>Due Date:</span></p>
                     `;
                     paymentPlanorFullElement.innerHTML = headingHTML;
+                    let initial_venue_date = getLocalStorageValue("initial_venue_date")
 
-                  
 
                     const currentDate = new Date();
                     const options = {
@@ -384,18 +434,9 @@
                         const installmentAmount = parseNumber(finalAmount / installments, true);
                         dueAmount = parseNumber(installmentAmount, true);
                     }
-
+                    const installmentDates = getInstallmentDates(initial_venue_date, installments);
                     for (let i = 1; i <= installments; i++) {
-                        const installmentDate = new Date(firstInstallmentDate);
-
-                        if (i > 1) {
-                            installmentDate.setDate(installmentDate.getDate() + (i - 1) * 7);
-                        }
-
-                        const formattedInstallmentDate = USADate(installmentDate);
-
-
-
+                        const formattedInstallmentDate = USADate(installmentDates[i - 1]);
                         const installmentHTML = `
                             <p><span class="payment">${formatNumberWithCommas(dueAmount)}</span> on ${formattedInstallmentDate}</p>
                             `;
@@ -407,12 +448,16 @@
                     });
 
                     invObject["dueAmount"] = dueAmount;
+                    invObject['instDueDates'] = installments > 1 ? installmentDates.reduce((acc, date, index) => {
+                        acc[index + 1] = date;
+                        return acc;
+                    }, {}) : {};
                     console.log("hfgsdhgf");
-                    console.log(invObject);
-                    console.log(invoiceItems);
+                    console.log({ invObject });
+                    // console.log(invoiceItems);
                     let finalInvoiceObject = {
                         ...invObject,
-                        items: Object.values(invoiceSelectedItems),
+                        items: [...Object.values(invoiceSelectedItems)],
                     };
                     console.log(finalInvoiceObject);
                     let f = JSON.stringify(finalInvoiceObject);
@@ -633,9 +678,8 @@
                         if (x.amount) {
                             if (countPhotoGrapher > 1) {
                                 extraAmount += (countPhotoGrapher - 1) * x.amount;
-                                noofextras += `${countPhotoGrapher} Photographer`
+                                noofextras += `${pluralize(countPhotoGrapher, 'Photographer')}`
                             }
-
                         }
                         fetch(
                             mainAPIURL(activeVideographer.product, activeVideographer.id),
@@ -647,7 +691,7 @@
                                     if (noofextras != '') {
                                         noofextras += " | ";
                                     }
-                                    noofextras += `${countVideographer}  Videographer`
+                                    noofextras += `${pluralize(countVideographer, 'Videographer')}`;
                                 }
                                 fetch(
                                     mainAPIURL(packageId.product, packageId.id),
@@ -728,7 +772,7 @@
                     const verticalInner = detail.querySelector(".vertical.inner");
 
                     let milesPriceTag = '';
-                    if (miles > 0) {
+                    if (miles > 0 && milesPrice > 0) {
                         milesPriceTag = ` <p><span>Travel Fee</span> <span class="miles">$${milesPrice}</span></p>`
 
                     }
@@ -795,11 +839,11 @@
         </div>
         `;
 
-        if(isWeekDay){
-            waitElement('.discountType').then(x=>{
-                x.innerText = 'Weekday';
-            })
-        }
+                    if (isWeekDay) {
+                        waitElement('.discountType').then(x => {
+                            x.innerText = 'Weekday';
+                        })
+                    }
 
                     let already = document.querySelector('.booking-info');
                     if (!already) {
@@ -818,75 +862,93 @@
                                     }
 
                                     extrasData.forEach((extra, i) => {
+                                        let prefix = extra.p ?? "";
+                                        let selector = extra.id + prefix;
+                                        let isNotAlready = uniqueData[selector] || null;
 
-                                        fetch(
-                                            mainAPIURL(extra.product, extra.id),
-                                            headers
-                                        ).then((res) => res.json()).then(price => {
+                                        if (!isNotAlready) {
                                             const tr = document.createElement("tr");
-                                            let isNotAlready = uniqueData[extra.id] || null;
-                                            if (!isNotAlready && price.product) {
-                                                uniqueData[extra.id] = 1;
-                                                let title = price.name || price.title;
+                                            tr.dataset.id = selector;
+                                            fetch(
+                                                mainAPIURL(extra.product, extra.id),
+                                                headers
+                                            ).then((res) => res.json()).then(price => {
 
 
-                                                let titlelower = title.toLowerCase();
-                                                let isExtraPhoto = titlelower.includes('extra') && titlelower.includes('photographer');
-                                                let isExtraVideo = titlelower.includes('extra') && titlelower.includes('videographer');
-                                                let qty = parseInt(extra.qty || 1);
-                                                if (isExtraPhoto) {
-                                                    title += `(${qty}Hour) (x${countPhotoGrapher})`;
-                                                    qty+=countPhotoGrapher;
-                                                }
-                                                if (isExtraVideo) {
-                                                    title += `(${qty}Hour) (x${countVideographer})`;
-                                                    qty+=countVideographer;
-                                                }
-                                                const titleTD = document.createElement("td");
-                                                titleTD.innerHTML = `${title}<br>
+                                                if (price.product) {
+                                                    uniqueData[selector] = 1;
+                                                    let title = price.name || price.title;
+                                                    let titlelower = title.toLowerCase();
+
+                                                    // let isExtraPhoto = titlelower.includes('extra') && titlelower.includes('photographer');
+                                                    // let isExtraVideo = titlelower.includes('extra') && titlelower.includes('videographer');
+                                                    let qty = parseInt(extra.qty || 1);
+                                                    if (titlelower.includes('extra') && (titlelower.includes('photographer') || titlelower.includes('videographer'))) {
+                                                        title += `(${pluralize(qty, 'Hour')})`;
+
+                                                        // if (prefix!='') {
+                                                        //     title += " " + extra.p.trim();
+                                                        // }
+                                                        //qty += countPhotoGrapher;
+                                                    }
+
+                                                    const titleTD = document.createElement("td");
+                                                    if (prefix != '') {
+                                                        title = title.replaceAll('Other', prefix);
+                                                    }
+                                                    titleTD.innerHTML = `${title}<br>
                                 <small>${price.description || ""}</small>`;
-                                                tr.appendChild(titleTD);
-                                                
-                                                const quantityTD = document.createElement("td");
-                                                quantityTD.textContent = qty;
-                                                tr.appendChild(quantityTD);
-                                                let subtotal = price.amount || price.price;
-                                                const priceTD = document.createElement("td");
-                                                priceTD.textContent = `${formatNumberWithCommas(subtotal, 0)}`;
-                                                tr.appendChild(priceTD);
-                                                let total = subtotal * qty;
-                                                // if (isExtraPhoto) {
-                                                //     total *= countPhotoGrapher;
-                                                // }
-                                                // if (isExtraVideo) {
-                                                //     total *= countVideographer;
-                                                // }
-                                                const totalTD = document.createElement("td");
-                                                totalTD.classList.add("addtoTotal");
-                                                totalTD.textContent = `${formatNumberWithCommas(total, 0)}`;
-                                                tr.appendChild(totalTD);
+                                                    tr.appendChild(titleTD);
 
-                                                appendTDExtras.appendChild(tr);
+                                                    const quantityTD = document.createElement("td");
+                                                    quantityTD.textContent = qty;
+                                                    tr.appendChild(quantityTD);
+                                                    let subtotal = price.amount || price.price;
+                                                    const priceTD = document.createElement("td");
+                                                    priceTD.textContent = `${formatNumberWithCommas(subtotal, 0)}`;
+                                                    tr.appendChild(priceTD);
+                                                    let total = subtotal * qty;
+                                                    // if (isExtraPhoto) {
+                                                    //     total *= countPhotoGrapher;
+                                                    // }
+                                                    // if (isExtraVideo) {
+                                                    //     total *= countVideographer;
+                                                    // }
+                                                    const totalTD = document.createElement("td");
+                                                    totalTD.classList.add("addtoTotal");
+                                                    totalTD.textContent = `${formatNumberWithCommas(total, 0)}`;
+                                                    tr.appendChild(totalTD);
 
-                                                invoiceSelectedItems[extra.id] = {
-                                                    id: extra.id,
-                                                    description: price.description,
-                                                    title: title,
-                                                    price: subtotal,
-                                                    quantity: qty,
-                                                    totalPrice: total,
-                                                };
+                                                    invoiceSelectedItems[selector] = {
+                                                        id: extra.id,
+                                                        description: price.description,
+                                                        title: title,
+                                                        price: subtotal,
+                                                        quantity: qty,
+                                                        totalPrice: total,
+                                                        selector
+                                                    };
+                                                    console.log(invoiceSelectedItems);
 
-                                                
+                                                }
+                                                if (i == extrasData.length - 1) {
+                                                    calculateInvoice();
+                                                }
+                                            })
+                                            appendTDExtras.appendChild(tr);
 
-
-                                                console.log(invoiceSelectedItems);
-
-                                            }
                                             if (i == extrasData.length - 1) {
-                                                calculateInvoice();
+                                                const rows1 = Array.from(appendTDExtras.querySelectorAll("tr"));
+                                                const sortedRows1 = rows1.sort((a, b) => {
+                                                    const aId = a.dataset.id || '';
+                                                    const bId = b.dataset.id || '';
+                                                    return aId.localeCompare(bId);
+                                                });
+                                                sortedRows1.forEach(row => appendTDExtras.appendChild(row));
                                             }
-                                        })
+
+                                        }
+
 
                                     });
 
@@ -961,11 +1023,15 @@
             milesPrice = 0; // Reset milesPrice
             try {
                 miles = nearestLocation.miles; // Update global miles variable
-                if (miles > 30) {
-                    milesPrice = (miles - 30) * totalgrapher * 0.5; // Calculate milesPrice based on distance
+                let travelFee = parseFloat('{{ custom_values.travel_fee_miles }}');
+                travelFee = isFinite(travelFee) ? travelFee : 0;
+                let freeMiles = parseInt('{{ custom_values.travel_free_miles }}');
+                freeMiles = isFinite(freeMiles) ? freeMiles : 30;
+                if (miles > freeMiles) {
+                    milesPrice = (miles - freeMiles) * totalgrapher * travelFee; // Calculate milesPrice based on distance
                 }
             } catch (error) {
-                    console.log("Miles Error",error)
+                console.log("Miles Error", error)
             }
             setFieldValue("total_distance_miles", `Miles (${miles}): ${formatNumberWithCommas(milesPrice)}`);
         }
@@ -982,11 +1048,11 @@
                 }
             );
         }
-      waitElement(`#error-container`).then(x=>{
+        waitElement(`#error-container`).then(x => {
 
-     if(x){
-         x.style.marginTop="-30px";
-         x.style.position = "absolute"
-     } 
-    }); 
+            if (x) {
+                x.style.marginTop = "-30px";
+                x.style.position = "absolute"
+            }
+        });
     })();

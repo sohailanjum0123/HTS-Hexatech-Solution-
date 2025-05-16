@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap 5 Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .inventoryListPage>.inner {
+            max-width: 1250px !important;
+        }
+
+        #section-_FBC7_ihp>.inner {
+            max-width: 1250px !important;
+        }
+
+        .filter-group.filter-item {
+            width: 100% !important;
+            margin-left: 0px;
+        }
+
+        .inventory-panel {
+            width: 100% !important;
+            margin-left: 4%;
+        }
+
+        .listTop {
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            top: -50px;
+        }
+
+        .listTop .listTopLeft {
+            font-size: 30px;
+            font-family: sans-serif;
+            margin-left: -20px;
+        }
+
+        .listTop .listTopRight {
+            margin-top: -12px;
+            width: 200px;
+        }
+
+         .sidebar {
+            width: 22% !important;
+            background-color: white !important;
+            color: #000 !important;
+            height: 60vh !important;
+            border-radius: 5px;
+        }
+
+         .filter-group input,
+         .filter-group select {
+            padding: 10px 10px !important;
+            background-color: white !important;
+            color: black !important;
+        }
+
+         .filter-group {
+            width: 100% !important;
+            margin-left: 0px !important;
+        }
+
+         .price-range-group {
+            width: 100% !important;
+        }
+
+         select#sorting {
+            width: 100% !important;
+        }
+
+         .refineBtn {
+            width: 100% !important;
+            margin-left: 0px !important;
+        }
+
+         .main-container {
+            margin-left: 0% !important;
+        }
+
+         .inventory-container {
+            row-gap: 20px !important;
+        }
+
+        .inventoryCard {
+            background: white !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+            font-family: 'sans-serif' !important;
+            width: 90% !important;
+        }
+
+        .cardHeader {
+            padding: 10px 10px;
+            background: white !important;
+        }
+
+         .inventory-item {
+            border: none !important;
+            height: 220px !important;
+        }
+
+         .inventory-item .featuredImage {
+            flex: 1.2;
+            min-width: 260px;
+            max-width: 300px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+         .inventory-item img {
+            width: unset !important;
+            height: unset !important;
+            object-fit: cover;
+            max-height: 240px;
+            border-radius: 6px;
+            background-repeat: no-repeat;
+        }
+
+        .inventoryDetailTop {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+         .inventory-details h5 {
+            font-size: 20px !important;
+            font-family: sans-serif;
+        }
+
+         .specs {
+            grid-template-columns: repeat(2, 1fr) !important;
+            margin-top: 10px !important;
+            row-gap: 10px !important;
+            column-gap: 0% !important;
+        }
+
+         .specs .specs-badge {
+            display: flex;
+            justify-content: unset !important;
+            padding: 0px 0px !important;
+            background-color: unset !important;
+            text-align: center;
+            max-width: 100% !important;
+            width: 100% !important;
+            color: #000 !important;
+
+            font-weight: unset !important;
+            font-family: sans-serif !important;
+        }
+
+         .specs .specs-badge .badgeHeading {
+            font-weight: 600 !important;
+        }
+
+         .specs .specs-badge span {
+            font-size: 15px;
+        }
+
+         .specs .specs-badge>span {
+            font-weight: unset !important;
+            padding: 0px !important;
+        }
+
+         .specs .specs-badge img.img-small {
+            height: 15px !important;
+            width: 15px !important;
+        }
+
+         .inventory-details h3 {
+
+            font-family: sans-serif;
+        }
+
+        .cardFooter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+            flex-wrap: wrap;
+        }
+
+        .cardFooterRight {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 10px
+        }
+
+        .cardFooterRight img {
+            width: 100px !important;
+        }
+
+        .cardFooterLeft .actions-btns.actions {
+            display: flex !important;
+            flex-direction: row !important;
+        }
+
+        .inventory-panel {
+    display: flex;
+    padding: 10px 10px;
+    justify-content: center;
+    width: 98%;
+    position: relative;
+}
+
+ .sidebar {
+    position: sticky;
+    width: 20%;
+    top: 20px;
+    background-color: #1c1c1c;
+    color: #fff;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+}
+
+ .sidebar-toggle {
+    display: none;
+
+}
+
+ .filters {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 10px 10px 10px;
+}
+
+ .filter-group {
+    margin-bottom: 12px;
+    width: 92%;
+    margin-left: 2px;
+}
+
+ .filter-group label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #f1f1f1;
+    margin-bottom: 4px;
+    display: block;
+}
+
+ .filter-group input,
+ .filter-group select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #333;
+    color: white;
+}
+
+ .price-range-group {
+    width: 107%;
+    display: flex;
+    gap: 10px;
+}
+
+ .refineBtn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 99%;
+    margin-left: 2px;
+}
+
+ .filter-group button:hover {
+    background-color: #218838;
+}
+
+
+
+ .inventory-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+ .inventory-item .featuredImage {
+    width: 350px;
+    position: relative;
+    overflow: hidden;
+}
+
+ .inventory-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-repeat: no-repeat;
+}
+
+
+ .inventory-item {
+    display: flex;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 250px;
+    width: 100%;
+}
+
+ .inventory-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 4;
+    padding: 15px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    overflow: hidden;
+    font-family: serif;
+}
+
+ .inventory-details h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+ .inventory-details h5 {
+    padding: 5px 0px;
+    margin: 0px;
+    font-size: 15px;
+}
+
+ .inventory-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+ .right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 1;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+ .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-align: start;
+    margin-bottom: 10px;
+}
+
+ .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.actions span {
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ .actions span:hover {
+    background-color: #444;
+}
+
+ .load-more {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+ .load-more:hover {
+    background-color: #444;
+}
+
+ .main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    height: 90%;
+    width: 73%;
+}
+
+ .inventory-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+ .inventory-item {
+    display: flex;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 250px;
+}
+
+
+ .inventory-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex: 4;
+    padding: 15px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    overflow: hidden;
+}
+
+ .inventory-details h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+ .inventory-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+ .description {
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    white-space: normal;
+}
+
+ .specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+ .specs .specs-badge {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 5px;
+    background-color: #616361;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: white !important;
+    max-width: 150px;
+    color: #333;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+ .specs-badge span {
+    display: inline-block;
+    margin-left: 2px;
+    color: black;
+    background: white;
+    padding: 2px 5px;
+    border-radius: 2px;
+}
+
+
+ .right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 1;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+ .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-align: start;
+    margin-bottom: 10px;
+}
+
+ .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+ .actions button {
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+ .actions button:hover {
+    background-color: #444;
+}
+
+ .load-more {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+ .load-more:hover {
+    background-color: #444;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 63%;
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+    transform: translate(-50%, -50%);
+}
+
+.data-not-found {
+    height: 100vh;
+    width: 100vw;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.data-not-found svg {
+    margin: 0;
+    height: 100px;
+    width: 100px;
+    fill: red;
+}
+
+select#sorting {
+    width: 107% !important;
+}
+
+@media only screen and (max-width:768px) {
+     .inventory-container {
+        margin-top: 30px;
+        margin-right: 20px;
+    }
+
+     .sidebar {
+        transform: translateX(-115%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 40vh !important;
+        background-color: #f4f4f4;
+        box-shadow: none !important;
+        margin-top: 50px !important;
+    }
+
+     .sidebar.active {
+        position: absolute !important;
+        transform: translateX(0);
+        position: sticky;
+        width: 100%;
+        margin-top: 30px;
+        height: 90%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+     .price-range-group {
+        width: 105%;
+
+    }
+
+    select#sorting {
+        width: 105% !important;
+    }
+
+     .sidebar-toggle {
+        position: sticky;
+        display: block;
+        padding: 5px 10px;
+        background-color: #1c1c1c;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 15px;
+        position: absolute;
+        width: 84% !important;
+        margin: 10px 0px 0px 0px !important;
+        text-align: center;
+    }
+
+     .inventory-item.trigger {
+        flex-direction: column;
+        height: unset;
+    }
+
+     .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+     .actions span {
+        text-align: center;
+    }
+
+     .inventory-item .lazy {
+        width: unset;
+    }
+
+    .inventory-panel {
+        display: flex;
+        padding: unset;
+        justify-content: center;
+        width: unset;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+     .inventory-details {
+        padding: 10px 10px;
+    }
+
+     .refineBtn {
+        width: 96.5%;
+
+    }
+
+     .specs {
+
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+    }
+
+     .inventory-item {
+        margin-top: 20px;
+    }
+
+     .filters {
+
+        padding: 0px 0px 10px 10px;
+    }
+}
+
+@media (width: 360px) {
+     .inventory-container {
+        margin-top: 30px;
+        margin-right: 15px;
+    }
+
+     .specs {
+
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+    }
+
+     .sidebar-toggle {
+        width: 85% !important;
+        margin: 10px 0px 0px -10px;
+
+    }
+
+     .filters {
+
+        padding: 0px 0px 10px 5px;
+    }
+
+}
+
+/* ...................................... */
+
+.cardFooterLeft{
+    display:flex;
+    gap: 10px;
+}
+.cardFooterLeft span{
+        padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    align-items: center;
+}
+.cardFooterLeft .veiw_detail{
+    background-color: #0066cc !important;
+    padding: 8px 20px !important;
+    font-family: 'poppins';
+    font-size: 14px;
+    font-weight: 500 !important;
+    border-radius: 4px !important;
+}
+    </style>
+</head>
+
+<body>
+
+    <div id="inventory-container" class="inventory-container">
+        <div class="inventoryCard">
+            <div class="cardHeader">
+                <div class="inventory-item" data-id="rec19g63umafnfdcb">
+                    <div class="featuredImage">
+                        <img class="lazy" alt="BMW" src="https://placehold.co/400">
+                    </div>
+                    <div class="inventory-details">
+                        <div class="inventoryDetailTop">
+                            <h3>2005 BMW X5</h3>
+                            <div class="right-side">
+                                <p class="price"><span style="font-weight: bold; font-size: 1.5rem" }="">$6578</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <h5>Leather Seats,Roof rack crossbars: black,Driver se...</h5>
+
+                        <div class="specs">
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Miles:</span><span> 123000</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/9131/9131563.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Stock:
+                                </span><span> 11843</span></div>
+                            <div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/62/62512.png "
+                                    width="15" height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Drivetrain:</span><span> awd</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/7180/7180272.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Exterior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/494/494967.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Interior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/8944/8944308.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Materials:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Engine:</span><span> 8 cyl-4.4 </span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/5444/5444942.png " width="256"
+                                    height="256" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Transmission:</span><span> 6-Speed Shiftable Automatic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cardFooter">
+                <div class="cardFooterLeft">
+                    <div>
+                        <span class="veiw_detail trigger" data-id="rec19g63umafnfdcb">View Details</span>
+                    </div>
+                    <div class="actions-btns actions">
+                        <span class="data-action" data-type="financed"
+                            data-action="/v2/preview/e9IOetvVMhU6vORvOW9X">Get Approved</span><span data-type="inquire"
+                            data-action="">Inquire</span>
+
+                    </div>
+                </div>
+                <div class="cardFooterRight">
+                    <div data-action="" class="carafax_badge">carafex</div>
+                    <img src="https://static1.cargurus.com/gfx/api/badges/dealrating/en_US/style1/good.svg"
+                        alt="Cargurus">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="inventoryCard">
+            <div class="cardHeader">
+                <div class="inventory-item" data-id="rec19g65fmafnf30k">
+                    <div class="featuredImage">
+                        <img class="lazy" alt="Mazda" src="https://placehold.co/400">
+                    </div>
+                    <div class="inventory-details">
+                        <div class="inventoryDetailTop">
+                            <h3>2008 Mazda Mazda5</h3>
+                            <div class="right-side">
+                                <p class="price"><span style="font-weight: bold; font-size: 1.5rem" }="">$6578</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <h5>Rear door type: liftgate,Side door type: passenger...</h5>
+
+                        <div class="specs">
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Miles:</span><span> 156243</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/9131/9131563.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Stock:
+                                </span><span> 11904</span></div>
+                            <div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/62/62512.png "
+                                    width="15" height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Drivetrain:</span><span> fwd</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/7180/7180272.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Exterior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/494/494967.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Interior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/8944/8944308.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Materials:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Engine:</span><span> 4 cyl-2.3 </span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/5444/5444942.png " width="256"
+                                    height="256" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Transmission:</span><span> 5-Speed Manual</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cardFooter">
+                <div class="cardFooterLeft">
+                    <div>
+                        <span class="veiw_detail trigger" data-id="rec19g65fmafnf30k">View Details</span>
+                    </div>
+                    <div class="actions-btns actions">
+                        <span class="data-action" data-type="financed"
+                            data-action="/v2/preview/e9IOetvVMhU6vORvOW9X">Get Approved</span><span data-type="inquire"
+                            data-action="">Inquire</span>
+
+                    </div>
+                </div>
+                <div class="cardFooterRight">
+                    <div data-action="" class="carafax_badge">carafex</div>
+                    <img src="https://static1.cargurus.com/gfx/api/badges/dealrating/en_US/style1/good.svg"
+                        alt="Cargurus">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="inventoryCard">
+            <div class="cardHeader">
+                <div class="inventory-item" data-id="rec19g62xmafnfaa6">
+                    <div class="featuredImage">
+                        <img class="lazy" alt="Mazda" src="https://placehold.co/400">
+                    </div>
+                    <div class="inventory-details">
+                        <div class="inventoryDetailTop">
+                            <h3>2008 Mazda Mazda5</h3>
+                            <div class="right-side">
+                                <p class="price"><span style="font-weight: bold; font-size: 1.5rem" }="">$6578</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <h5>Rear door type: liftgate,Side door type: passenger...</h5>
+
+                        <div class="specs">
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Miles:</span><span> 156243</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/9131/9131563.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Stock:
+                                </span><span> 11905</span></div>
+                            <div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/62/62512.png "
+                                    width="15" height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Drivetrain:</span><span> fwd</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/7180/7180272.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Exterior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/494/494967.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Interior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/8944/8944308.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Materials:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Engine:</span><span> 4 cyl-2.3 </span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/5444/5444942.png " width="256"
+                                    height="256" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Transmission:</span><span> 5-Speed Manual</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cardFooter">
+                <div class="cardFooterLeft">
+                    <div>
+                        <span class="veiw_detail trigger" data-id="rec19g62xmafnfaa6">View Details</span>
+                    </div>
+                    <div class="actions-btns actions">
+                        <span class="data-action" data-type="financed"
+                            data-action="/v2/preview/e9IOetvVMhU6vORvOW9X">Get Approved</span><span data-type="inquire"
+                            data-action="">Inquire</span>
+
+                    </div>
+                </div>
+                <div class="cardFooterRight">
+                    <div data-action="" class="carafax_badge">carafex</div>
+                    <img src="https://static1.cargurus.com/gfx/api/badges/dealrating/en_US/style1/good.svg"
+                        alt="Cargurus">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="inventoryCard">
+            <div class="cardHeader">
+                <div class="inventory-item" data-id="rec19g65fmafnfip7">
+                    <div class="featuredImage">
+                        <img class="lazy" alt="Nissan" src="https://placehold.co/400">
+                    </div>
+                    <div class="inventory-details">
+                        <div class="inventoryDetailTop">
+                            <h3>2008 Nissan Rogue</h3>
+                            <div class="right-side">
+                                <p class="price"><span style="font-weight: bold; font-size: 1.5rem" }="">$6578</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <h5></h5>
+
+                        <div class="specs">
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Miles:</span><span> 193169</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/9131/9131563.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Stock:
+                                </span><span> 11659</span></div>
+                            <div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/62/62512.png "
+                                    width="15" height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Drivetrain:</span><span> awd</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/7180/7180272.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Exterior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/494/494967.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Interior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/8944/8944308.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Materials:</span><span> null</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cardFooter">
+                <div class="cardFooterLeft">
+                    <div>
+                        <span class="veiw_detail trigger" data-id="rec19g65fmafnfip7">View Details</span>
+                    </div>
+                    <div class="actions-btns actions">
+                        <span class="data-action" data-type="financed"
+                            data-action="/v2/preview/e9IOetvVMhU6vORvOW9X">Get Approved</span><span data-type="inquire"
+                            data-action="">Inquire</span>
+
+                    </div>
+                </div>
+                <div class="cardFooterRight">
+                    <div data-action="" class="carafax_badge">carafex</div>
+                    <img src="https://static1.cargurus.com/gfx/api/badges/dealrating/en_US/style1/good.svg"
+                        alt="Cargurus">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="inventoryCard">
+            <div class="cardHeader">
+                <div class="inventory-item" data-id="rec19g65rmafnffwd">
+                    <div class="featuredImage">
+                        <img class="lazy" alt="Subaru" src="https://placehold.co/400">
+                    </div>
+                    <div class="inventory-details">
+                        <div class="inventoryDetailTop">
+                            <h3>2013 Subaru Legacy</h3>
+                            <div class="right-side">
+                                <p class="price"><span style="font-weight: bold; font-size: 1.5rem" }="">$6578</span>
+                                </p>
+
+                            </div>
+                        </div>
+                        <h5>Leather Seats,Heated Seats,Bluetooth,Driver seat: ...</h5>
+
+                        <div class="specs">
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Miles:</span><span> 149577</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/9131/9131563.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Stock:
+                                </span><span> 11759</span></div>
+                            <div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/62/62512.png "
+                                    width="15" height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Drivetrain:</span><span> awd</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/7180/7180272.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Exterior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/494/494967.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span class="badgeHeading">Interior
+                                    Color:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/8944/8944308.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Materials:</span><span> null</span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15"
+                                    height="15" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Engine:</span><span> 6 cyl-3.6 </span></div>
+                            <div class="specs-badge"><img
+                                    src="   https://cdn-icons-png.flaticon.com/512/5444/5444942.png " width="256"
+                                    height="256" alt="" title="" class="img-small"><span
+                                    class="badgeHeading">Transmission:</span><span> 5-Speed Shiftable Automatic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cardFooter">
+                <div class="cardFooterLeft">
+                    <div>
+                        <span class="veiw_detail trigger" data-id="rec19g65rmafnffwd">View Details</span>
+                    </div>
+                    <div class="actions-btns actions">
+                        <span class="data-action" data-type="financed"
+                            data-action="/v2/preview/e9IOetvVMhU6vORvOW9X">Get Approved</span><span data-type="inquire"
+                            data-action="">Inquire</span>
+
+                    </div>
+                </div>
+                <div class="cardFooterRight">
+                    <div data-action="" class="carafax_badge">carafex</div>
+                    <img src="https://static1.cargurus.com/gfx/api/badges/dealrating/en_US/style1/good.svg"
+                        alt="Cargurus">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

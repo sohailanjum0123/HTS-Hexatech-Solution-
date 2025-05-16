@@ -83,7 +83,176 @@ function doPost(e) {
 }
 
 function testData() {
-  let data = { "Contact: Proposal Link ": "", "Wedding Date": "2025-05-09", "Bride's Name": "", "Groom's Name": "", "Where are you closest to?": "", "Multi Line 2fay": "", "Installment Paid": "", "Wedding Venue": "303 Berryfest Place, Plant City FL 33563", "Last Invoice ID": "67f416a6c485d2430aad9479", "Where is your wedding or event?": "", "What are your underlying goals from a photographer or videographer?": "", "Have you ever worked with a photographer or videographer before?": "", "I’m looking for a photographer or videographer for my…": "", "How would you describe yourself?": "", "Choose Your Location": "", "What is your goal budget for a wedding photography and videography package?": "", "How would you like to pay?": "Payment Plan", "Before your special day, what are your expectations for the planning process?": "", "How many instalments would you like to pay in?": "4", "Are there any extras you have in mind? ": "", "Spouse's Name": "e", "Are you having an unplugged wedding ceremony?": "", "Initial Venue Date": "2025-05-09", "How much involvement would you like to have in the creative vision and process?": "", "Have you had the chance to check out our portfolio or Instagram?": "", "Initial Payment": "4525", "How soon after your wedding do you expect the finished photos?": "", "User Data Detail": "", "Where Is Your Wedding Or Event?": "", "Due Amount": "1131.0", "Payment Discounts": "0", "Total Distance Miles": "Miles (0): $0", "Product Items": "{\"subtotal\":4525,\"milesPrice\":0,\"miles\":0,\"discounts\":0,\"total\":4525,\"dueAmount\":\"1131.0\",\"items\":[{\"title\":\"PEARL Package | Photos & Video\",\"description\":\"\",\"price\":2500,\"quantity\":1,\"totalPrice\":2500},{\"id\":\"67c8cf9f42a34d7e520b08df\",\"title\":\"Day-after Session\",\"price\":500,\"quantity\":1,\"totalPrice\":500},{\"id\":\"67c8cf9f42a34dffc20b08dd\",\"title\":\"Bridal Shower\",\"price\":500,\"quantity\":1,\"totalPrice\":500},{\"id\":\"67c8cf9f42a34d5d850b08db\",\"description\":\"Testing\",\"title\":\"Maternity Session\",\"price\":500,\"quantity\":1,\"totalPrice\":500},{\"id\":\"67eea57bfd99c1ae1c5b956c\",\"description\":\"Includes drone footage, 60-second teaser video, audio of vows and speech, and raw video footage.\",\"title\":\"Signature Extras\",\"price\":525,\"quantity\":1,\"totalPrice\":525}]}", "No of Photographer": 1, "No of VideoGrapher": 1, "Wedding Package": "PEARL", "Wedding Service": "Photos & Video", "Nearest Base Location": "Tampa", "Stripe Customer ID": "", "contact_id": "hN4pD3V5Rbg59Y3veGaa", "first_name": "test", "full_name": "test", "email": "test@test.com", "phone": "+927867867867", "tags": "", "address1": "303 Berryfest Place", "city": "Plant City", "state": "FL", "country": "US", "timezone": "Asia/Karachi", "date_created": "2025-04-07T17:30:43.734Z", "postal_code": "33563", "contact_source": "initial wedding form", "full_address": "303 Berryfest Place, Plant City FL 33563", "contact_type": "lead", "location": { "name": "Cherished Memories Studio", "address": "", "city": "", "state": "FL", "country": "US", "fullAddress": "FL ", "id": "YxsRH9X4UhvisCDtoa6x" }, "workflow": { "id": "e497b541-bb4a-48ad-b314-765a96add50b", "name": "Cherished wedding testing" }, "payment": { "transaction_id": "67f4181b8db15e123c9819cd", "source": "form", "payment_status": "succeeded", "global_product_ids": [], "global_product_price_ids": [], "line_items": [], "sub_total_amount": 1131, "discount_amount": 0, "tax_amount": 0, "total_amount": 1131, "method": "gateway", "gateway": "stripe", "card": { "brand": "visa", "last4": "4242" }, "currency_symbol": "$", "currency_code": "USD", "created_at": "2025-04-07T18:23:24.129Z", "created_on": "April 7, 2025", "customer": { "id": "hN4pD3V5Rbg59Y3veGaa", "first_name": "test", "name": "test", "email": "test@test.com", "phone": "+927867867867", "address": "303 Berryfest Place", "city": "Plant City", "state": "FL", "country": "US", "postal_code": "33563" }, "coupon_code": "", "form": { "id": "WqmIIwJ8oCgy2cIkqj7f", "name": "Payment Form" } }, "triggerData": {}, "contact": { "attributionSource": { "sessionSource": "Direct traffic", "url": "https://app.gohighlevel.com/v2/preview/YNCZDkbwm8bUS5OyWEiP?notrack=true", "utmSource": null, "utmMedium": null, "utmContent": null, "utmTerm": null, "utmKeyword": null, "utmMatchtype": null, "referrer": null, "gclid": null, "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36", "ip": "154.80.59.60", "gaClientId": "GA1.2.1594875760.1743680627", "medium": "form", "mediumId": "05hIpYQDRBFtuck6vM7k", "adName": null, "adGroupId": null, "adId": null, "gbraid": null, "wbraid": null }, "lastAttributionSource": { "sessionSource": "Direct traffic", "url": "https://app.gohighlevel.com/v2/preview/Go0xDgeBp9VhcX7kL5T8?notrack=true", "utmSource": null, "utmMedium": null, "utmContent": null, "utmTerm": null, "utmKeyword": null, "utmMatchtype": null, "referrer": null, "gclid": null, "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36", "ip": "154.80.59.60", "gaClientId": "GA1.2.1594875760.1743680627", "medium": "form", "mediumId": "WqmIIwJ8oCgy2cIkqj7f", "adName": null, "adGroupId": null, "adId": null, "gbraid": null, "wbraid": null } }, "attributionSource": {}, "customData": { "type": "appointment", "contact_timezone": "PKT" } };
+  let data = {
+    "Contact: Proposal Link ": "",
+    "Wedding Date": "2025-06-11",
+    "Bride's Name": "",
+    "Groom's Name": "",
+    "Where are you closest to?": "",
+    "Multi Line 2fay": "",
+    "Installment Paid": 2,
+    "Wedding Venue": "222 South Copeland Street, Tallahassee FL 32306",
+    "Last Invoice ID": "682229b2d9b0d53ce70da042",
+    "Next Installment Charge Date": "05-23-2025",
+    "Where is your wedding or event?": "",
+    "What are your underlying goals from a photographer or videographer?": "",
+    "Have you ever worked with a photographer or videographer before?": "",
+    "I’m looking for a photographer or videographer for my…": "",
+    "How would you describe yourself?": "",
+    "Choose Your Location": "",
+    "What is your goal budget for a wedding photography and videography package?": "",
+    "How would you like to pay?": "Payment Plan",
+    "Before your special day, what are your expectations for the planning process?": "",
+    "How many instalments would you like to pay in?": "4",
+    "Are there any extras you have in mind? ": "",
+    "Spouse's Name": "test",
+    "Are you having an unplugged wedding ceremony?": "",
+    "Initial Venue Date": "2025-06-11",
+    "How much involvement would you like to have in the creative vision and process?": "",
+    "Have you had the chance to check out our portfolio or Instagram?": "",
+    "Initial Payment": "2000",
+    "How soon after your wedding do you expect the finished photos?": "",
+    "User Data Detail": "",
+    "Where Is Your Wedding Or Event?": "",
+    "Due Amount": "500",
+    "Payment Discounts": "500",
+    "Total Distance Miles": "Miles (4.48): $0.00",
+    "Product Items": "{\"subtotal\":2500,\"milesPrice\":0,\"miles\":\"4.48\",\"discounts\":500,\"total\":2500,\"dueAmount\":500,\"instDueDates\":{\"1\":\"2025-05-12\",\"2\":\"2025-05-20\",\"3\":\"2025-05-27\",\"4\":\"2025-06-04\"},\"items\":[{\"title\":\"PEARL Package | Photos & Video\",\"description\":\"\",\"price\":2500,\"quantity\":1,\"totalPrice\":2500}]}",
+    "No of Photographer": 1,
+    "No of VideoGrapher": 1,
+    "Wedding Package": "PEARL",
+    "Wedding Service": "Photos & Video",
+    "Nearest Base Location": "Tallahassee",
+    "Stripe Customer ID": "",
+    "Packages": "",
+    "Add Ons": "",
+    "Stripe Payment Method": "",
+    "Installment Schedules Record": "",
+    "contact_id": "hN4pD3V5Rbg59Y3veGaa",
+    "first_name": "test",
+    "last_name": "saad",
+    "full_name": "test saad",
+    "email": "rest@test.com",
+    "phone": "+92786786784",
+    "tags": "",
+    "address1": "222 South Copeland Street",
+    "city": "Tallahassee",
+    "state": "FL",
+    "country": "US",
+    "timezone": "Asia/Karachi",
+    "date_created": "2025-04-07T17:30:43.734Z",
+    "postal_code": "32306",
+    "contact_source": "initial wedding form",
+    "full_address": "222 South Copeland Street, Tallahassee FL 32306",
+    "contact_type": "lead",
+    "location": {
+      "name": "Cherished Memories Studio",
+      "address": "",
+      "city": "",
+      "state": "FL",
+      "country": "US",
+      "fullAddress": "FL ",
+      "id": "YxsRH9X4UhvisCDtoa6x"
+    },
+    "workflow": {
+      "id": "e497b541-bb4a-48ad-b314-765a96add50b",
+      "name": "Cherish Wedding Funnel Submission"
+    },
+    "payment": {
+      "transaction_id": "682228d19712277cc7eaaf8f",
+      "source": "form",
+      "payment_status": "succeeded",
+      "global_product_ids": [],
+      "global_product_price_ids": [],
+      "line_items": [],
+      "sub_total_amount": 500,
+      "discount_amount": 0,
+      "tax_amount": 0,
+      "total_amount": 500,
+      "method": "gateway",
+      "gateway": "stripe",
+      "card": {
+        "brand": "visa",
+        "last4": "4242"
+      },
+      "currency_symbol": "$",
+      "currency_code": "USD",
+      "created_at": "2025-05-12T16:58:58.308Z",
+      "created_on": "May 12, 2025",
+      "customer": {
+        "id": "hN4pD3V5Rbg59Y3veGaa",
+        "first_name": "test",
+        "last_name": "saad",
+        "name": "test saad",
+        "email": "rest@test.com",
+        "phone": "+92786786784",
+        "address": "222 South Copeland Street",
+        "city": "Tallahassee",
+        "state": "FL",
+        "country": "US",
+        "postal_code": "32306"
+      },
+      "coupon_code": "",
+      "form": {
+        "id": "WqmIIwJ8oCgy2cIkqj7f",
+        "name": "Payment Form"
+      }
+    },
+    "triggerData": {},
+    "contact": {
+      "attributionSource": {
+        "sessionSource": "Direct traffic",
+        "url": "https://app.gohighlevel.com/v2/preview/YNCZDkbwm8bUS5OyWEiP?notrack=true",
+        "utmSource": null,
+        "utmMedium": null,
+        "utmContent": null,
+        "utmTerm": null,
+        "utmKeyword": null,
+        "utmMatchtype": null,
+        "referrer": null,
+        "gclid": null,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+        "ip": "154.80.59.60",
+        "gaClientId": "GA1.2.1594875760.1743680627",
+        "medium": "form",
+        "mediumId": "05hIpYQDRBFtuck6vM7k",
+        "adName": null,
+        "adGroupId": null,
+        "adId": null,
+        "gbraid": null,
+        "wbraid": null
+      },
+      "lastAttributionSource": {
+        "sessionSource": "Direct traffic",
+        "url": "https://app.gohighlevel.com/v2/preview/Go0xDgeBp9VhcX7kL5T8?notrack=true",
+        "utmSource": null,
+        "utmMedium": null,
+        "utmContent": null,
+        "utmTerm": null,
+        "utmKeyword": null,
+        "utmMatchtype": null,
+        "referrer": null,
+        "gclid": null,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+        "ip": "59.103.125.40",
+        "gaClientId": "GA1.2.1594875760.1743680627",
+        "medium": "form",
+        "mediumId": "WqmIIwJ8oCgy2cIkqj7f",
+        "adName": null,
+        "adGroupId": null,
+        "adId": null,
+        "gbraid": null,
+        "wbraid": null
+      }
+    },
+    "attributionSource": {},
+    "customData": {
+      "type": "nextcharge",
+      "nextinstallmentid": "682229b2d9b0d5878b0da045",
+      "first_trans_id":"682228d19712277cc7eaaf8f"
+
+    }
+  };
   let msg = handleData(data);
   console.log(msg);
 }
@@ -119,7 +288,7 @@ function parseNumber(number, float = false) {
 function formatDate(date) {
   // Create a new Date object
   var dateObj = new Date(date);
-  
+
   // Format the date using the en-GB locale (day, month, year)
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
@@ -128,7 +297,7 @@ function formatDate(date) {
   }).format(dateObj);
 
   // Log the formatted date to the console
-   
+
 }
 function createInvoice(data) {
 
@@ -167,7 +336,7 @@ function createInvoice(data) {
   if (miles > 0 && milesPrice > 0) {
     invoiceItems.push({
       "currency": currency,
-      "name": "Extra Miles Charge",
+      "name": "Travel Fee",
       description: `Distance - ${miles} Miles`,
       "qty": 1,
       "amount": parseNumber(milesPrice, true)
@@ -214,7 +383,7 @@ function createInvoice(data) {
       "name": locationName,
       "phoneNo": locationPhone,
       "address": {
-        addressLine1: "Wedding Date : "+ formatDate(dueDate),
+        addressLine1: "Wedding Date : " + formatDate(dueDate),
         city: "",
         state: "",
         postalCode: "",
@@ -236,19 +405,23 @@ function createInvoice(data) {
   };
   let dueAmount = invoiceDetail.dueAmount ?? total;
   let { installments, currentInstallment, planType } = getInstallments(data);
-  Logger.log([installments, currentInstallment, planType]);
+  console.log([installments, currentInstallment, planType]);
   if (installments > 1) {
     let schedules = [];
     //dueAmount = parseInt(parseNumber(total / installments, true)).toFixed(2);
 
-    // for (let i = 1; i <= installments; i++) {
-    //     schedules.push({ value: dueAmount, dueDate: '2025-04-09' })
-    // }
-    // let paymentSchedule = {
-    //     type: 'fixed',
-    //     schedules: schedules,
-    // };
-    //invoiceData['paymentSchedule'] = paymentSchedule;
+    try {
+      for (let i = 1; i <= installments; i++) {
+        schedules.push({ value: dueAmount, dueDate: invoiceDetail.instDueDates[i] })
+      }
+      let paymentSchedule = {
+        type: 'fixed',
+        schedules: schedules,
+      };
+      invoiceData['paymentSchedule'] = paymentSchedule;
+    } catch (err) {
+
+    }
 
     // console.log(invoiceData);//
   }
@@ -261,14 +434,32 @@ function createInvoice(data) {
   crmApiCall('invoices/', privateIntegrationToken, 'POST', invoiceData, true).then(x => {
 
     let created = x._id || x.id || null;
+    let currentScheduleId = '';
     if (created) {
+      let allFields = [{
+        value: created,
+        key: "last_invoice_id",
+
+      }
+
+      ];
+
+      let scheduleIds = x.paymentSchedule ?? null;
+      if (scheduleIds) {
+        scheduleIds = scheduleIds.schedules ?? [];
+      }
+
+      if (scheduleIds && Array.isArray(scheduleIds) && scheduleIds.length > 0) {
+        currentScheduleId = scheduleIds[0]._id || scheduleIds[0].id || "";
+        allFields.push({
+          key: 'installment_schedules_record',
+          value: JSON.stringify(scheduleIds)
+        });
+      }
       crmApiCall('contacts/' + data.contact_id, privateIntegrationToken, "PUT", {
-        customFields: [{
-          value: created,
-          key: "last_invoice_id"
-        }]
+        customFields: allFields
       }, true).then(x => {
-        Logger.log(x);
+        // Logger.log(x);
       });
       let mode = 'cash';
       let isCard = data?.payment?.card ?? null;
@@ -276,7 +467,7 @@ function createInvoice(data) {
         mode = 'card';
       }
       dueAmount = data?.payment?.total_amount ?? dueAmount;
-      recordManualPayment(created, dueAmount, mode, isCard)
+      recordManualPayment(created, dueAmount, mode, isCard, currentScheduleId)
 
     }
 
@@ -285,11 +476,12 @@ function createInvoice(data) {
   });
 }
 
-function recordManualPayment(invoiceId, amount = 0, mode = 'card', info = {}) {
+function recordManualPayment(invoiceId, amount = 0, mode = 'card', info = {}, paymentSchedules = '', note = '') {
   let payload = {
     amount: parseFloat(amount),
     altId: locationId,
     altType: 'location',
+    notes: note,
     mode: mode,
   };
 
@@ -297,8 +489,14 @@ function recordManualPayment(invoiceId, amount = 0, mode = 'card', info = {}) {
     payload['card'] = info
   }
 
+  if (paymentSchedules != '') {
+    payload['paymentScheduleIds'] = [paymentSchedules];
+  }
+
+  console.log(payload);
+
   crmApiCall(`invoices/${invoiceId}/record-payment`, privateIntegrationToken, "POST", payload, true).then(x => {
-    Logger.log(x);
+    console.log(x);
   });
 }
 let weddingDateKey = 'Wedding Date';
@@ -487,16 +685,27 @@ function getFreeSlot(selectedDate, timezone) {
 function handleNextCharge(data) {
 
   let currentInstallment = data['Installment Paid'] || null;
+  let customData = data.customData || {};
+  let firstTransId = (customData['first_trans_id'] || '').trim();
   if (!currentInstallment || currentInstallment == '') {
     return 'Installment no is required';
   }
   let sheet = getActiveSheet(installmentSheet);
   let rows = getRows(sheet);
   let findIndex = -1;
-  let record = rows.find((t, index) => {
-    findIndex = index;
-    return t[1].toString() == data.contact_id && t[7].toString() == currentInstallment;
-  })
+  let record = null;
+  if (firstTransId != '') {
+    record = rows.find((t, index) => {
+      findIndex = index;
+      return t[1].toString() == data.contact_id && t[7].toString() == currentInstallment && t[16].toString() == firstTransId ;
+    })
+  } else {
+    record = rows.find((t, index) => {
+      findIndex = index;
+      return t[1].toString() == data.contact_id && t[7].toString() == currentInstallment;
+    })
+  }
+
   if (record && findIndex > -1) {
     console.log(record);
     let time = getCurrentDate();
@@ -504,12 +713,20 @@ function handleNextCharge(data) {
     record[10] = time;
     let sheetlif = getActiveSheet(lifSheetName);
     sheetlif.appendRow(record);
+    console.log(findIndex);
     sheet.deleteRow(findIndex + 1);
-    let customData = data.customData || {};
+
+
     let invoiceId = data['Last Invoice ID'] || customData['invoice_id'] || "";
-    let amount = customData['amount'] || 0;
+    let amount = parseFloat(data['Due Amount'] || customData['amount'] || 0);
+
+    amount = isFinite(amount) ? amount : 0;
+
+    let nextinstallmentid = customData['nextinstallmentid'] || '';
+
+
     if (invoiceId != '' && amount > 0) {
-      recordManualPayment(invoiceId, amount);
+      recordManualPayment(invoiceId, amount, 'other', '', nextinstallmentid);
     }
 
     //before insert update column Due Date and Due Amount of current record and update on the next side 
@@ -646,7 +863,7 @@ function getCurrentDate(onlyDate = false) {
 function getInstallments(data) {
   let currentInstallment = 1;
   let planType = data['How would you like to pay?'] || '';
-  let installments = data['How many instalments would you like to pay in?'] || 1;
+  let installments = parseInt(data['How many instalments would you like to pay in?'] || 1);
   if (planType == 'Pay In Full') {
     currentInstallment = 1;
     installments = 1;
@@ -672,11 +889,11 @@ function insertBookingEntry(data) {
 
 
     let totalItems = [data['No of Photographer'] || '',
-    data['No of VideoGrapher'] || ''];
+    data['No of VideoGrapher'] || '', (data?.payment?.transaction_id ?? ""), ""];
 
     let items = getItems(data, true);
     items.forEach(t => {
-      totalItems.push(t.title + "|" + t.price);
+      totalItems.push(t.title + "|$" + (t.totalPrice ?? t.price));
     })
 
     let otherParts = [data['Nearest Base Location'] || '',
@@ -692,6 +909,7 @@ function insertBookingEntry(data) {
     ];
 
     if (installments > 1) {
+      let invoiceDetail = getItems(data);
       let installmentSheetr = getActiveSheet(installmentSheet);
       for (let i = 2; i <= installments; i++) {
         let installmentRow = [
@@ -699,7 +917,7 @@ function insertBookingEntry(data) {
           i,
           installments,
           data['Due Amount'] || '',
-          "",
+          invoiceDetail.instDueDates[i - 1] || "",
           ...otherParts,
           ...totalItems,
         ]
@@ -719,8 +937,10 @@ function insertBookingEntry(data) {
 function getItems(data, onlyItem = false) {
   try {
     let items = data['Product Items'] || "{}";
+    if (typeof items == 'string') {
+      items = JSON.parse(items);
+    }
 
-    items = JSON.parse(items);
     if (onlyItem) {
       return items?.items || [];
     }

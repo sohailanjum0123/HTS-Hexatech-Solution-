@@ -560,8 +560,9 @@
           sidebar.classList.toggle("active");
         });
       });
-
       function sidebar() {
+
+        
         const filtersContainer = document.getElementById("filters-container");
 
         let filtersList = [
@@ -615,7 +616,39 @@
         priceGroup.appendChild(priceRangeDiv);
         filtersContainer.appendChild(priceGroup);
 
-        // Add sorting dropdown
+        const refineButton = document.createElement("button");
+        refineButton.setAttribute("class", "refineBtn");
+        refineButton.textContent = "Filter";
+
+        refineButton.onclick = async function () {
+          const filters = collectFilters(filtersList);
+          const sorting = getSortingFilter();
+
+          try {
+            const hidesidebar = document.querySelector(
+              ".inventryList.sidebar.active"
+            );
+            if (hidesidebar) {
+              hidesidebar.classList.remove("active");
+            }
+          } catch (error) {
+            console.error("Error occurred while removing class:", error);
+          }
+
+          currentIndex = 0;
+          inventoryData = [];
+          fetchInventory("", filters, sorting);
+        };
+
+        filtersContainer.appendChild(refineButton);
+      }
+      
+      const listTop = document.querySelector(".listTop .listTopRight");
+      const sortingGroup = createSortingDropdown();
+      listTop.appendChild(sortingGroup);
+
+      // General function to create sorting dropdown
+      function createSortingDropdown() {
         const sortingGroup = document.createElement("div");
         sortingGroup.className = "filter-group";
         const sortingLabel = document.createElement("label");
@@ -641,102 +674,75 @@
 
         sortingGroup.appendChild(sortingLabel);
         sortingGroup.appendChild(sortingSelect);
-        filtersContainer.appendChild(sortingGroup);
+        return sortingGroup;
+      }
 
-        const refineButton = document.createElement("button");
-        refineButton.setAttribute("class", "refineBtn");
-        refineButton.textContent = "Filter";
+      // General function to collect filter values
+      function collectFilters(filtersList) {
+        const filters = {};
 
-        refineButton.onclick = async function () {
-          // Get and parse values from input fields
-          const name = document.getElementById("name").value.trim();
-          const make = document.getElementById("make").value.trim();
-          const minPrice = document.getElementById("min-price").value.trim();
-          const maxPrice = document.getElementById("max-price").value.trim();
-          const sortingValue = document.getElementById("sorting").value;
-
-          try {
-            const hidesidebar = document.querySelector(
-              ".inventryList.sidebar.active"
-            );
-            if (hidesidebar) {
-              hidesidebar.classList.remove("active");
-            }
-          } catch (error) {
-            console.error("Error occurred while removing class:", error);
-          }
-
-          const filters = {};
-          let sorting = null;
-
-          if (name) {
-            filters["name"] = {
-              column: "name",
-              value: name,
-              order: "contains",
+        filtersList.forEach((filter) => {
+          const value = document.getElementById(filter.id).value.trim();
+          if (value) {
+            filters[filter.id] = {
+              column: filter.id,
+              value,
+              order: filter.check || "equals",
             };
           }
-          if (make) {
-            filters["make"] = {
-              column: "make",
-              value: make,
-              order: "equals",
-            };
+        });
+
+        const minPrice = document.getElementById("min-price").value.trim();
+        const maxPrice = document.getElementById("max-price").value.trim();
+
+        if (minPrice || maxPrice) {
+          filters["price"] = [];
+          const minPriceValue = parseFloat(minPrice);
+          const maxPriceValue = parseFloat(maxPrice);
+
+          if (maxPriceValue && minPriceValue && maxPriceValue < minPriceValue) {
+            alert("Max price must be greater than or equal to Min price");
+            return filters;
           }
 
-          if (minPrice || maxPrice) {
-            filters["price"] = [];
-            const minPriceValue = parseFloat(minPrice);
-            const maxPriceValue = parseFloat(maxPrice);
-
-            if (
-              maxPriceValue &&
-              minPriceValue &&
-              maxPriceValue < minPriceValue
-            ) {
-              alert("Max price must be greater than or equal to Min price");
-              return;
-            }
-
-            if (minPrice && minPriceValue >= 0) {
-              filters["price"].push({
-                column: "listedPrice",
-                value: minPriceValue,
-                order: "gte",
-              });
-            }
-
-            if (maxPrice && maxPriceValue >= 0) {
-              filters["price"].push({
-                column: "listedPrice",
-                value: maxPriceValue,
-                order: "lte",
-              });
-            }
-
-            if (
-              (minPrice && minPriceValue < 0) ||
-              (maxPrice && maxPriceValue < 0)
-            ) {
-              alert("Please enter positive values for price fields");
-              return;
-            }
+          if (minPrice && minPriceValue >= 0) {
+            filters["price"].push({
+              column: "listedPrice",
+              value: minPriceValue,
+              order: "gte",
+            });
           }
 
-          if (sortingValue) {
-            const [column, direction] = sortingValue.split("-");
-            sorting = {
-              column,
-              direction: direction.toUpperCase(),
-            };
+          if (maxPrice && maxPriceValue >= 0) {
+            filters["price"].push({
+              column: "listedPrice",
+              value: maxPriceValue,
+              order: "lte",
+            });
           }
 
-          currentIndex = 0;
-          inventoryData = [];
-          fetchInventory("", filters, sorting);
-        };
+          if (
+            (minPrice && minPriceValue < 0) ||
+            (maxPrice && maxPriceValue < 0)
+          ) {
+            alert("Please enter positive values for price fields");
+          }
+        }
 
-        filtersContainer.appendChild(refineButton);
+        return filters;
+      }
+
+      // General function to get sorting filter
+      function getSortingFilter() {
+        const sortingValue = document.getElementById("sorting").value;
+        if (sortingValue) {
+          const [column, direction] = sortingValue.split("-");
+          return {
+            column,
+            direction: direction.toUpperCase(),
+          };
+        }
+        return null;
       }
 
       let inventoryData = [];
@@ -910,58 +916,79 @@
               // }
             } catch (error) {}
             let itemHTML = `
+                <div class="inventoryCard">
+                <div class="cardHeader">
                 <div class="${inventoryItemKey}" data-id="${mainid}">
                 <div class="featuredImage">
                 <img class="lazy" ${dncSrc}="${photo}" alt="${item.make ?? ""}">
       </div>
                 <div class="inventory-details">
+                <div class="inventoryDetailTop">
                     <h3>${item.year ?? ""} ${item.make ?? ""} ${
               item.model ?? ""
             }</h3>
+             <div class="right-side">
+                    <p class="price"><span  style="font-weight: bold; font-size: 1.5rem" }>${
+                      item?.listedPrice ? `$${item.listedPrice}` : "$6578"
+                    }</span></p>
+                   
+                </div>
+                </div>
                     <h5>${truncateDescription(
                       item.description ?? "",
-                      (maxLength = 80)
+                      (maxLength = 50)
                     ).trim()}</h5>
-                    <p class="description">${truncateDescription(
-                      item.description ?? "",
-                      (maxLength = 250)
-                    ).trim()}</p>
+                 
                     <div class="specs">`;
             if (!checkIsEmpty(item.miles ?? "")) {
-              itemHTML += `<div class="specs-badge">Mileage:<span> ${item.miles}</span></div>`;
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Miles:</span><span> ${item.miles}</span></div>`;
             }
 
             if (!checkIsEmpty(item.stock ?? "")) {
-              itemHTML += `<div class="specs-badge">Stock: <span> ${item.stock}</span></div>`;
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/9131/9131563.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Stock: </span><span> ${item.stock}</span></div>`;
             }
+
             if (!checkIsEmpty(item.drivetrain ?? "")) {
-              itemHTML += ` <div class="specs-badge">Drivetrain:<span> ${item.drivetrain}</span></div>`;
+              itemHTML += ` <div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/62/62512.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Drivetrain:</span><span> ${item.drivetrain}</span></div>`;
             }
-            if (!checkIsEmpty(item.exteriorColor ?? "")) {
-              itemHTML += `<div class="specs-badge">Exterior Color:<span> ${item.exteriorColor}</span></div>`;
+            if (!checkIsEmpty(item.exteriorColor ?? "Black")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/7180/7180272.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Exterior Color:</span><span> ${item.exteriorColor}</span></div>`;
             }
-            if (!checkIsEmpty(item.interiorColor ?? "")) {
-              itemHTML += `<div class="specs-badge">Interior Color:<span> ${item.interiorColor}</span></div>`;
+            if (!checkIsEmpty(item.interiorColor ?? "gray")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/494/494967.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Interior Color:</span><span> ${item.interiorColor}</span></div>`;
+            }
+            if (!checkIsEmpty(item.interiorMaterial ?? "Leather")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/8944/8944308.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Materials:</span><span> ${item.interiorColor}</span></div>`;
             }
             if (!checkIsEmpty(item.engineCylinders ?? "")) {
-              itemHTML += `<div class="specs-badge">Engine:<span> ${
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Engine:</span><span> ${
                 item.engineCylinders ?? ""
               } cyl-${item.engineSize ?? ""} </span></div>`;
             }
+            if (!checkIsEmpty(item.transmission ?? "")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/5444/5444942.png " width="256" height="256" alt="" title="" class="img-small"><span class="badgeHeading">Transmission:</span><span> ${item.transmission}</span></div>`;
+            }
+
             itemHTML += `</div>
                 </div>
-                <div class="right-side">
-                    <p class="price"><span  style="font-weight: bold; font-size: 1.5rem" }>${
-                      item?.listedPrice ? `$${item.listedPrice}` : ""
-                    }</span></p>
-                    <div class="actions-btns actions">
-                        <span data-action="photo">View Photos</span>
+                </div>
+                </div>
+                <div class="cardFooter">
+                 <div class="cardFooterLeft">
+                 <div class="actions-btns actions">
+                        <span data-action="photo">View Details</span>
                         ${baseActions}
-                        <div data-action="" class="carafax_badge"></div>
+                    
+                    </div>
+                    </div>
+                    <div class="cardFooterRight">
+                        <div data-action="" class="carafax_badge">carafex</div>
+                        <img src="https://static1.cargurus.com/gfx/api/badges/dealrating/en_US/style1/good.svg" alt="Cargurus">
                     </div>
                 </div>
                 </div>
                 `;
+
             allInventoryHTML += itemHTML;
             setTimeout(function () {
               document

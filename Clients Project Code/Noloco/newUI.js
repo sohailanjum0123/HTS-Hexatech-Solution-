@@ -72,7 +72,6 @@
         fetchSetting();
 
         let action = inventoryPanel.getAttribute("data-action");
-        console.log(action);
         if (action == "detail") {
           detailPageInit();
         } else if (action == "list") {
@@ -262,120 +261,241 @@
 
       function displayDetail(item, ignoreCache = false) {
         if (Object.keys(item).length > 0) {
+          const generateVehicleOptions = () => {
+            if (!item.vehicleOptions) return "";
+
+            // Split options into two columns
+            const options = item.vehicleOptions
+              .split("\n")
+              .filter((opt) => opt.trim() !== "");
+            const half = Math.ceil(options.length / 2);
+            const leftCol = options.slice(0, half);
+            const rightCol = options.slice(half);
+
+            return `
+            <div aria-label="Vehicle options left column" class="specs-left">
+                <h4>Vehicle Options</h4>
+                ${leftCol.map((opt) => `<div>${opt}</div>`).join("")}
+            </div>
+            <div aria-label="Vehicle options center column" class="specs-center">
+                ${rightCol.map((opt) => `<div>${opt}</div>`).join("")}
+            </div>
+        `;
+          };
+
+          // Generate similar vehicles HTML dynamically
+          const generateSimilarVehicles = () => {
+            if (!item.similarVehicles || !item.similarVehicles.length)
+              return "";
+            return `
+            <div aria-label="Similar vehicles" class="similar-vehicles">
+                <h4>Similar Vehicles</h4>
+                ${item.similarVehicles
+                  .map(
+                    (vehicle) => `
+                    <div class="vehicle">
+                        <img
+                            alt="${vehicle.year} ${vehicle.make} ${
+                      vehicle.model
+                    } ${vehicle.color} car front 3-4 view"
+                            height="100"
+                            src="${
+                              vehicle.imageUrl ||
+                              "https://via.placeholder.com/180x100?text=No+Image"
+                            }"
+                            width="180"
+                        />
+                        <div class="caption">${vehicle.year} ${vehicle.make} ${
+                      vehicle.model
+                    }</div>
+                        <div class="price">${
+                          vehicle.price ? `$${vehicle.price}` : "Call for price"
+                        }</div>
+                    </div>
+                `
+                  )
+                  .join("")}
+            </div>
+        `;
+          };
+
           currentInventory = item;
+          console;
 
-          inventoryPanel.innerHTML = `<div class="detail" style="display:flex;flex-direction:column">
-     <div class="title">
-      <div class="heading-detail">
-        <div class="h1">${item.year ?? ""}
-          <span>${item.make ?? ""}</span> ${item.model ?? ""}
+          inventoryPanel.innerHTML = ` <div class="Wrapper">
+      <main>
+        <h1>${
+          item.name ?? ""
+        } -  <span  style="font-weight: bold; font-size: 1.5rem" }>${
+            item?.listedPrice ? `$${item.listedPrice}` : ""
+          }</span></h1>
+        <h2>${item.transmission}</h2>
+        <div class="container">
+          <div class="top-section">
+            <div class="image-box">
+              <div class="social-bar">
+                <a href="#" aria-label="Facebook"
+                  ><i class="fab fa-facebook-f"></i
+                ></a>
+                <a href="#" aria-label="Twitter"
+                  ><i class="fab fa-twitter"></i
+                ></a>
+                <a href="#" aria-label="Pinterest"
+                  ><i class="fab fa-pinterest"></i
+                ></a>
+              </div>
+              <div aria-label="Car image and badges" class="car-image-section">
+                <img
+                  alt="Silver 2016 Acura RDX SUV front 3-4 view in showroom with Premium Motors logo and phone number on top corners"
+                  height="350"
+                  src="${
+                    item.photosUrls
+                      ? item.photosUrls[0]
+                      : "https://cdn.dealrimages.com/UR%2FR5%2F2H%2F2283TQVGC0VGWU.jpg?h=800"
+                  }"
+                  width="600"
+                />
+                <div class="tag-bar">
+                  <div class="tag">Digital Contracting</div>
+                  <div class="tag">Video Walkarounds</div>
+                  <div class="tag">Shipping Nationwide</div>
+                </div>
+                <div class="divider"></div>
+                <div class="buttons-row">
+                  <button type="button">View Photos</button>
+                  <button type="button">Get Financed</button>
+                  <button type="button">Calculate Payment</button>
+                </div>
+              </div>
+            </div>
+            <iframe src="https://api.leadconnectorhq.com/widget/form/mLHgAuuusc1fuY8smxcz?notrack=true" frameborder="0"></iframe>
+          </div>
+          <div class="details-section">
+            <div class="detail-column">
+                <div class="detail"><strong>Stock #:</strong> ${
+                  item.stock ?? "N/A"
+                }</div>
+                <div class="detail"><strong>VIN:</strong> ${
+                  item.vin ?? "N/A"
+                }</div>
+                <div class="detail"><strong>Mileage:</strong> ${
+                  item.miles ? item.miles + " mi" : "N/A"
+                }</div>
+            </div>
+            <div class="detail-column">
+                <div class="detail">
+                    <strong><i class="fas fa-bolt"></i> Engine:</strong> ${
+                      item.engineSize ?? "N/A"
+                    }L ${item.engineCylinders ?? "N/A"}cyl
+                </div>
+                <div class="detail">
+                    <strong><i class="fas fa-cogs"></i> Transmission:</strong> ${
+                      item.transmission ?? "N/A"
+                    }
+                </div>
+                <div class="detail">
+                    <strong><i class="fas fa-gas-pump"></i> Fuel Type:</strong> ${
+                      item.fuelType ?? "N/A"
+                    }
+                </div>
+            </div>
+            <div class="detail-column">
+                <div class="detail">
+                    <strong><i class="fas fa-shapes"></i> Body Type:</strong> ${
+                      item.bodyType ?? "N/A"
+                    }
+                </div>
+                <div class="detail">
+                    <strong><i class="fas fa-fill-drip"></i> Exterior Color:</strong> ${
+                      item.exteriorColor ?? "N/A"
+                    }
+                </div>
+                <div class="detail">
+                    <strong><i class="fas fa-couch"></i> Interior Color:</strong> ${
+                      item.interiorColor ?? "N/A"
+                    }
+                </div>
+            </div>
+            <div class="mpg-box">
+                <h4>Fuel Economy</h4>
+                <div class="mpg-inner">
+                    <div>
+                        <div class="mpg-label">CITY</div>
+                        <div class="mpg-value">20</div>
+                    </div>
+                    <div class="mpg-icon">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <div>
+                        <div class="mpg-label">HWY</div>
+                        <div class="mpg-value">28</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      <div class="detail-description">
-       <span >${truncateDescription(
-         item.description ?? "",
-         (maxLength = 80)
-       ).trim()}</span>
-      </div>
-      </div>
-    <div class="price-status">
-       <div>
-       <span  style="font-weight: bold; font-size: 1.5rem" }>${
-         item?.listedPrice ? `$${item.listedPrice}` : ""
-       }</span>
-       </div>
-       <div>
-       <span class="status">${item.status ? item.status : ""}</span>
-       </div>
-     </div>
+          <div aria-label="Vehicle description" class="description">
+            <h4>Vehicle Description</h4>
+            <p>${truncateDescription(
+              item.description ?? "",
+              (maxLength = 80)
+            ).trim()}</p>
+          </div>
+          <div
+            aria-label="Vehicle options and similar vehicles"
+            class="bottom-section"
+          >
+          ${generateVehicleOptions()}
+          ${generateSimilarVehicles()}
+          </div>
+        </div>
+      </main>
+      <section aria-label="Visit our Dealership" class="dealership-section">
+        <h3>Visit our Dealership!!</h3>
+        <div class="dealership-content">
+          <div aria-label="Map location of dealership" class="map-container">
+            <img
+              alt="Map showing location of 14778 E Broad St, Reynoldsburg, OH 43068, USA with nearby streets and landmarks"
+              height="280"
+              src="https://storage.googleapis.com/a1aa/image/8be007c6-e872-494d-105c-d2dd66d89a21.jpg"
+              width="600"
+            />
+          </div>
+          <div aria-label="Dealership contact information" class="contact-info">
+            <p>Call Us</p>
+            <strong> Premium Motors LLC </strong>
+            <p>Ema</p>
+            <p>2ND COLUMN</p>
+            <p>Ca</p>
+            <p>2ND COLUMN</p>
+            <p>Call Us</p>
+            <p>844-579-4845</p>
+            <p>Il Us</p>
+            <p>844-579-4845</p>
+            <p>Il Us</p>
+            <strong> dealer-premium-motors@leads.dearicloud.com </strong>
+            <p>Privacy Policy</p>
+            <p>Terms and Conditions</p>
+          </div>
+        </div>
+      </section>
     </div>
-    ${getGalleryImages(item.photosUrls ?? "")}
-
-     <div class="params">
-
-       <div class="col-md-3">
-            ${getVinContainer(item.vin ?? "")}
-          <div class="stock-container-block"><span>Miles:</span> ${
-            item.miles ?? ""
-          }</div>
-          <div class="stock-container"><span>Stock #:</span> ${
-            item.stock ?? ""
-          }</div>
-       </div>
-        <div class="col-md-3">
-       <div class="stock-container-block"><span>Drivetrain :</span> ${
-         item.drivetrain ?? ""
-       }</div>
-       <div class="stock-container-block"><span>Transmission:</span> ${
-         item.transmission ?? ""
-       }</div>
-       <div class="stock-container-block"><span>Engine Cylinder :</span> ${
-         item.engineCylinders ?? ""
-       }cyl- ${item.engineSize ?? ""}</div>
-       <div class="stock-container-block"><span>Fuel Type   :</span> ${
-         item.fuelType ?? ""
-       }</div>
-       </div>
-        <div class="col-md-3">
-      
-       <div class="stock-container-block"><span>Interior Color:</span> ${
-         item.interiorColor ?? "-"
-       }</div>
-       <div class="stock-container-block"><span>Exterior Color:</span> ${
-         item.exteriorColor ?? "-"
-       }</div>
-       </div>
-     </div>
-     <div class="actions-btns actions" >
-       ${baseActions}
-     </div>
-     <div class="side-container col-12">
-         <div class="description col-8">${truncateDescription(
-           item.description ?? "",
-           (maxLength = 2000)
-         ).trim()}
-         </div>
-
-         <div class="calculator col-4">
-         ${getCalculator(item.listedPrice ?? item.price ?? 0)}
-         </div>
-         
-     </div>
-        <div class="equipment-container">
-  <h2 class="equipment-title" id="toggleEquipment">Equipment &#11167;</h2>
-  <div class="equipment-content" id="equipmentContent">
-    <pre>${item.vehicleOptions ?? ""}</pre>
-</div>   
-
-   </div>
      
      `;
 
-          const toggleButton = document.getElementById("toggleEquipment");
-          function vehicle_Options(disp = "") {
-            const content = document.getElementById("equipmentContent");
-            content.style.display = disp;
-            toggleButton.onclick = function toggleEquipment() {
-              const title = document.querySelector(".equipment-title");
-              if (content.style.display === "grid") {
-                content.style.display = "none";
-                title.innerHTML = "Equipment &#11167;";
-              } else {
-                content.style.display = "grid";
-                title.innerHTML = "Equipment &#11165;";
-              }
-            };
-          }
-          vehicle_Options("none");
-
-          // Here is waitElemt with .action-btns
-
+          // Add any additional event listeners or functionality here
           setTimeout(function () {
             document
-              .querySelectorAll(".payment-calculator .field")
-              .forEach((t) => {
-                t.addEventListener("change", calculateData);
-                t.addEventListener("input", calculateData);
-                t.addEventListener("paste", calculateData);
+              .querySelectorAll(".buttons-row button")
+              .forEach((button) => {
+                button.addEventListener("click", function () {
+                  if (this.textContent === "View Photos") {
+                    // Handle photo viewing
+                  } else if (this.textContent === "Get Financed") {
+                    // Handle financing
+                  } else if (this.textContent === "Calculate Payment") {
+                    // Handle payment calculation
+                  }
+                });
               });
           });
 
@@ -466,7 +586,6 @@
         displayDetail(item.node ?? {});
       })();
     }
-
     function truncateDescription(description, maxLength) {
       return description.length > maxLength
         ? description.slice(0, maxLength) + "..."
@@ -520,7 +639,7 @@
         fsLightbox.open();
       }
     }
-
+    let allInventory = {};
     function listPageInit() {
       loadScript(
         "https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.0.9/index.js",
@@ -533,7 +652,7 @@
   <div class="photosGallery" hidden> 
   </div>
   <div class="inventryList sidebar">
-        <div class="filters" id="filters-container"></div>
+        <div class="filters filters-container" id="filters-container"></div>
     </div>
     
     <div class="main-container">
@@ -560,62 +679,131 @@
           sidebar.classList.toggle("active");
         });
       });
-
       function sidebar() {
+        let fil = `
+                      <div class="search-wrapper filter-group filter-item">
+                          <input type="text" placeholder="Search inventory..." id="name" condition="contains">
+                          <i class="fas fa-search"></i>
+                      </div>
+
+                      <div class="filter-group filter-item">
+                          <select id="make" class="">
+                              <option disabled="" selected="">Make</option>
+                          </select>
+                      </div>
+                      <div class="filter-group filter-item">
+                          <select>
+                              <option disabled="" selected="">Color</option>
+                          </select>
+                      </div>
+                      <div class="filter-group filter-item">
+                          <select>
+                              <option disabled="" selected="">Body Style</option>
+                          </select>
+                      </div>
+                      <div class="filter-group filter-item">
+                          <select>
+                              <option disabled="" selected="">Price</option>
+                          </select>
+                      </div>
+                      <div class="filter-group filter-item">
+                          <select>
+                              <option disabled="" selected="">Milage</option>
+                          </select>
+                      </div>
+                      <button class="refineBtn">Filter</button>
+                  `;
+
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = fil;
+
         const filtersContainer = document.getElementById("filters-container");
+        filtersContainer.append(...tempDiv.childNodes);
 
-        let filtersList = [
-          {
-            text: "Title",
-            placeholder: "Auto ...",
-            id: "name",
-            check: "contains",
-          },
-          {
-            text: "Make",
-            placeholder: "Enter Make (e.g. Nissan, Honda)",
-            id: "make",
-          },
-        ];
+        // let filtersList = [
+        //   {
+        //     text: "Title",
+        //     placeholder: "Auto ...",
+        //     id: "name",
+        //     check: "contains",
+        //   },
+        //   {
+        //     text: "Make",
+        //     placeholder: "Enter Make (e.g. Nissan, Honda)",
+        //     id: "make",
+        //   },
+        // ];
 
-        filtersList.forEach((x) => {
-          const makeGroup = document.createElement("div");
-          makeGroup.className = "filter-group filter-item";
-          const makeLabel = document.createElement("label");
-          makeLabel.textContent = x.text;
-          const makeInput = document.createElement("input");
-          makeInput.type = "text";
-          makeInput.id = x.id;
-          if (x.check) {
-            makeInput.setAttribute("condition", x.check);
-          }
-          makeInput.placeholder = x.placeholder;
-          makeGroup.appendChild(makeLabel);
-          makeGroup.appendChild(makeInput);
-          filtersContainer.appendChild(makeGroup);
-        });
+        // filtersList.forEach((x) => {
+        //   const makeGroup = document.createElement("div");
+        //   makeGroup.className = "filter-group filter-item";
+        //   const makeLabel = document.createElement("label");
+        //   makeLabel.textContent = x.text;
+        //   const makeInput = document.createElement("input");
+        //   makeInput.type = "text";
+        //   makeInput.id = x.id;
+        //   if (x.check) {
+        //     makeInput.setAttribute("condition", x.check);
+        //   }
+        //   makeInput.placeholder = x.placeholder;
+        //   makeGroup.appendChild(makeLabel);
+        //   makeGroup.appendChild(makeInput);
+        //   filtersContainer.appendChild(makeGroup);
+        // });
 
-        const priceGroup = document.createElement("div");
-        priceGroup.className = "filter-group";
-        const priceLabel = document.createElement("label");
-        priceLabel.textContent = "Price Range";
-        const priceRangeDiv = document.createElement("div");
-        priceRangeDiv.className = "price-range-group";
-        const minPriceInput = document.createElement("input");
-        minPriceInput.type = "number";
-        minPriceInput.id = "min-price";
-        minPriceInput.placeholder = "Min Price";
-        const maxPriceInput = document.createElement("input");
-        maxPriceInput.type = "number";
-        maxPriceInput.id = "max-price";
-        maxPriceInput.placeholder = "Max Price";
-        priceRangeDiv.appendChild(minPriceInput);
-        priceRangeDiv.appendChild(maxPriceInput);
-        priceGroup.appendChild(priceLabel);
-        priceGroup.appendChild(priceRangeDiv);
-        filtersContainer.appendChild(priceGroup);
+        // const priceGroup = document.createElement("div");
+        // priceGroup.className = "filter-group";
+        // const priceLabel = document.createElement("label");
+        // priceLabel.textContent = "Price Range";
+        // const priceRangeDiv = document.createElement("div");
+        // priceRangeDiv.className = "price-range-group";
+        // const minPriceInput = document.createElement("input");
+        // minPriceInput.type = "number";
+        // minPriceInput.id = "min-price";
+        // minPriceInput.placeholder = "Min Price";
+        // const maxPriceInput = document.createElement("input");
+        // maxPriceInput.type = "number";
+        // maxPriceInput.id = "max-price";
+        // maxPriceInput.placeholder = "Max Price";
+        // priceRangeDiv.appendChild(minPriceInput);
+        // priceRangeDiv.appendChild(maxPriceInput);
+        // priceGroup.appendChild(priceLabel);
+        // priceGroup.appendChild(priceRangeDiv);
+        // filtersContainer.appendChild(priceGroup);
 
-        // Add sorting dropdown
+        // const refineButton = document.createElement("button");
+        // refineButton.setAttribute("class", "refineBtn");
+        // refineButton.textContent = "Filter";
+
+        // refineButton.onclick = async function () {
+        //   const filters = collectFilters(filtersList);
+        //   const sorting = getSortingFilter();
+
+        //   try {
+        //     const hidesidebar = document.querySelector(
+        //       ".inventryList.sidebar.active"
+        //     );
+        //     if (hidesidebar) {
+        //       hidesidebar.classList.remove("active");
+        //     }
+        //   } catch (error) {
+        //     console.error("Error occurred while removing class:", error);
+        //   }
+
+        //   currentIndex = 0;
+        //   inventoryData = [];
+        //   fetchInventory("", filters, sorting);
+        // };
+
+        // filtersContainer.appendChild(refineButton);
+      }
+
+      const listTop = document.querySelector(".listTop .listTopRight");
+      const sortingGroup = createSortingDropdown();
+      listTop.appendChild(sortingGroup);
+
+      // General function to create sorting dropdown
+      function createSortingDropdown() {
         const sortingGroup = document.createElement("div");
         sortingGroup.className = "filter-group";
         const sortingLabel = document.createElement("label");
@@ -624,12 +812,10 @@
         sortingSelect.id = "sorting";
 
         const sortingOptions = [
-          { text: "Name (ASC)", value: "name-asc" },
-          { text: "Name (DESC)", value: "name-desc" },
-          { text: "Year (ASC)", value: "year-asc" },
-          { text: "Year (DESC)", value: "year-desc" },
-          { text: "Make (ASC)", value: "make-asc" },
-          { text: "Make (DESC)", value: "make-desc" },
+          { text: "Sort by Make A-Z", value: "name-asc" },
+          { text: "Sort by Make Z-A", value: "name-desc" },
+          { text: "Year: Newest to Oldest", value: "year-asc" },
+          { text: "Year: Oldest to Newest", value: "year-desc" },
         ];
 
         sortingOptions.forEach((opt) => {
@@ -641,106 +827,79 @@
 
         sortingGroup.appendChild(sortingLabel);
         sortingGroup.appendChild(sortingSelect);
-        filtersContainer.appendChild(sortingGroup);
+        return sortingGroup;
+      }
 
-        const refineButton = document.createElement("button");
-        refineButton.setAttribute("class", "refineBtn");
-        refineButton.textContent = "Filter";
+      // General function to collect filter values
+      function collectFilters(filtersList) {
+        const filters = {};
 
-        refineButton.onclick = async function () {
-          // Get and parse values from input fields
-          const name = document.getElementById("name").value.trim();
-          const make = document.getElementById("make").value.trim();
-          const minPrice = document.getElementById("min-price").value.trim();
-          const maxPrice = document.getElementById("max-price").value.trim();
-          const sortingValue = document.getElementById("sorting").value;
-
-          try {
-            const hidesidebar = document.querySelector(
-              ".inventryList.sidebar.active"
-            );
-            if (hidesidebar) {
-              hidesidebar.classList.remove("active");
-            }
-          } catch (error) {
-            console.error("Error occurred while removing class:", error);
-          }
-
-          const filters = {};
-          let sorting = null;
-
-          if (name) {
-            filters["name"] = {
-              column: "name",
-              value: name,
-              order: "contains",
+        filtersList.forEach((filter) => {
+          const value = document.getElementById(filter.id).value.trim();
+          if (value) {
+            filters[filter.id] = {
+              column: filter.id,
+              value,
+              order: filter.check || "equals",
             };
           }
-          if (make) {
-            filters["make"] = {
-              column: "make",
-              value: make,
-              order: "equals",
-            };
+        });
+
+        const minPrice = document.getElementById("min-price").value.trim();
+        const maxPrice = document.getElementById("max-price").value.trim();
+
+        if (minPrice || maxPrice) {
+          filters["price"] = [];
+          const minPriceValue = parseFloat(minPrice);
+          const maxPriceValue = parseFloat(maxPrice);
+
+          if (maxPriceValue && minPriceValue && maxPriceValue < minPriceValue) {
+            alert("Max price must be greater than or equal to Min price");
+            return filters;
           }
 
-          if (minPrice || maxPrice) {
-            filters["price"] = [];
-            const minPriceValue = parseFloat(minPrice);
-            const maxPriceValue = parseFloat(maxPrice);
-
-            if (
-              maxPriceValue &&
-              minPriceValue &&
-              maxPriceValue < minPriceValue
-            ) {
-              alert("Max price must be greater than or equal to Min price");
-              return;
-            }
-
-            if (minPrice && minPriceValue >= 0) {
-              filters["price"].push({
-                column: "listedPrice",
-                value: minPriceValue,
-                order: "gte",
-              });
-            }
-
-            if (maxPrice && maxPriceValue >= 0) {
-              filters["price"].push({
-                column: "listedPrice",
-                value: maxPriceValue,
-                order: "lte",
-              });
-            }
-
-            if (
-              (minPrice && minPriceValue < 0) ||
-              (maxPrice && maxPriceValue < 0)
-            ) {
-              alert("Please enter positive values for price fields");
-              return;
-            }
+          if (minPrice && minPriceValue >= 0) {
+            filters["price"].push({
+              column: "listedPrice",
+              value: minPriceValue,
+              order: "gte",
+            });
           }
 
-          if (sortingValue) {
-            const [column, direction] = sortingValue.split("-");
-            sorting = {
-              column,
-              direction: direction.toUpperCase(),
-            };
+          if (maxPrice && maxPriceValue >= 0) {
+            filters["price"].push({
+              column: "listedPrice",
+              value: maxPriceValue,
+              order: "lte",
+            });
           }
 
-          currentIndex = 0;
-          inventoryData = [];
-          fetchInventory("", filters, sorting);
-        };
+          if (
+            (minPrice && minPriceValue < 0) ||
+            (maxPrice && maxPriceValue < 0)
+          ) {
+            alert("Please enter positive values for price fields");
+          }
+        }
 
-        filtersContainer.appendChild(refineButton);
+        return filters;
+      }
+
+      // General function to get sorting filter
+      function getSortingFilter() {
+        const sortingValue = document.getElementById("sorting").value;
+        if (sortingValue) {
+          const [column, direction] = sortingValue.split("-");
+          return {
+            column,
+            direction: direction.toUpperCase(),
+          };
+        }
+        return null;
       }
 
       let inventoryData = [];
-      let allInventory = {};
+
       let filters = {};
 
       let afterCursor = null;
@@ -910,62 +1069,88 @@
               // }
             } catch (error) {}
             let itemHTML = `
+                <div class="inventoryCard">
+                <div class="cardHeader">
                 <div class="${inventoryItemKey}" data-id="${mainid}">
                 <div class="featuredImage">
                 <img class="lazy" ${dncSrc}="${photo}" alt="${item.make ?? ""}">
       </div>
                 <div class="inventory-details">
+                <div class="inventoryDetailTop">
                     <h3>${item.year ?? ""} ${item.make ?? ""} ${
               item.model ?? ""
             }</h3>
+             <div class="right-side">
+                    <p class="price"><span  style="font-weight: bold; font-size: 1.5rem" }>${
+                      item?.listedPrice ? `$${item.listedPrice}` : "$6578"
+                    }</span></p>
+                   
+                </div>
+                </div>
                     <h5>${truncateDescription(
                       item.description ?? "",
-                      (maxLength = 80)
+                      (maxLength = 50)
                     ).trim()}</h5>
-                    <p class="description">${truncateDescription(
-                      item.description ?? "",
-                      (maxLength = 250)
-                    ).trim()}</p>
+                 
                     <div class="specs">`;
             if (!checkIsEmpty(item.miles ?? "")) {
-              itemHTML += `<div class="specs-badge">Mileage:<span> ${item.miles}</span></div>`;
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Miles:</span><span> ${item.miles}</span></div>`;
             }
 
             if (!checkIsEmpty(item.stock ?? "")) {
-              itemHTML += `<div class="specs-badge">Stock: <span> ${item.stock}</span></div>`;
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/9131/9131563.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Stock: </span><span> ${item.stock}</span></div>`;
             }
+
             if (!checkIsEmpty(item.drivetrain ?? "")) {
-              itemHTML += ` <div class="specs-badge">Drivetrain:<span> ${item.drivetrain}</span></div>`;
+              itemHTML += ` <div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/62/62512.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Drivetrain:</span><span> ${item.drivetrain}</span></div>`;
             }
-            if (!checkIsEmpty(item.exteriorColor ?? "")) {
-              itemHTML += `<div class="specs-badge">Exterior Color:<span> ${item.exteriorColor}</span></div>`;
+            if (!checkIsEmpty(item.exteriorColor ?? "Black")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/7180/7180272.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Exterior Color:</span><span> ${item.exteriorColor}</span></div>`;
             }
-            if (!checkIsEmpty(item.interiorColor ?? "")) {
-              itemHTML += `<div class="specs-badge">Interior Color:<span> ${item.interiorColor}</span></div>`;
+            if (!checkIsEmpty(item.interiorColor ?? "gray")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/494/494967.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Interior Color:</span><span> ${item.interiorColor}</span></div>`;
+            }
+            if (!checkIsEmpty(item.interiorMaterial ?? "Leather")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/8944/8944308.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Materials:</span><span> ${item.interiorColor}</span></div>`;
             }
             if (!checkIsEmpty(item.engineCylinders ?? "")) {
-              itemHTML += `<div class="specs-badge">Engine:<span> ${
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/483/483497.png " width="15" height="15" alt="" title="" class="img-small"><span class="badgeHeading">Engine:</span><span> ${
                 item.engineCylinders ?? ""
               } cyl-${item.engineSize ?? ""} </span></div>`;
             }
+            if (!checkIsEmpty(item.transmission ?? "")) {
+              itemHTML += `<div class="specs-badge"><img src="   https://cdn-icons-png.flaticon.com/512/5444/5444942.png " width="256" height="256" alt="" title="" class="img-small"><span class="badgeHeading">Transmission:</span><span> ${item.transmission}</span></div>`;
+            }
+
             itemHTML += `</div>
                 </div>
-                <div class="right-side">
-                    <p class="price"><span  style="font-weight: bold; font-size: 1.5rem" }>${
-                      item?.listedPrice ? `$${item.listedPrice}` : ""
-                    }</span></p>
-                    <div class="actions-btns actions">
-                        <span data-action="photo">View Photos</span>
-                        ${baseActions}
-                        <div data-action="" class="carafax_badge"></div>
-                    </div>
                 </div>
+                </div>
+                <div class="cardFooter">
+             
+                 <div class="actions-btns actions">
+                        <span class="veiw_detail" data-id="${mainid}" data-action="open" >View Details</span>
+                        <span class="data-action" data-type="financed" data-id="${mainid}"  data-action="${
+              setting.inv_financed_path ?? ""
+            }" >Get Approved</span>
+            <span  data-type="inquire"  data-id="${mainid}" data-typ="inq" data-action="${
+              setting.inv_inquire_path ?? ""
+            }" >Inquire</span>
+                    </div>
+                     <div class="cardFooterRight">
+                        <div data-action="" class="carafax_badge">carafex</div>
+                        <img src="https://static1.cargurus.com/gfx/api/badges/dealrating/en_US/style1/good.svg" alt="Cargurus">
+                    </div>
+                    </div>
+                   
+               
                 </div>
                 `;
+
             allInventoryHTML += itemHTML;
             setTimeout(function () {
               document
-                .querySelectorAll(`.${inventoryItemKey}:not(.trigger)`)
+                .querySelectorAll(`.veiw_detail:not(.trigger)`)
                 .forEach((x) => {
                   x.classList.add("trigger");
                   x.onclick = openInventory;
@@ -988,9 +1173,8 @@
       function openInventory(event) {
         event.preventDefault();
         let target = event.srcElement;
-
         if (target) {
-          let inventory = target.closest("." + inventoryItemKey);
+          let inventory = target.closest(".veiw_detail");
           let id = inventory.getAttribute("data-id");
           localStorage.setItem(last_inv_id, id);
           let item = allInventory[id] ?? null;
@@ -1011,6 +1195,20 @@
       sidebar();
       toggleLoader();
       fetchInventory();
+    }
+
+    function handleActions(event1) {
+      let event = event1.srcElement;
+      let action = event.getAttribute("data-action") ?? "-";
+      let loc = event.getAttribute("data-id") ?? "-";
+      let typ = event.getAttribute("data-typ") ?? "inf";
+      let item = currentInventory ?? allInventory[loc] ?? null;
+
+      if (action == "open") {
+        openInventory(event);
+      } else {
+        handleFinanced(item, action);
+      }
     }
 
     function openHLPopup() {
@@ -1050,15 +1248,14 @@
       return `${uri}${id}${post == "" ? "" : "&" + post}`;
     }
 
-    function handleFinanced(item, action) {
+    function handleFinanced(item, action, openInIframe = true) {
       let title = "";
       let keyMap = setting.inv_key_mapping ?? "";
       if (keyMap != "") {
         title = findValue(item, keyMap);
       } else {
-        title = item.name;
+        title = item.name ?? "";
       }
-
       console.log("ITem", item, "Title", title, "KeyMap", keyMap);
       if (action == "") {
         try {
@@ -1082,19 +1279,49 @@
           }
         }
         let key = setting.inv_key_info ?? "";
-        location.href = idAppend(
-          action,
-          "id=" + item.id ?? ""
-          // "vehicle_title=" + encodeURIComponent(title) + "&opener=inventory"
-        );
+
+        const url = idAppend(action, "id=" + (item.id ?? ""));
+        if (openInIframe) {
+          openUrlInIframe(url);
+        } else {
+          location.href = url;
+        }
       }
     }
 
-    function handleActions(event1) {
-      let event = event1.srcElement;
-      let action = event.getAttribute("data-action") ?? "-";
-      handleFinanced(currentInventory, action);
+    function openUrlInIframe(url) {
+      // Check if iframe container already exists
+      let iframeContainer = document.getElementById("iframe-container");
+
+      // If it doesn't exist, create it
+      if (!iframeContainer) {
+        iframeContainer = document.createElement("div");
+        iframeContainer.id = "iframe-container";
+        iframeContainer.style.position = "fixed";
+        iframeContainer.style.top = "0";
+        iframeContainer.style.left = "0";
+        iframeContainer.style.width = "100vw";
+        iframeContainer.style.height = "100vh";
+        iframeContainer.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
+        iframeContainer.style.zIndex = "10000";
+
+        iframeContainer.innerHTML = `
+      <div style="position: relative; width: 90%; height: 90%; margin: 5% auto; background: white; border-radius: 8px; overflow: hidden;">
+        <button onclick="document.getElementById('iframe-container').remove()" 
+                style="position: absolute; top: 10px; right: 10px; z-index: 10; background: red; color: white; border: none; padding: 6px 12px; cursor: pointer;">
+          Close
+        </button>
+        <iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>
+      </div>
+    `;
+
+        document.body.appendChild(iframeContainer);
+      } else {
+        // If it exists, just update the iframe URL
+        iframeContainer.querySelector("iframe").src = url;
+      }
     }
+
     waitElement(".actions-btns")
       .then((p) => {
         p.onclick = handleActions;

@@ -1,4 +1,5 @@
-{/* <style>
+/*
+<style>
     .borderFull {
         cursor: pointer;
     }
@@ -95,13 +96,12 @@
     .hide {
         display: none !important;
     }
-</style> */}
+</style>*/
 
-{/* <script>
+
     function initMap() {
 
     }
-</script> */}
 
 
     (() => {
